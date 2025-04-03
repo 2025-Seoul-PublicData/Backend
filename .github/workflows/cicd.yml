@@ -10,12 +10,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: main
+    environment: master
+
     steps:
       - name: Checkout Github actions
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
@@ -42,19 +43,19 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dive_server:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/seoul_server:latest
 
       - name: copy docker-compose -> EC2 server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.DIVE_SERVER_IP }}
+          host: ${{ secrets.SEOUL_SERVER_IP }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           source: docker-compose.yml
           target: /home/ubuntu/
   deploy:
     runs-on: ubuntu-latest
-    environment: main
+    environment: master
     needs: build
     steps:
       - name: Docker compose
@@ -62,12 +63,12 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         with:
-          host: ${{ secrets.DIVE_SERVER_IP }}
+          host: ${{ secrets.SEOUL_SERVER_IP }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: DOCKERHUB_USERNAME
           script: |
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-            sudo docker pull ${{ env.DOCKERHUB_USERNAME }}/dive_server:latest
+            sudo docker pull ${{ env.DOCKERHUB_USERNAME }}/seoul_server:latest
             sudo docker compose -f /home/ubuntu/docker-compose.yml up -d
             sudo docker image prune -a -f

@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  backend:
+    image: ${DOCKERHUB_USERNAME}/dive_server:latest
+    container_name: deploy_container
+    restart: always
+    network_mode: host
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Seoul
