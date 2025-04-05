@@ -1,7 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controller;
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberServiceImpl;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/member")
 public class MemberController {
 
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequestDto dto) {

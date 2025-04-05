@@ -1,7 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controller;
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoUserInfoResponseDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.KakaoServiceImpl;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.KakaoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
-//@RestController
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("")
 public class KakaoLoginController {
 
-    private final KakaoServiceImpl kakaoService;
+    private final KakaoService kakaoService;
 
     @GetMapping("/auth/login/kakao")
     public String KakaoLogin(@RequestParam("code") String code) {
