@@ -23,6 +23,9 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
     public enum Role{
         CONSUMER, CORPORATE
     }

@@ -8,6 +8,9 @@
 
 <h2>추가 정보 입력</h2>
 
+<!-- 🔥 프로필 이미지 미리보기 -->
+<img th:src="${profileUrl}" alt="카카오 프로필 이미지" width="100" height="100" style="border-radius: 50%; margin-bottom: 10px;">
+
 <form id="signupForm">
     <input type="text" id="nickname" name="nickname" placeholder="닉네임" required>
     <input type="text" id="location" name="location" placeholder="거주지" required>
@@ -18,8 +21,9 @@
         <option value="CORPORATE">기업</option>
     </select>
 
-    <!-- 🔥 name="kakaoId" 꼭 추가 -->
+    <!-- 🔥 필수 데이터 (카카오 ID와 프로필 이미지 URL) -->
     <input type="hidden" id="kakaoId" name="kakaoId" th:value="${kakaoId}">
+    <input type="hidden" id="profileImageUrl" name="profileImageUrl" th:value="${profileUrl}">
 
     <button type="submit">가입</button>
 </form>
@@ -32,15 +36,14 @@
         const nickname = document.getElementById('nickname').value;
         const location = document.getElementById('location').value;
         const role = document.getElementById('role').value;
-
-        // ✅ 디버깅용 콘솔 로그
-        console.log("보낼 kakaoId:", kakaoId);
+        const profileImageUrl = document.getElementById('profileImageUrl').value;
 
         const data = {
             kakaoId: kakaoId,
             nickname: nickname,
             location: location,
-            role: role
+            role: role,
+            profileImageUrl: profileImageUrl
         };
 
         try {
@@ -54,7 +57,7 @@
 
             if (response.ok) {
                 alert('회원가입 성공!');
-                window.location.href = '/'; // 필요에 따라 변경
+                window.location.href = '/'; // 필요시 리다이렉트 수정
             } else {
                 alert('회원가입 실패: ' + response.status);
             }

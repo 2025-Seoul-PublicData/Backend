@@ -8,4 +8,5 @@ public class SignupRequestDto {
     private String nickname;
     private String location;
     private String role;    // CONSUMER 또는 CORPORATE
+    private String profileImageUrl;
 }
