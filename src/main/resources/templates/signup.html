@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+
+<h2>추가 정보 입력</h2>
+
+<!-- 🔥 프로필 이미지 미리보기 -->
+<img th:src="${profileUrl}" alt="카카오 프로필 이미지" width="100" height="100" style="border-radius: 50%; margin-bottom: 10px;">
+
+<form id="signupForm">
+    <input type="text" id="nickname" name="nickname" placeholder="닉네임" required>
+    <input type="text" id="location" name="location" placeholder="거주지" required>
+
+    <select id="role" name="role" required>
+        <option value="">사용자 유형 선택</option>
+        <option value="CONSUMER">소비자</option>
+        <option value="CORPORATE">기업</option>
+    </select>
+
+    <!-- 🔥 필수 데이터 (카카오 ID와 프로필 이미지 URL) -->
+    <input type="hidden" id="kakaoId" name="kakaoId" th:value="${kakaoId}">
+    <input type="hidden" id="profileImageUrl" name="profileImageUrl" th:value="${profileUrl}">
+
+    <button type="submit">가입</button>
+</form>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const kakaoId = document.getElementById('kakaoId').value;
+        const nickname = document.getElementById('nickname').value;
+        const location = document.getElementById('location').value;
+        const role = document.getElementById('role').value;
+        const profileImageUrl = document.getElementById('profileImageUrl').value;
+
+        const data = {
+            kakaoId: kakaoId,
+            nickname: nickname,
+            location: location,
+            role: role,
+            profileImageUrl: profileImageUrl
+        };
+
+        try {
+            const response = await fetch('/member/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('회원가입 성공!');
+                window.location.href = '/'; // 필요시 리다이렉트 수정
+            } else {
+                alert('회원가입 실패: ' + response.status);
+            }
+        } catch (err) {
+            console.error('에러 발생:', err);
+            alert('서버 오류');
+        }
+    });
+</script>
+
+</body>
+</html>
