@@ -16,12 +16,12 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequestDto dto) {
+    public ResponseEntity<Member> signup(@RequestBody SignupRequestDto dto) {
         try {
             Member savedMember = memberService.signup(dto);
             return ResponseEntity.ok(savedMember);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 }
