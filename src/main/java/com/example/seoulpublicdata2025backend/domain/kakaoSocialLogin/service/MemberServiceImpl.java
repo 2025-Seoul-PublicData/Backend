@@ -16,15 +16,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member signup(SignupRequestDto dto) {
-        Member member = Member.builder()
-                .kakaoId(dto.getKakaoId())
-                .nickname(dto.getNickname())
-                .location(dto.getLocation())
-                .role(Member.Role.valueOf(dto.getRole().toUpperCase()))
-                .profileImageUrl(dto.getProfileImageUrl())
-                .build();
-
-        return memberRepository.save(member);
+        return memberRepository.save(Member.create(dto));
     }
 
     @Override

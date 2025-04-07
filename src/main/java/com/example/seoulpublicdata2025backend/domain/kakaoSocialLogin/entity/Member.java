@@ -1,5 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity;
 
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,4 +30,15 @@ public class Member {
     public enum Role{
         CONSUMER, CORPORATE
     }
+
+    public static Member create(SignupRequestDto dto) {
+        return Member.builder()
+                .kakaoId(dto.getKakaoId())
+                .nickname(dto.getNickname())
+                .location(dto.getLocation())
+                .role(Member.Role.valueOf(dto.getRole().toUpperCase()))
+                .profileImageUrl(dto.getProfileImageUrl())
+                .build();
+    }
+
 }
