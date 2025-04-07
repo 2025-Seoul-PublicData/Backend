@@ -38,7 +38,7 @@ class MemberServiceTest {
 
         // join
         Member saved = memberRepository.findByKakaoId(123456L).orElseThrow();
-        assertEquals("루페온", saved.getNickname());
+        assertEquals("루페온", saved.getName());
     }
 
 }
