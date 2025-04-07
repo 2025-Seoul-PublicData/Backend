@@ -2,6 +2,8 @@ package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controlle
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoUserInfoResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.KakaoService;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
+import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,16 @@ class KakaoLoginControllerTest {
         @Bean
         public KakaoService kakaoService() {
             return Mockito.mock(KakaoService.class);
+        }
+
+        @Bean
+        public MemberService memberService() {
+            return Mockito.mock(MemberService.class);
+        }
+
+        @Bean
+        public JwtProvider jwtProvider() {
+            return Mockito.mock(JwtProvider.class);
         }
     }
 

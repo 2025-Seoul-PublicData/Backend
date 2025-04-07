@@ -7,11 +7,13 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestPropertySource(properties = "JWT_SECRET=4d3fa7c9b38f4ff4bfa9a67c827293ee5eb7db918d570b93a3be0de19e098187")
 @Transactional
 class MemberServiceTest {
 
