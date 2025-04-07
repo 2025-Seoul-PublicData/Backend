@@ -6,6 +6,8 @@ import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Mem
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -24,4 +26,10 @@ public class MemberServiceImpl implements MemberService {
 
         return memberRepository.save(member);
     }
+
+    @Override
+    public Optional<Member> findByKakaoId(Long kakaoId) {
+        return memberRepository.findByKakaoId(kakaoId);
+    }
+
 }

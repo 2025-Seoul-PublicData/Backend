@@ -14,7 +14,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class KakaoServiceImpl implements KakaoService{
 

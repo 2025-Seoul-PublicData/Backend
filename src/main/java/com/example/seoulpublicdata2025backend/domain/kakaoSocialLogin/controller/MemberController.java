@@ -1,8 +1,10 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controller;
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +17,11 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequestDto dto) {
-
-//        System.out.println("kakaoId: " + dto.getKakaoId());
-//        System.out.println("nickname: " + dto.getNickname());
-//        System.out.println("location: " + dto.getLocation());
-//        System.out.println("role: " + dto.getRole());
-//        System.out.println("ProfileUrl: " + dto.getProfileImageUrl());
-
-        memberService.signup(dto);
-        return ResponseEntity.ok().build();
+        try {
+            Member savedMember = memberService.signup(dto);
+            return ResponseEntity.ok(savedMember);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패: " + e.getMessage());
+        }
     }
 }
