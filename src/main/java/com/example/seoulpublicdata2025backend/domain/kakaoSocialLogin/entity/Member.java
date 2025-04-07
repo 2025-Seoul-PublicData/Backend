@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="member")
+@Table(name="members")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class Member {
     @Id
     private Long kakaoId;
 
-    private String nickname;
+    private String name;
     private String location;
 
     @Enumerated(EnumType.STRING)
@@ -34,7 +34,7 @@ public class Member {
     public static Member create(SignupRequestDto dto) {
         return Member.builder()
                 .kakaoId(dto.getKakaoId())
-                .nickname(dto.getNickname())
+                .name(dto.getNickname())
                 .location(dto.getLocation())
                 .role(Member.Role.valueOf(dto.getRole().toUpperCase()))
                 .profileImageUrl(dto.getProfileImageUrl())
