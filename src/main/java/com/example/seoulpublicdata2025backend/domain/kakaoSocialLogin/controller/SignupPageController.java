@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/signup")
+@Deprecated
 public class SignupPageController {
 
     @GetMapping
