@@ -34,7 +34,7 @@ public class Member {
     public static Member create(SignupRequestDto dto) {
         return Member.builder()
                 .kakaoId(dto.getKakaoId())
-                .name(dto.getNickname())
+                .name(dto.getName())
                 .location(dto.getLocation())
                 .role(Member.Role.valueOf(dto.getRole().toUpperCase()))
                 .profileImageUrl(dto.getProfileImageUrl())

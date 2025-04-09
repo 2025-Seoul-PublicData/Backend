@@ -185,7 +185,7 @@ public class KakaoUserInfoResponseDto {
     @Getter
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Partner {
+    public static class Partner {
         //고유 ID
         @JsonProperty("uuid")
         public String uuid;
