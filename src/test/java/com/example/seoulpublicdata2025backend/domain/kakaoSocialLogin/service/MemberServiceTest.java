@@ -28,7 +28,7 @@ class MemberServiceTest {
         // given
         SignupRequestDto dto = new SignupRequestDto();
         ReflectionTestUtils.setField(dto, "kakaoId", 123456L);
-        ReflectionTestUtils.setField(dto, "nickname", "루페온");
+        ReflectionTestUtils.setField(dto, "name", "루페온");
         ReflectionTestUtils.setField(dto, "location", "서울");
         ReflectionTestUtils.setField(dto, "role", "CONSUMER");
         ReflectionTestUtils.setField(dto, "profileImageUrl", "http://example.com/image.png");
