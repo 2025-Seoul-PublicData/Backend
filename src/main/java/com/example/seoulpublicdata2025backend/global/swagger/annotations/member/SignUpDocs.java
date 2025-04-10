@@ -38,14 +38,14 @@ import java.lang.annotation.Target;
                         name = "회원가입 요청 예시",
                         description = "성공적인 회원가입 요청 예시",
                         value = """
-                {
-                  "kakaoId": 123456789,
-                  "name": "홍길동",
-                  "location": "서울특별시 강남구",
-                  "role": "CONSUMER",
-                  "profileImageUrl": "https://k.kakaocdn.net/dn/example-profile.png"
-                }
-                """
+                                {
+                                  "kakaoId": 123456789,
+                                  "name": "홍길동",
+                                  "location": "서울특별시 강남구",
+                                  "role": "CONSUMER",
+                                  "profileImageUrl": "https://k.kakaocdn.net/dn/example-profile.png"
+                                }
+                                """
                 )
         )
 )

@@ -29,7 +29,6 @@ public class KakaoAuthController {
         KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(accessToken);
         Long kakaoId = userInfo.getId();
         KakaoAuthResponseDto response = memberService.getMemberStatus(kakaoId);
-        System.out.println("response = " + response);
         return ResponseEntity.ok(response);
     }
 }
