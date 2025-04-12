@@ -6,7 +6,7 @@ import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.Signup
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
-import com.example.seoulpublicdata2025backend.global.exception.customException.AuthenticationException;
+import com.example.seoulpublicdata2025backend.global.exception.customException.DuplicationMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
             Member savedMember = memberRepository.save(member);
             return SignupResponseDto.from(savedMember.getKakaoId());
         } catch (DataIntegrityViolationException exception) {
-            throw new AuthenticationException(ErrorCode.DUPLICATE_MEMBER);
+            throw new DuplicationMemberException(ErrorCode.DUPLICATE_MEMBER);
         }
     }
 
