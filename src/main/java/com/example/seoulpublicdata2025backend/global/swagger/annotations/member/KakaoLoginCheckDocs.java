@@ -49,5 +49,41 @@ import java.lang.annotation.Target;
 
         )
 )
+@ApiResponse(
+        responseCode = "400",
+        description = "클라이언트의 카카오 요청이 유효하지 않을 경우",
+        content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                        name = "INVALID_KAKAO_REQUEST",
+                        description = "인가 코드가 잘못되었거나 만료된 경우",
+                        value = """
+                                {
+                                  "httpStatus": 400,
+                                  "code": "1002",
+                                  "message": "카카오 요청이 유효하지 않습니다."
+                                }
+                                """
+                )
+        )
+)
+@ApiResponse(
+        responseCode = "500",
+        description = "카카오 서버와 통신 중 에러가 발생한 경우",
+        content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                        name = "KAKAO_SERVER_ERROR",
+                        description = "카카오 서버 장애, 응답 오류 등",
+                        value = """
+                                {
+                                  "httpStatus": 500,
+                                  "code": "1003",
+                                  "message": "카카오 서버 오류입니다."
+                                }
+                                """
+                )
+        )
+)
 public @interface KakaoLoginCheckDocs {
 }

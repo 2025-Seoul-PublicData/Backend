@@ -8,12 +8,12 @@ import org.springframework.http.HttpStatus;
 @Getter
 @NoArgsConstructor
 public class ErrorResponse {
-    private HttpStatus httpStatus;
+    private Integer httpStatus;
     private String code;
     private String message;
 
     public ErrorResponse(ErrorCode errorCode) {
-        this.httpStatus = errorCode.getHttpStatus();
+        this.httpStatus = errorCode.getHttpStatus().value();
         this.code = errorCode.getCode();
         this.message = errorCode.getMessage();
     }
