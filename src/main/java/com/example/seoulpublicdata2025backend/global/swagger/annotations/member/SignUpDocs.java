@@ -70,7 +70,7 @@ import java.lang.annotation.Target;
 )
 @ApiResponse(
         responseCode = "400",
-        description = "요청 데이터가 유효하지 않음 (입력값이 null인 경우)",
+        description = "요청 데이터가 유효하지 않음 (입력값 중에 null 값이 있는 경우)",
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
@@ -86,5 +86,42 @@ import java.lang.annotation.Target;
                 )
         )
 )
+@ApiResponse(
+        responseCode = "409",
+        description = "이미 가입된 회원",
+        content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                        name = "회원가입 실패 - 중복 회원",
+                        description = "이미 존재하는 카카오 ID로 가입을 시도했을 때",
+                        value = """
+                                {
+                                  "httpStatus": 409,
+                                  "code": "3000",
+                                  "message": "이미 존재하는 회원입니다."
+                                }
+                                """
+                )
+        )
+)
+@ApiResponse(
+        responseCode = "500",
+        description = "서버 내부 에러",
+        content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                        name = "회원가입 실패 - 서버 오류",
+                        description = "서버 오류로 인해 회원가입에 실패한 경우",
+                        value = """
+                                {
+                                  "httpStatus": 500,
+                                  "code": "5000",
+                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요."
+                                }
+                                """
+                )
+        )
+)
+
 public @interface SignUpDocs {
 }
