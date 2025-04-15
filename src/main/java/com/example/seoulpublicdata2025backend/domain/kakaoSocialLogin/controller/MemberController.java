@@ -5,6 +5,7 @@ import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.Signup
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.SignUpDocs;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     @SignUpDocs
-    public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto dto) {
+    public ResponseEntity<SignupResponseDto> signup(@Valid @RequestBody SignupRequestDto dto) {
         SignupResponseDto response = memberService.signup(dto);
         return ResponseEntity.ok(response);
     }

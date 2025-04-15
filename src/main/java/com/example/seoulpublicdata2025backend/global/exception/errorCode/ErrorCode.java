@@ -16,8 +16,8 @@ public enum ErrorCode {
 
     // 2000번대: 입력값 검증 실패
     INVALID_INPUT_VALUE("2000", "입력값이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
-    TYPE_MISMATCH("2001", "요청 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
-    INVALID_ENUM_VALUE("2002", "역할 값이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
+    INVALID_TYPE_VALUE("2001", "요청 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+    METHOD_NOT_ALLOWED("2003", "허용되지 않은 HTTP 메서드입니다", HttpStatus.BAD_REQUEST),
 
     // 3000번대: 회원 관련
     DUPLICATE_MEMBER("3000", "이미 가입된 사용자입니다.", HttpStatus.CONFLICT),

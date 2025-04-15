@@ -1,44 +1,50 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
-import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest
-@TestPropertySource(properties = "JWT_SECRET=4d3fa7c9b38f4ff4bfa9a67c827293ee5eb7db918d570b93a3be0de19e098187")
-@Transactional
+@ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
 
-    @Autowired
-    MemberService memberService;
+    @InjectMocks
+    MemberServiceImpl memberService;
 
-    @Autowired
+    @Mock
     MemberRepository memberRepository;
 
     @Test
+    @DisplayName("회원가입 성공")
     void join() {
         // given
-        SignupRequestDto dto = new SignupRequestDto();
-        ReflectionTestUtils.setField(dto, "kakaoId", 123456L);
-        ReflectionTestUtils.setField(dto, "name", "루페온");
-        ReflectionTestUtils.setField(dto, "location", "서울");
-        ReflectionTestUtils.setField(dto, "role", "CONSUMER");
-        ReflectionTestUtils.setField(dto, "profileImageUrl", "http://example.com/image.png");
+        SignupRequestDto requestDto = SignupRequestDto.builder()
+                .kakaoId(123456L)
+                .name("루페온")
+                .location("서울")
+                .role("CONSUMER")
+                .profileImageUrl("http://example.com/image.png")
+                .build();
+
+        Member member = Member.create(requestDto);
+
+        when(memberRepository.save(any(Member.class))).thenReturn(member);
 
         // when
-        memberService.signup(dto);
+        SignupResponseDto response = memberService.signup(requestDto);
 
-        // join
-        Member saved = memberRepository.findByKakaoId(123456L).orElseThrow();
-        assertEquals("루페온", saved.getName());
+        // then
+        assertEquals(123456L, response.getMemberId());
     }
 
 }

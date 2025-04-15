@@ -78,9 +78,22 @@ import java.lang.annotation.Target;
                         description = "입력 값 중 null 값이 있는 경우",
                         value = """
                                 {
-                                  "httpStatus": 400,
-                                  "code": "2000",
-                                  "message": "입력값이 올바르지 않습니다."
+                                  "status": 400,
+                                  "code": "INVALID_INPUT_VALUE",
+                                  "message": "입력값이 올바르지 않습니다.",
+                                  "errors": [
+                                    {
+                                      "field": "name",
+                                      "value": "",
+                                      "reason": "이름은 필수입니다."
+                                    },
+                                    {
+                                      "field": "location",
+                                      "value": "",
+                                      "reason": "위치는 필수입니다."
+                                    }
+                                  ],
+                                  "time": "2025-04-15T10:12:34"
                                 }
                                 """
                 )
@@ -96,9 +109,11 @@ import java.lang.annotation.Target;
                         description = "이미 존재하는 카카오 ID로 가입을 시도했을 때",
                         value = """
                                 {
-                                  "httpStatus": 409,
-                                  "code": "3000",
-                                  "message": "이미 존재하는 회원입니다."
+                                  "status": 409,
+                                  "code": "DUPLICATE_MEMBER",
+                                  "message": "이미 존재하는 회원입니다.",
+                                  "errors": [],
+                                  "time": "2025-04-15T10:12:34"
                                 }
                                 """
                 )
@@ -114,14 +129,17 @@ import java.lang.annotation.Target;
                         description = "서버 오류로 인해 회원가입에 실패한 경우",
                         value = """
                                 {
-                                  "httpStatus": 500,
-                                  "code": "5000",
-                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요."
+                                  "status": 500,
+                                  "code": "INTERNAL_SERVER_ERROR",
+                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요.",
+                                  "errors": [],
+                                  "time": "2025-04-15T10:12:34"
                                 }
                                 """
                 )
         )
 )
+
 
 public @interface SignUpDocs {
 }

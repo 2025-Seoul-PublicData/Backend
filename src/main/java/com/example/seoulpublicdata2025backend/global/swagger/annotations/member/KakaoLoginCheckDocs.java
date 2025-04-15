@@ -59,10 +59,12 @@ import java.lang.annotation.Target;
                         description = "인가 코드가 잘못되었거나 만료된 경우",
                         value = """
                                 {
-                                  "httpStatus": 400,
-                                  "code": "1002",
-                                  "message": "카카오 요청이 유효하지 않습니다."
-                                }
+                                   "status": 400,
+                                   "code": "INVALID_KAKAO_REQUEST",
+                                   "message": "카카오 요청이 유효하지 않습니다.",
+                                   "errors": []
+                                   "time": "2025-04-15T10:12:34"
+                                 }
                                 """
                 )
         )
@@ -77,9 +79,11 @@ import java.lang.annotation.Target;
                         description = "카카오 서버 장애, 응답 오류 등",
                         value = """
                                 {
-                                  "httpStatus": 500,
-                                  "code": "1003",
-                                  "message": "카카오 서버 오류입니다."
+                                   "status": 500,
+                                   "code": "KAKAO_SERVER_ERROR",
+                                   "message": "카카오 서버 오류입니다.",
+                                   "errors": []
+                                   "time": "2025-04-15T10:12:34"
                                 }
                                 """
                 )
