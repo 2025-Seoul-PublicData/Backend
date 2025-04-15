@@ -24,28 +24,22 @@ public class GeocodingServiceImpl implements GeocodingService{
     @Override
     public String getNmapSchemeUrl(MemberLocationDto memberLocationDto, String companyName) {
 
-        Optional<Company> companyOptional = geocodingRepository.findByCompanyName(companyName);
+        Company company = geocodingRepository.findByCompanyName(companyName)
+                .orElseThrow(() -> new IllegalArgumentException("Not Exist Company: " + companyName));
 
-        if (companyOptional.isPresent()) {
-            Company company = companyOptional.get();
+        double dlat = company.getLocation().getLatitude();
+        double dlng = company.getLocation().getLongitude();
+        String companyLocation = company.getCompanyLocation();
+        String dname = URLEn(companyLocation);
 
-            double dlat = company.getLatitude();
-            double dlng = company.getLongitude();
-            String companyLocation = company.getCompanyLocation();
-            String dname = URLEn(companyLocation);
+        double slat = memberLocationDto.getLatitude();
+        double slng = memberLocationDto.getLongitude();
+        String memberLocation = memberLocationDto.getLocation();
+        String sname = URLEn(memberLocation);
 
-            double slat = memberLocationDto.getLatitude();
-            double slng = memberLocationDto.getLongitude();
-            String memberLocation = memberLocationDto.getLocation();
-            String sname = URLEn(memberLocation);
+        String nmapUrl = "nmap://route/walk?";
+        nmapUrl = nmapUrl + "slat=" + slat + "&slng=" + slng + "&sname=" + sname + "&dlat=" + dlat + "&dlng=" + dlng + "&dname=" + dname + "&appname=com.morak.app";
 
-            String nmapUrl = "nmap://route/walk?";
-            nmapUrl = nmapUrl + "slat=" + slat + "&slng=" + slng + "&sname=" + sname + "&dlat=" + dlat + "&dlng=" + dlng + "&dname=" + dname + "&appname=com.example.aiml_mobile_2024";
-
-            return nmapUrl;
-        } else {
-            return "error: Company not found";
-        }
-
+        return nmapUrl;
     }
 }
