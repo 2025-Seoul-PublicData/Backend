@@ -3,6 +3,8 @@ package com.example.seoulpublicdata2025backend.domain.geocoding.service;
 import com.example.seoulpublicdata2025backend.domain.geocoding.dao.GeocodingRepository;
 import com.example.seoulpublicdata2025backend.domain.geocoding.dto.MemberLocationDto;
 import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.geocoding.entity.CompanyCategory;
+import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,10 @@ class GeocodingServiceImplTest {
         Company company = Company.builder()
                 .companyName("어시스타앤파트너스")
                 .companyLocation("용산구 한강로 3가 GS한강에클라트 오피스동 505호")
-                .latitude(37.5314276)
-                .longitude(126.9554449)
+                .location(new Location(37.5314276, 126.9554449))
                 .companyTelNum("02-713-7811")
                 .companyBusiness("복합공간")
-                .companyCategory(3)
+                .companyCategory(CompanyCategory.COMPLEX_SPACE)
                 .build();
 
         geocodingRepository.save(company);
