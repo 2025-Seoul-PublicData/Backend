@@ -2,6 +2,8 @@ package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service;
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoTokenResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoUserInfoResponseDto;
+import com.example.seoulpublicdata2025backend.global.exception.customException.KakaoApiException;
+import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +43,10 @@ public class KakaoServiceImpl implements KakaoService{
                         .build(true))
                 .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
                 .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new RuntimeException("Invalid Parameter")))
-                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new RuntimeException("Internal Server Error")))
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        clientResponse -> Mono.error(new KakaoApiException(ErrorCode.INVALID_KAKAO_REQUEST)))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        clientResponse -> Mono.error(new KakaoApiException(ErrorCode.KAKAO_SERVER_ERROR)))
                 .bodyToMono(KakaoTokenResponseDto.class)
                 .block();
 
@@ -66,8 +70,10 @@ public class KakaoServiceImpl implements KakaoService{
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
                 .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new RuntimeException("Invalid Parameter")))
-                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new RuntimeException("Internal Server Error")))
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        clientResponse -> Mono.error(new KakaoApiException(ErrorCode.INVALID_KAKAO_REQUEST)))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        clientResponse -> Mono.error(new KakaoApiException(ErrorCode.KAKAO_SERVER_ERROR)))
                 .bodyToMono(KakaoUserInfoResponseDto.class)
                 .block();
 
