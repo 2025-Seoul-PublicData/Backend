@@ -35,7 +35,7 @@ class MemberControllerTest {
         String content = """
             {
                 "kakaoId": 123456,
-                "nickname": "홍길동",
+                "name": "홍길동",
                 "location": "서울",
                 "role": "CONSUMER",
                 "profileImageUrl": "http://example.com/image.png"
