@@ -27,6 +27,6 @@ public class Company {
     private String companyTelNum;
     private String companyBusiness;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private CompanyCategory companyCategory;
 }
