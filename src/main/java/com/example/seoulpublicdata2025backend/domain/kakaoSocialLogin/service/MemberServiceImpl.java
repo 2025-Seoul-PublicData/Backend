@@ -21,14 +21,21 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
-    public SignupResponseDto signup(SignupRequestDto dto) {
-        Member member = Member.create(dto);
+    public void initMember(Long kakaoId) {
+        Member member = Member.init(kakaoId);
         try {
-            Member savedMember = memberRepository.save(member);
-            return SignupResponseDto.from(savedMember.getKakaoId());
+            memberRepository.save(member);
         } catch (DataIntegrityViolationException exception) {
             throw new DuplicationMemberException(ErrorCode.DUPLICATE_MEMBER);
         }
+    }
+
+    @Override
+    public SignupResponseDto updateMember(SignupRequestDto dto) {
+        Member findMember = memberRepository.findByKakaoId(dto.getKakaoId()).orElseThrow(
+                () -> new DuplicationMemberException(ErrorCode.DUPLICATE_MEMBER));
+        findMember.update(dto);
+        return SignupResponseDto.from(dto.getKakaoId());
     }
 
     @Override

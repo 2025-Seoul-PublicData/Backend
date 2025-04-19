@@ -52,7 +52,6 @@ public class KakaoServiceImpl implements KakaoService{
 
         log.info(" [Kakao Service] Access Token ------> {}", kakaoTokenResponseDto.getAccessToken());
         log.info(" [Kakao Service] Refresh Token ------> {}", kakaoTokenResponseDto.getRefreshToken());
-        log.info(" [Kakao Service] Id Token ------> {}", kakaoTokenResponseDto.getIdToken());
         log.info(" [Kakao Service] Scope ------> {}", kakaoTokenResponseDto.getScope());
 
         return kakaoTokenResponseDto.getAccessToken();
@@ -78,7 +77,6 @@ public class KakaoServiceImpl implements KakaoService{
                 .block();
 
         log.info(" [Kakao Service] Auth ID ------> {}", userInfo.getId());
-        log.info(" [Kakao Service] NickName ------> {}", userInfo.getKakaoAccount().getProfile().getNickName());
         log.info(" [Kakao Service] Id Token ------> {}", userInfo.getKakaoAccount().getProfile().getProfileImageUrl());
 
         return userInfo;

@@ -30,12 +30,12 @@ public class JwtProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String memberId) {
+    public String createToken(Long kakaoId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + accessTokenValidityInMillis);
 
         return Jwts.builder()
-                .setSubject(memberId)
+                .setSubject(kakaoId.toString())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(secretKey, SignatureAlgorithm.HS256)

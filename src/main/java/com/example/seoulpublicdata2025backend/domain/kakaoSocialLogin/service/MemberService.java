@@ -10,9 +10,11 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    SignupResponseDto signup(SignupRequestDto dto);
+    SignupResponseDto updateMember(SignupRequestDto dto);
 
     Optional<Member> findByKakaoId(Long kakaoId);
 
     KakaoAuthResponseDto getMemberStatus(Long kakaoId);
+
+    void initMember(Long kakaoId);
 }
