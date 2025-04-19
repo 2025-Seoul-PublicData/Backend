@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controller;
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoAuthResponseDto;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoIdStatusDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoUserInfoResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.KakaoService;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
@@ -41,8 +42,8 @@ public class KakaoAuthController {
         String accessToken = kakaoService.getAccessTokenFromKakao(code);
         KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(accessToken);
         Long kakaoId = userInfo.getId();
-        memberService.initMember(kakaoId);
-        String token = jwtProvider.createToken(kakaoId);
+        KakaoIdStatusDto kakaoIdStatusDto = memberService.initMember(kakaoId);
+        String token = jwtProvider.createToken(kakaoIdStatusDto);
 
         // JWT를 쿠키에 담기
         ResponseCookie cookie = ResponseCookie.from("ACCESS_TOKEN", token)
