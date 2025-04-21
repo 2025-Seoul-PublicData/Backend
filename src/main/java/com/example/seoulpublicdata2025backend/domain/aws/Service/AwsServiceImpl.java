@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.aws.Service;
 
 import com.example.seoulpublicdata2025backend.domain.aws.dto.PresignedUrlRequestDto;
+import com.example.seoulpublicdata2025backend.domain.aws.dto.PresignedUrlResponseDto;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class AwsServiceImpl implements AwsService {
     private String bucketName;
 
     @Override
-    public String generatePutPreSignedUrl(PresignedUrlRequestDto dto) {
+    public PresignedUrlResponseDto generatePutPreSignedUrl(PresignedUrlRequestDto dto) {
         String objectKey = createObjectKey(dto);
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -36,7 +37,10 @@ public class AwsServiceImpl implements AwsService {
                 .signatureDuration(Duration.ofMinutes(10))
         );
 
-        return presignedRequest.url().toString();
+        return PresignedUrlResponseDto.builder()
+                .presignedUrl(presignedRequest.url().toString())
+                .key(objectKey)
+                .build();
     }
 
     @Override
