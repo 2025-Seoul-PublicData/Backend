@@ -18,17 +18,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtParser jwtParser;
 
     private static final List<String> EXCLUDE_URLS = List.of(
-            "/login/oauth2/code/kakao"
+            "/auth/login/kakao"
     );
 
     @Override
@@ -36,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NotNull FilterChain filterChain)
             throws ServletException, IOException {
         String requestURI = request.getRequestURI();
-        log.info("requestURI = {}", requestURI);
+
         if (EXCLUDE_URLS.contains(requestURI)) {
             filterChain.doFilter(request, response);
             return;
