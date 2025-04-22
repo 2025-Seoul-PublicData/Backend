@@ -1,7 +1,12 @@
 package com.example.seoulpublicdata2025backend.domain.aws.Service;
 
+import com.example.seoulpublicdata2025backend.domain.aws.dao.UploadFileRepository;
 import com.example.seoulpublicdata2025backend.domain.aws.dto.PresignedUrlRequestDto;
 import com.example.seoulpublicdata2025backend.domain.aws.dto.PresignedUrlResponseDto;
+import com.example.seoulpublicdata2025backend.domain.aws.entity.UploadFile;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
+import com.example.seoulpublicdata2025backend.global.exception.customException.AuthenticationException;
+import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,12 +24,19 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequ
 public class AwsServiceImpl implements AwsService {
 
     private final S3Presigner s3Presigner;
+    private final UploadFileRepository uploadFileRepository;
+    private final MemberRepository memberRepository;
+
 
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucketName;
 
     @Override
     public PresignedUrlResponseDto generatePutPreSignedUrl(PresignedUrlRequestDto dto) {
+        if(!memberRepository.existsByKakaoId(dto.getKakaoId())) {
+            throw new AuthenticationException(ErrorCode.USER_NOT_FOUND);
+        }
+
         String objectKey = createObjectKey(dto);
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -36,6 +48,15 @@ public class AwsServiceImpl implements AwsService {
                 .putObjectRequest(putObjectRequest)
                 .signatureDuration(Duration.ofMinutes(10))
         );
+
+        UploadFile uploadFile = UploadFile.builder()
+                .kakaoId(dto.getKakaoId())
+                .objectKey(objectKey)
+                .type(dto.getType())
+                .originalFileName(dto.getOriginalFileName())
+                .build();
+
+        uploadFileRepository.save(uploadFile);
 
         return PresignedUrlResponseDto.builder()
                 .presignedUrl(presignedRequest.url().toString())
