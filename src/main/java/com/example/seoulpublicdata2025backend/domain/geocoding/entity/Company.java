@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 public class Company {
 
     @Id
+    @Column(name = "company_id")
+    private Long companyId;
+
     @Column(name = "company_name")
     private String companyName;
 
