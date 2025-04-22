@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SignupPageController {
 
     @GetMapping
-    public String signupPage(@RequestParam("kakaoId") Long kakaoId, @RequestParam("profileUrl") String profileUrl, Model model) {
+    public String signupPage(@RequestParam("kakaoId") Long kakaoId,  Model model) {
         model.addAttribute("kakaoId", kakaoId);
-        model.addAttribute("profileUrl", profileUrl);
         return "signup";
     }
 }

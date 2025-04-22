@@ -29,6 +29,7 @@ class GeocodingServiceImplTest {
     void setUp() {
         // given: 테스트용 Company 엔티티 저장
         Company company = Company.builder()
+                .companyId(1L)
                 .companyName("어시스타앤파트너스")
                 .companyLocation("용산구 한강로 3가 GS한강에클라트 오피스동 505호")
                 .location(new Location(37.5314276, 126.9554449))

@@ -2,11 +2,13 @@ package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service;
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoAuthResponseDto;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoIdStatusDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
 import com.example.seoulpublicdata2025backend.global.exception.customException.DuplicationMemberException;
+import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,14 +23,22 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
-    public SignupResponseDto signup(SignupRequestDto dto) {
-        Member member = Member.create(dto);
+    public KakaoIdStatusDto initMember(Long kakaoId) {
+        Member member = Member.init(kakaoId);
         try {
-            Member savedMember = memberRepository.save(member);
-            return SignupResponseDto.from(savedMember.getKakaoId());
+            memberRepository.save(member);
+            return new KakaoIdStatusDto(member.getKakaoId(), member.getStatus());
         } catch (DataIntegrityViolationException exception) {
             throw new DuplicationMemberException(ErrorCode.DUPLICATE_MEMBER);
         }
+    }
+
+    @Override
+    public SignupResponseDto updateMember(SignupRequestDto dto) {
+        Member findMember = memberRepository.findByKakaoId(dto.getKakaoId()).orElseThrow(
+                () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
+        findMember.update(dto);
+        return SignupResponseDto.from(dto.getKakaoId());
     }
 
     @Override
