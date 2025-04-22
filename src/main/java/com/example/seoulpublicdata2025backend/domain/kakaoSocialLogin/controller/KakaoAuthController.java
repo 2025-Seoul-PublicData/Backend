@@ -1,19 +1,18 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controller;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoAuthResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoIdStatusDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoUserInfoResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.KakaoService;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.KakaoLoginCheckDocs;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -33,35 +32,67 @@ public class KakaoAuthController {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
 
-    @Value("${frontend.redirect.base-url}")
-    private String frontendBaseUrl;
+    private static final String MOBILE_BASEURL = "http://172.16.21.135:5173";
+    private static final String LOCAL_BASEURL = "http://localhost:5173";
+    private static final String REFERER = "Referer";
 
     @GetMapping("/auth/login/kakao")
     @KakaoLoginCheckDocs
-    public ResponseEntity<Void> checkMemberSignUp(@RequestParam("code") String code) {
+    public ResponseEntity<Void> checkMemberSignUp(
+            @RequestParam("code") String code,
+            HttpServletRequest request
+    ) {
         String accessToken = kakaoService.getAccessTokenFromKakao(code);
         KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(accessToken);
         Long kakaoId = userInfo.getId();
+
         KakaoIdStatusDto kakaoIdStatusDto = memberService.initMember(kakaoId);
         String token = jwtProvider.createToken(kakaoIdStatusDto);
-
         // JWT를 쿠키에 담기
-        ResponseCookie cookie = ResponseCookie.from("ACCESS_TOKEN", token)
+        ResponseCookie cookie = createCookie(token);
+        String baseUrl = getBaseUrl(request);
+        HttpHeaders headers = setHttpHeaders(cookie, kakaoIdStatusDto, baseUrl, kakaoId);
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
+    }
+
+    private static HttpHeaders setHttpHeaders(ResponseCookie cookie, KakaoIdStatusDto kakaoIdStatusDto, String baseUrl,
+                                              Long kakaoId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.SET_COOKIE, cookie.toString());
+        if (kakaoIdStatusDto.getStatus().equals(MemberStatus.MEMBER)) {
+            String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl)
+                    .queryParam("kakaoId", kakaoId)
+                    .build()
+                    .toUriString();
+            headers.setLocation(URI.create(redirectUrl));
+        } else if (kakaoIdStatusDto.getStatus().equals(MemberStatus.PRE_MEMBER)) {
+            String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl + "/signup")
+                    .queryParam("kakaoId", kakaoId)
+                    .build()
+                    .toUriString();
+            headers.setLocation(URI.create(redirectUrl));
+        }
+        return headers;
+    }
+
+    private static String getBaseUrl(HttpServletRequest request) {
+        String referer = request.getHeader(REFERER);
+
+        String baseUrl;
+        if (referer != null && referer.contains("172.16.21.135")) {
+            baseUrl = MOBILE_BASEURL;
+        } else {
+            baseUrl = LOCAL_BASEURL;
+        }
+        return baseUrl;
+    }
+
+    private static ResponseCookie createCookie(String token) {
+        return ResponseCookie.from("access", token)
                 .httpOnly(true)
                 .path("/")
                 .sameSite("Strict")
-                .maxAge(Duration.ofHours(1))
+                .maxAge(Duration.ofMinutes(30))
                 .build();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.SET_COOKIE, cookie.toString());
-        String redirectUrl = UriComponentsBuilder.fromUriString(frontendBaseUrl + "/signup")
-                .queryParam("kakaoId", kakaoId)
-                .build()
-                .toUriString();
-
-        headers.setLocation(URI.create(redirectUrl));
-
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 }
