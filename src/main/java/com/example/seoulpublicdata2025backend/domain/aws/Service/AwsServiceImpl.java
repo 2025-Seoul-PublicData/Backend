@@ -34,7 +34,7 @@ public class AwsServiceImpl implements AwsService {
     @Override
     public PresignedUrlResponseDto generatePutPreSignedUrl(PresignedUrlRequestDto dto) {
         if(!memberRepository.existsByKakaoId(dto.getKakaoId())) {
-            throw new AuthenticationException(ErrorCode.USER_NOT_FOUND);
+            throw new AuthenticationException(ErrorCode.MEMBER_NOT_FOUND);
         }
 
         String objectKey = createObjectKey(dto);
