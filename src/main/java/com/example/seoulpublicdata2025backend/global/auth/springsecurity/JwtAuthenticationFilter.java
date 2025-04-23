@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,9 +29,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtParser jwtParser;
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
-    private static final List<String> EXCLUDE_URLS = List.of(
-            "/auth/login/kakao"
+    private static final List<String> EXCLUDE_PATTERNS = List.of(
+            "/auth/login/kakao",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui/index.html",
+            "/swagger-resources/**",
+            "/webjars/**"
     );
 
     @Override
@@ -39,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String requestURI = request.getRequestURI();
 
-        if (EXCLUDE_URLS.contains(requestURI)) {
+        if (EXCLUDE_PATTERNS.contains(requestURI)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -60,6 +67,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(toJson(errorResponse));
         }
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return EXCLUDE_PATTERNS.stream()
+                .anyMatch(pattern -> pathMatcher.match(pattern, path));
     }
 
     private String resolveToken(HttpServletRequest request) {

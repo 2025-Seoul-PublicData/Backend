@@ -25,6 +25,12 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth
+                            .requestMatchers("/auth/login/kakao",
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui/**",
+                                    "/swagger-resources/**",
+                                    "/webjars/**")
+                                .permitAll()
                             .requestMatchers("/member/signup")
                                 .hasRole("PRE_MEMBER")
                             .anyRequest()
