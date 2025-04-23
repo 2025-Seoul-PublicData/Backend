@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.Duration;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -48,26 +49,28 @@ public class KakaoAuthController {
 
         KakaoIdStatusDto kakaoIdStatusDto = memberService.initMember(kakaoId);
         String token = jwtProvider.createToken(kakaoIdStatusDto);
-        // JWT를 쿠키에 담기
-        ResponseCookie cookie = createCookie(token);
+
+        List<ResponseCookie> cookies = createCookies(token, kakaoId);
         String baseUrl = getBaseUrl(request);
-        HttpHeaders headers = setHttpHeaders(cookie, kakaoIdStatusDto, baseUrl, kakaoId);
+
+        HttpHeaders headers = setHttpHeaders(cookies, kakaoIdStatusDto, baseUrl);
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
-    private static HttpHeaders setHttpHeaders(ResponseCookie cookie, KakaoIdStatusDto kakaoIdStatusDto, String baseUrl,
-                                              Long kakaoId) {
+    private static HttpHeaders setHttpHeaders(
+            List<ResponseCookie> cookies, KakaoIdStatusDto kakaoIdStatusDto, String baseUrl
+    ) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.SET_COOKIE, cookie.toString());
+        for (ResponseCookie cookie : cookies) {
+            headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+        }
         if (kakaoIdStatusDto.getStatus().equals(MemberStatus.MEMBER)) {
             String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl)
-                    .queryParam("kakaoId", kakaoId)
                     .build()
                     .toUriString();
             headers.setLocation(URI.create(redirectUrl));
         } else if (kakaoIdStatusDto.getStatus().equals(MemberStatus.PRE_MEMBER)) {
             String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl + "/signup")
-                    .queryParam("kakaoId", kakaoId)
                     .build()
                     .toUriString();
             headers.setLocation(URI.create(redirectUrl));
@@ -87,12 +90,22 @@ public class KakaoAuthController {
         return baseUrl;
     }
 
-    private static ResponseCookie createCookie(String token) {
-        return ResponseCookie.from("access", token)
+    private static List<ResponseCookie> createCookies(String token, Long kakaoId) {
+        ResponseCookie accessCookie = ResponseCookie.from("access", token)
                 .httpOnly(true)
                 .path("/")
                 .sameSite("Strict")
-                .maxAge(Duration.ofMinutes(30))
+                .maxAge(Duration.ofHours(2))
                 .build();
+
+        ResponseCookie kakaoIdCookie = ResponseCookie.from("kakaoId", kakaoId.toString())
+                .httpOnly(true)
+                .path("/")
+                .sameSite("Strict")
+                .maxAge(Duration.ofHours(2))
+                .build();
+
+        return List.of(accessCookie, kakaoIdCookie);
     }
+
 }
