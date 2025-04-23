@@ -53,12 +53,12 @@ public class KakaoAuthController {
         List<ResponseCookie> cookies = createCookies(token, kakaoId);
         String baseUrl = getBaseUrl(request);
 
-        HttpHeaders headers = setHttpHeaders(cookies, kakaoIdStatusDto, baseUrl, kakaoId);
+        HttpHeaders headers = setHttpHeaders(cookies, kakaoIdStatusDto, baseUrl);
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
     private static HttpHeaders setHttpHeaders(
-            List<ResponseCookie> cookies, KakaoIdStatusDto kakaoIdStatusDto, String baseUrl, Long kakaoId
+            List<ResponseCookie> cookies, KakaoIdStatusDto kakaoIdStatusDto, String baseUrl
     ) {
         HttpHeaders headers = new HttpHeaders();
         for (ResponseCookie cookie : cookies) {
@@ -66,13 +66,11 @@ public class KakaoAuthController {
         }
         if (kakaoIdStatusDto.getStatus().equals(MemberStatus.MEMBER)) {
             String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl)
-                    .queryParam("kakaoId", kakaoId)
                     .build()
                     .toUriString();
             headers.setLocation(URI.create(redirectUrl));
         } else if (kakaoIdStatusDto.getStatus().equals(MemberStatus.PRE_MEMBER)) {
             String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl + "/signup")
-                    .queryParam("kakaoId", kakaoId)
                     .build()
                     .toUriString();
             headers.setLocation(URI.create(redirectUrl));
