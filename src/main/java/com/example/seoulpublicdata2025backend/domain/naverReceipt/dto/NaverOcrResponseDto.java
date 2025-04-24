@@ -2,6 +2,7 @@ package com.example.seoulpublicdata2025backend.domain.naverReceipt.dto;
 
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class NaverOcrResponseDto {
