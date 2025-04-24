@@ -35,6 +35,7 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
         return extractInfoFromOcr(result);
     }
 
+    // 네이버 영수증을 파싱합니다.
     private NaverOcrResponseDto parseNaverReceipt(MultipartFile file) {
         String ocrMessage = buildOcrMessage(file);
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
@@ -53,6 +54,7 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
                 .body(NaverOcrResponseDto.class);
     }
 
+    // NAVER OCR 에 전송하기 위해 필요한 메세지를 만듭니다.
     private String buildOcrMessage(MultipartFile file) {
         String fileName = file.getOriginalFilename() != null ? file.getOriginalFilename() : "receipt";
         String requestId = UUID.randomUUID().toString(); // 고유 ID 생성
@@ -74,6 +76,7 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
         """, requestId, timestamp, format, fileName);
     }
 
+    // 네이버 OCR 을 거친 데이터로부터 우리가 원하는 데이터를 추출합니다.
     private ExtractedReceiptInfoDto extractInfoFromOcr(NaverOcrResponseDto dto) {
         if (dto.getImages() == null || dto.getImages().isEmpty()) {
             throw new InvalidReceiptException(ErrorCode.RECEIPT_IMAGE_NOT_FOUND);
