@@ -115,25 +115,24 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
             throw new InvalidReceiptException(ErrorCode.RECEIPT_TEL_NOT_FOUND);
         }
 
-        if (receipt.getSubResults() == null || receipt.getSubResults().isEmpty()) {
-            throw new InvalidReceiptException(ErrorCode.RECEIPT_ITEM_NOT_FOUND);
-        }
-
         List<ItemInfo> items = new ArrayList<>();
-        for (var sub : receipt.getSubResults()) {
-            for (var item : sub.getItems()) {
-                if (item.getName() == null || item.getName().getText() == null ||
-                        item.getCount() == null || item.getCount().getText() == null ||
-                        item.getPrice() == null || item.getPrice().getPrice() == null ||
-                        item.getPrice().getPrice().getText() == null) {
-                    throw new InvalidReceiptException(ErrorCode.RECEIPT_ITEM_DETAIL_INCOMPLETE);
-                }
 
-                ExtractedReceiptInfoDto.ItemInfo info = new ExtractedReceiptInfoDto.ItemInfo();
-                info.setName(item.getName().getText());
-                info.setCount(item.getCount().getText());
-                info.setPrice(item.getPrice().getPrice().getText());
-                items.add(info);
+        if (receipt.getSubResults() != null && !receipt.getSubResults().isEmpty()) {
+            for (var sub : receipt.getSubResults()) {
+                for (var item : sub.getItems()) {
+                    if (item.getName() == null || item.getName().getText() == null ||
+                            item.getCount() == null || item.getCount().getText() == null ||
+                            item.getPrice() == null || item.getPrice().getPrice() == null ||
+                            item.getPrice().getPrice().getText() == null) {
+                        throw new InvalidReceiptException(ErrorCode.RECEIPT_ITEM_DETAIL_INCOMPLETE);
+                    }
+
+                    ExtractedReceiptInfoDto.ItemInfo info = new ExtractedReceiptInfoDto.ItemInfo();
+                    info.setName(item.getName().getText());
+                    info.setCount(item.getCount().getText());
+                    info.setPrice(item.getPrice().getPrice().getText());
+                    items.add(info);
+                }
             }
         }
 

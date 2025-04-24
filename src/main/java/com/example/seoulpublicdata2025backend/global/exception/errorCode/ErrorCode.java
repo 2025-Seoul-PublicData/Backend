@@ -38,9 +38,8 @@ public enum ErrorCode {
     RECEIPT_ADDRESS_NOT_FOUND("6003", "가게 주소가 누락되었습니다.", HttpStatus.BAD_REQUEST),
     RECEIPT_TEL_NOT_FOUND("6004", "전화번호가 누락되었습니다.", HttpStatus.BAD_REQUEST),
     RECEIPT_DATE_OR_TIME_NOT_FOUND("6005", "결제 일자 또는 시간이 누락되었습니다.", HttpStatus.BAD_REQUEST),
-    RECEIPT_ITEM_NOT_FOUND("6006", "상품 정보가 없습니다.", HttpStatus.BAD_REQUEST),
-    RECEIPT_ITEM_DETAIL_INCOMPLETE("6007", "상품 정보가 누락되었습니다.", HttpStatus.BAD_REQUEST),
-    RECEIPT_DATETIME_FORMAT_INVALID("6008", "날짜 또는 시간 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_ITEM_DETAIL_INCOMPLETE("6006", "상품 정보가 누락되었습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_DATETIME_FORMAT_INVALID("6007", "날짜 또는 시간 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
 
     ;
 
