@@ -7,6 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PresignedUrlRequestDto {
     private final String originalFileName;
-    private final Long kakaoId;
     private final UploadType type;
 }

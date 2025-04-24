@@ -7,6 +7,7 @@ import com.example.seoulpublicdata2025backend.domain.aws.entity.UploadFile;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.global.exception.customException.AuthenticationException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
+import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -33,11 +34,12 @@ public class AwsServiceImpl implements AwsService {
 
     @Override
     public PresignedUrlResponseDto generatePutPreSignedUrl(PresignedUrlRequestDto dto) {
-        if(!memberRepository.existsByKakaoId(dto.getKakaoId())) {
+        Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
+        if (!memberRepository.existsByKakaoId(kakaoId)) {
             throw new AuthenticationException(ErrorCode.MEMBER_NOT_FOUND);
         }
 
-        String objectKey = createObjectKey(dto);
+        String objectKey = createObjectKey(dto, kakaoId);
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
@@ -50,7 +52,7 @@ public class AwsServiceImpl implements AwsService {
         );
 
         UploadFile uploadFile = UploadFile.builder()
-                .kakaoId(dto.getKakaoId())
+                .kakaoId(kakaoId)
                 .objectKey(objectKey)
                 .type(dto.getType())
                 .originalFileName(dto.getOriginalFileName())
@@ -79,7 +81,7 @@ public class AwsServiceImpl implements AwsService {
         return presignedGetObjectRequest.url().toString();
     }
 
-    private String createObjectKey(PresignedUrlRequestDto dto) {
+    private String createObjectKey(PresignedUrlRequestDto dto, Long kakaoId) {
         String originalFileName = dto.getOriginalFileName();
         String ext = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
         String uuid = UUID.randomUUID().toString();
@@ -91,7 +93,7 @@ public class AwsServiceImpl implements AwsService {
         };
 
         return String.format("%s/user-%d/%d/%02d/%02d/%s.%s",
-                prefix, dto.getKakaoId(),
+                prefix, kakaoId,
                 today.getYear(), today.getMonthValue(), today.getDayOfMonth(),
                 uuid, ext
         );

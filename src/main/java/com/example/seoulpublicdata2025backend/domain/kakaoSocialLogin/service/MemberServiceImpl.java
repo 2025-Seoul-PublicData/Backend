@@ -10,6 +10,7 @@ import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.Membe
 import com.example.seoulpublicdata2025backend.global.exception.customException.DuplicationMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
+import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public SignupResponseDto updateMember(SignupRequestDto dto) {
-        Member findMember = memberRepository.findByKakaoId(dto.getKakaoId()).orElseThrow(
+        Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
+        Member findMember = memberRepository.findByKakaoId(kakaoId).orElseThrow(
                 () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
         findMember.update(dto);
-        return SignupResponseDto.from(dto.getKakaoId());
+        return SignupResponseDto.from(kakaoId);
     }
 
     @Override
