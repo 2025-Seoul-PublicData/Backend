@@ -11,9 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class SignupRequestDto {
-    @NotNull(message = "kakaoId는 필수입니다.")
-    private Long kakaoId;
-
     @NotBlank(message = "이름은 필수입니다.")
     private String name;
 

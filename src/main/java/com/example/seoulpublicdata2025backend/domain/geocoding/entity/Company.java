@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 public class Company {
 
     @Id
+    @Column(name = "company_id")
+    private Long companyId;
+
     @Column(name = "company_name")
     private String companyName;
 
@@ -27,6 +30,6 @@ public class Company {
     private String companyTelNum;
     private String companyBusiness;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private CompanyCategory companyCategory;
 }

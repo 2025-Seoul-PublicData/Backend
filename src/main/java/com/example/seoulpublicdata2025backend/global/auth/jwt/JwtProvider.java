@@ -1,5 +1,7 @@
 package com.example.seoulpublicdata2025backend.global.auth.jwt;
 
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoIdStatusDto;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -30,12 +32,16 @@ public class JwtProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String memberId) {
+    public String createToken(KakaoIdStatusDto dto) {
+        Long kakaoId = dto.getKakaoId();
+        MemberStatus memberStatus = dto.getStatus();
+
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + accessTokenValidityInMillis);
 
         return Jwts.builder()
-                .setSubject(memberId)
+                .setSubject(kakaoId.toString())
+                .claim("role", memberStatus.getValue())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -43,7 +49,7 @@ public class JwtProvider {
     }
 
     // 토큰에서 사용자 ID 추출
-    public String getMemberIdFromToken(String token) {
+    public String getKakaoIdFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
@@ -51,6 +57,16 @@ public class JwtProvider {
                 .getBody();
 
         return claims.getSubject();
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("role", String.class);
     }
 
     // 토큰 유효성 검증

@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity;
 
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,23 +22,31 @@ public class Member {
     private String name;
     private String location;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     @Column(name = "profile_image_url")
     private String profileImageUrl;
+
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public enum Role{
         CONSUMER, CORPORATE
     }
 
-    public static Member create(SignupRequestDto dto) {
+    public void update(SignupRequestDto dto) {
+        this.name = dto.getName();
+        this.location = dto.getLocation();
+        this.profileImageUrl = dto.getProfileImageUrl();
+        this.role = Member.Role.valueOf(dto.getRole().toUpperCase());
+        this.status = MemberStatus.MEMBER;
+    }
+
+    public static Member init(Long kakaoId) {
         return Member.builder()
-                .kakaoId(dto.getKakaoId())
-                .name(dto.getName())
-                .location(dto.getLocation())
-                .role(Member.Role.valueOf(dto.getRole().toUpperCase()))
-                .profileImageUrl(dto.getProfileImageUrl())
+                .kakaoId(kakaoId)
+                .status(MemberStatus.PRE_MEMBER)
                 .build();
     }
 
