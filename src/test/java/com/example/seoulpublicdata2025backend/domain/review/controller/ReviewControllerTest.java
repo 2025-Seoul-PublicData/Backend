@@ -120,7 +120,7 @@ class ReviewControllerTest {
         );
 
         // when & then
-        mockMvc.perform(get("/reviews/get-all-company-reviews")
+        mockMvc.perform(get("/reviews/public/get-all-company-reviews")
                         .param("companyId", "1")
                         .cookie(new Cookie("accessToken", "1001")))
                 .andExpect(status().isOk())
