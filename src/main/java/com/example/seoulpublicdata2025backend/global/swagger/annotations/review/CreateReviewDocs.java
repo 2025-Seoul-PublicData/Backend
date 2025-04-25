@@ -19,35 +19,31 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "리뷰 등록",
-        description = "새로운 리뷰를 작성합니다."
+        description = "새로운 리뷰를 작성합니다. 작성자(kakaoId)는 쿠키에서 자동 추출됩니다."
 )
 @Parameters({
         @Parameter(name = "paymentInfoConfirmNum", description = "결제 정보 확인 번호", example = "123"),
         @Parameter(name = "paymentInfoTime", description = "결제 시간 (yyyy/MM/dd HH:mm:ss 형식)", example = "2025/04/22 10:00:00"),
         @Parameter(name = "company", description = "리뷰 대상 회사 객체 (companyId 필수)", example = "{\"companyId\": 1}"),
-        @Parameter(name = "kakao", description = "작성자 정보 객체 (kakaoId 필수)", example = "{\"kakaoId\": 1001}"),
         @Parameter(name = "review", description = "리뷰 내용", example = "좋은 가게였습니다."),
         @Parameter(name = "temperature", description = "온도 점수 (예: 88.5)", example = "88.5"),
         @Parameter(name = "reviewCategory", description = "리뷰 카테고리 (예: CLEAN, KIND, COST 등)", example = "CLEAN")
 })
 @RequestBody(
-        description = "리뷰 등록 요청 데이터",
+        description = "리뷰 등록 요청 데이터 (작성자 kakaoId는 쿠키에서 자동 추출됨)",
         required = true,
         content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = CompanyReviewDto.class),
                 examples = @ExampleObject(
                         name = "리뷰 등록 요청 예시",
-                        description = "성공적인 리뷰 등록 요청 예시",
+                        description = "kakaoId는 쿠키에서 자동 추출됨",
                         value = """
                                 {
                                   \"paymentInfoConfirmNum\": 123,
                                   \"paymentInfoTime\": \"2025-04-22T10:00:00\",
                                   \"company\": {
                                     \"companyId\": 1
-                                  },
-                                  \"kakao\": {
-                                    \"kakaoId\": 1001
                                   },
                                   \"review\": \"좋은 가게였습니다.\",
                                   \"temperature\": 88.5,

@@ -7,7 +7,11 @@ import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId;
+import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,13 +23,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final CompanyReviewRepository companyReviewRepository;
 
+
     @Override
     public CompanyReviewDto creatCompanyReview(CompanyReviewDto dto) {
+
+        Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
+
         CompanyReview entity = CompanyReview.builder()
                 .paymentInfoConfirmNum(dto.getPaymentInfoConfirmNum())
                 .paymentInfoTime(dto.getPaymentInfoTime())
                 .company(Company.builder().companyId(dto.getCompany().getCompanyId()).build()) // 연관관계는 ID만 설정
-                .kakao(Member.builder().kakaoId(dto.getKakao().getKakaoId()).build())
+                .kakao(Member.builder().kakaoId(currentKakaoId).build())
                 .review(dto.getReview())
                 .temperature(dto.getTemperature())
                 .reviewCategory(dto.getReviewCategory())
@@ -92,6 +100,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Page<ReviewDto> getPagingCompanyReviews(Long companyId, Pageable pageable) {
+        return companyReviewRepository.findReviewDtoByCompanyId(companyId, pageable);
+    }
+
+    @Override
     public Double getTemperature(Long companyId) {
         List<ReviewDto> allCompanyReviewDto = companyReviewRepository.findReviewDtoByCompanyId(companyId);
         double temperature = 0;
@@ -105,8 +118,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDto> getAllMyReviews(Long kakaoId) {
-        return companyReviewRepository.findReviewDtoByKakaoId(kakaoId);
+    public List<ReviewDto> getAllMyReviews() {
+        Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
+
+        return companyReviewRepository.findReviewDtoByKakaoId(currentKakaoId);
     }
 
     @Override
@@ -115,8 +130,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Long getCountMemberReview(Long kakaoId) {
-        return companyReviewRepository.getCountByKakaoId(kakaoId);
+    public Long getCountMemberReview() {
+        Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
+
+        return companyReviewRepository.getCountByKakaoId(currentKakaoId);
     }
 
 }

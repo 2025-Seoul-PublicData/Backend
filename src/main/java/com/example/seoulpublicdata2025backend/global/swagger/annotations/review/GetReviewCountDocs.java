@@ -10,11 +10,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "리뷰 개수 조회",
-        description = "특정 회사 또는 회원의 리뷰 수를 조회합니다."
+        description = "특정 회사의 리뷰 수 또는 로그인된 회원이 작성한 리뷰 수를 조회합니다."
 )
 @Parameters({
-        @Parameter(name = "companyId", description = "회사 ID", example = "1"),
-        @Parameter(name = "kakaoId", description = "회원 Kakao ID", example = "1001")
+        @Parameter(name = "companyId", description = "회사 ID (회사 리뷰 수 조회 시 사용)", example = "1")
 })
 @ApiResponse(
         responseCode = "200",
@@ -35,11 +34,11 @@ import java.lang.annotation.*;
                 examples = @ExampleObject(
                         value = """
                                 {
-                                  \"status\": 404,
-                                  \"code\": \"USER_NOT_FOUND\",
-                                  \"message\": \"해당 회원 또는 회사를 찾을 수 없습니다.\",
-                                  \"errors\": [],
-                                  \"time\": \"2025-04-22T10:12:34\"
+                                  "status": 404,
+                                  "code": "USER_NOT_FOUND",
+                                  "message": "해당 회원 또는 회사를 찾을 수 없습니다.",
+                                  "errors": [],
+                                  "time": "2025-04-22T10:12:34"
                                 }
                                 """
                 )
@@ -53,11 +52,11 @@ import java.lang.annotation.*;
                 examples = @ExampleObject(
                         value = """
                                 {
-                                  \"status\": 500,
-                                  \"code\": \"INTERNAL_SERVER_ERROR\",
-                                  \"message\": \"서버에 문제가 발생했습니다.\",
-                                  \"errors\": [],
-                                  \"time\": \"2025-04-22T10:12:34\"
+                                  "status": 500,
+                                  "code": "INTERNAL_SERVER_ERROR",
+                                  "message": "서버에 문제가 발생했습니다.",
+                                  "errors": [],
+                                  "time": "2025-04-22T10:12:34"
                                 }
                                 """
                 )
