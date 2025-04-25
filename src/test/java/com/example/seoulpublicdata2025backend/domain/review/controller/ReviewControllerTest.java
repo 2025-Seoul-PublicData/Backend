@@ -103,14 +103,6 @@ class ReviewControllerTest {
     }
 
     @Test
-    void updateReview() {
-    }
-
-    @Test
-    void deleteReview() {
-    }
-
-    @Test
     @WithMockUser
     @DisplayName("회사 리뷰 전체 조회 테스트")
     void getAllCompanyReviews() throws Exception {
@@ -127,19 +119,4 @@ class ReviewControllerTest {
                 .andExpect(jsonPath("$[0].reviewContent").value("좋아요!"));
 }
 
-    @Test
-    void getTemperature() {
-    }
-
-    @Test
-    void getAllMemberReviews() {
-    }
-
-    @Test
-    void getCountCompanyReview() {
-    }
-
-    @Test
-    void getCountMemberReview() {
-    }
 }
