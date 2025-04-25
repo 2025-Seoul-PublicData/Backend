@@ -27,9 +27,22 @@ public enum ErrorCode {
     // 4000번대: 권한 관련
     FORBIDDEN("4000", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
-    // 5000번대: 서버 오류
-    INTERNAL_SERVER_ERROR("5000", "서버에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-    INVALID_IMAGE_URL("5001", "프로필 이미지 URL이 유효하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    // 9000번대: 서버 오류
+    INTERNAL_SERVER_ERROR("9000", "서버에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_IMAGE_URL("9001", "프로필 이미지 URL이 유효하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
+
+    // 6000번대: OCR 영수증 파싱 관련
+    RECEIPT_IMAGE_NOT_FOUND("6000", "영수증 이미지 정보가 없습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_RESULT_NOT_FOUND("6001", "영수증 정보가 누락되었습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_STORE_NAME_NOT_FOUND("6002", "가게 이름이 인식되지 않았습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_ADDRESS_NOT_FOUND("6003", "가게 주소가 누락되었습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_TEL_NOT_FOUND("6004", "전화번호가 누락되었습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_DATE_OR_TIME_NOT_FOUND("6005", "결제 일자 또는 시간이 누락되었습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_ITEM_DETAIL_INCOMPLETE("6006", "상품 정보가 누락되었습니다.", HttpStatus.BAD_REQUEST),
+    RECEIPT_DATETIME_FORMAT_INVALID("6007", "날짜 또는 시간 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+
+    ;
 
     private final String code;
     private final String message;
