@@ -20,7 +20,10 @@ import java.lang.annotation.*;
         description = "평균 온도 조회 성공",
         content = @Content(
                 mediaType = "application/json",
+                schema = @Schema(type = "number", format = "double"),
                 examples = @ExampleObject(
+                        name = "평균 온도 예시",
+                        description = "평균 온도가 87.5일 경우의 응답",
                         value = "87.5"
                 )
         )

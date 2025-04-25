@@ -20,32 +20,28 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "리뷰 삭제",
-        description = "기존 리뷰를 삭제합니다. paymentInfoConfirmNum 및 paymentInfoTime을 기준으로 식별합니다."
+        description = "기존 리뷰를 삭제합니다. paymentInfoConfirmNum 및 paymentInfoTime으로 식별하며, 작성자(kakaoId)는 쿠키에서 자동 추출됩니다."
 )
 @Parameters({
         @Parameter(name = "paymentInfoConfirmNum", description = "결제 정보 확인 번호", example = "123"),
         @Parameter(name = "paymentInfoTime", description = "결제 시간 (yyyy/MM/dd HH:mm:ss 형식)", example = "2025/04/22 10:00:00"),
-        @Parameter(name = "company", description = "리뷰 대상 회사 객체 (companyId 필수)", example = "{\"companyId\": 1}"),
-        @Parameter(name = "kakao", description = "작성자 정보 객체 (kakaoId 필수)", example = "{\"kakaoId\": 1001}")
+        @Parameter(name = "company", description = "리뷰 대상 회사 객체 (companyId 필수)", example = "{\"companyId\": 1}")
 })
 @RequestBody(
-        description = "리뷰 삭제 요청 데이터",
+        description = "리뷰 삭제 요청 데이터 (작성자 kakaoId는 쿠키에서 자동 추출됨)",
         required = true,
         content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = CompanyReviewDto.class),
                 examples = @ExampleObject(
                         name = "리뷰 삭제 요청 예시",
-                        description = "성공적인 리뷰 삭제 요청 예시",
+                        description = "kakaoId는 쿠키에서 자동 추출됩니다.",
                         value = """
                                 {
                                   \"paymentInfoConfirmNum\": 123,
                                   \"paymentInfoTime\": \"2025-04-22T10:00:00\",
                                   \"company\": {
                                     \"companyId\": 1
-                                  },
-                                  \"kakao\": {
-                                    \"kakaoId\": 1001
                                   }
                                 }
                                 """
