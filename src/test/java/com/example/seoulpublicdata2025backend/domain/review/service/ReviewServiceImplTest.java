@@ -15,6 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,6 +45,19 @@ class ReviewServiceImplTest {
     private LocalDateTime reviewTime1;
     private LocalDateTime reviewTime2;
     private LocalDateTime reviewTime3;
+
+    private void authenticateAs(Long kakaoId) {
+        SecurityContextHolder.clearContext();
+
+        UserDetails userDetails = User.builder()
+                .username(String.valueOf(kakaoId))
+                .password("dummy")
+                .roles("CONSUMER")
+                .build();
+
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
 
     @BeforeEach
     void setUp() {
@@ -135,12 +152,17 @@ class ReviewServiceImplTest {
 
     @Test
     void getAllMyReviews() {
-        List<ReviewDto> reviewDtos = reviewService.getAllMyReviews(testKakaoId1);
-        List<ReviewDto> reviewDtos2 = reviewService.getAllMyReviews(testKakaoId2);
+        authenticateAs(testKakaoId1);
 
+        List<ReviewDto> reviewDtos = reviewService.getAllMyReviews();
         assertEquals(2, reviewDtos.size());
-        assertEquals(1, reviewDtos2.size());
         assertEquals("좋아요2!", reviewDtos.get(1).getReviewContent());
+
+        authenticateAs(testKakaoId2);
+
+        List<ReviewDto> reviewDtos2 = reviewService.getAllMyReviews();
+        assertEquals(1, reviewDtos2.size());
+        assertEquals("좋아요3!", reviewDtos2.get(0).getReviewContent());
     }
 
     @Test
@@ -151,7 +173,8 @@ class ReviewServiceImplTest {
 
     @Test
     void getCountMemberReview() {
-        Long memberReviewCount = reviewService.getCountMemberReview(testKakaoId1);
+        authenticateAs(testKakaoId1);
+        Long memberReviewCount = reviewService.getCountMemberReview();
         assertEquals(2, memberReviewCount);
     }
 
