@@ -4,5 +4,5 @@ import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ExtractedR
 import org.springframework.web.multipart.MultipartFile;
 
 public interface NaverReceiptService {
-    ExtractedReceiptInfoDto getCompanyInformation(MultipartFile file);
+    ExtractedReceiptInfoDto getCompanyInformation(MultipartFile file, Long companyId);
 }

@@ -8,5 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface GeocodingRepository extends JpaRepository<Company, String> {
+    @Query("SELECT c.companyName FROM Company c WHERE c.companyId = :companyId")
+    String findCompanyNameByCompanyId(@Param("companyId") Long companyId);
     Optional<Company> findByCompanyName(@Param("companyName") String companyName);
 }

@@ -17,9 +17,10 @@ public class NaverReceiptController {
 
     @PostMapping("/naver/receipt")
     public ResponseEntity<ExtractedReceiptInfoDto> parseNaverReceipt(
+            @RequestBody Long companyId,
             @RequestBody MultipartFile file
     ) {
-        ExtractedReceiptInfoDto information = naverReceiptService.getCompanyInformation(file);
+        ExtractedReceiptInfoDto information = naverReceiptService.getCompanyInformation(file,companyId);
         return ResponseEntity.ok(information);
     }
 }

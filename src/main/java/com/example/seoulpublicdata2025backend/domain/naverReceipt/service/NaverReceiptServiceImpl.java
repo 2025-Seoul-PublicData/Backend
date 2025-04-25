@@ -1,14 +1,19 @@
 package com.example.seoulpublicdata2025backend.domain.naverReceipt.service;
 
+import com.example.seoulpublicdata2025backend.domain.geocoding.dao.GeocodingRepository;
+import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ExtractedReceiptInfoDto;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ExtractedReceiptInfoDto.ItemInfo;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.NaverOcrResponseDto;
 import com.example.seoulpublicdata2025backend.global.exception.customException.InvalidReceiptException;
+import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -21,6 +26,7 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class NaverReceiptServiceImpl implements NaverReceiptService {
 
     @Value("${naver.ocr.secret}")
@@ -29,10 +35,17 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
     @Value("${naver.ocr.target}")
     private String TARGET_URL;
 
+    private final GeocodingRepository geocodingRepository;
+
     @Override
-    public ExtractedReceiptInfoDto getCompanyInformation(MultipartFile file) {
+    public ExtractedReceiptInfoDto getCompanyInformation(MultipartFile file, Long companyId) {
+        String companyName = geocodingRepository.findCompanyNameByCompanyId(companyId);
         NaverOcrResponseDto result = parseNaverReceipt(file);
-        return extractInfoFromOcr(result);
+        ExtractedReceiptInfoDto extractedReceiptInfoDto = extractInfoFromOcr(result);
+        if(!Objects.equals(companyName, extractedReceiptInfoDto.getStoreName())) {
+            throw new NotFoundCompanyException(ErrorCode.COMPANY_NOT_FOUND);
+        }
+        return extractedReceiptInfoDto;
     }
 
     // 네이버 영수증을 파싱합니다.
