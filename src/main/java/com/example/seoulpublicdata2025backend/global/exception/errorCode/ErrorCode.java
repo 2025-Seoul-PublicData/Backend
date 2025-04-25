@@ -11,7 +11,7 @@ public enum ErrorCode {
     // 1000번대: 인증 관련
     INVALID_CODE("1000", "유효하지 않은 인가코드입니다.", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED("1001", "인증되지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
-    INVALID_TOKEN("1002","유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN("1002","유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
     INVALID_KAKAO_REQUEST("1098", "카카오 인가 요청이 잘못되었습니다.", HttpStatus.BAD_REQUEST),
     KAKAO_SERVER_ERROR("1099", "카카오 서버에 문제가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 

@@ -20,14 +20,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "회원가입",
-        description = "개인정보를 인자로 받아 회원가입합니다."
+        description = "kakaoId를 제외한 나머지 개인정보를 입력받아 회원가입 합니다. 유효한 accessToken을 포함한 쿠키를 포함해야 합니다."
 )
 @Parameters({
-        @Parameter(name = "kakaoId", description = "kakao service 에서 받아온 id", example = "123456789"),
         @Parameter(name = "name", description = "사용자 이름",example = "홍길동"),
         @Parameter(name = "location", description = "사용자가 사는 동네 주소", example = "서울특별시 강남구"),
         @Parameter(name = "role", description = "소비자라면 CONSUMER, 사장님이면 CORPORATE", example = "CONSUMER"),
-        @Parameter(name = "profileImageUrl", description = "사용자 프로필 사진이 저장된 url", example = "https://k.kakaocdn.net/dn/example-profile.png")
+        @Parameter(name = "profileImageUrl", description = "기본 프로필 중에서 어떤 것을 선택했는지 입력하면 될 것 같습니다. 아직 이 부분은 미정입니다.", example = "https://k.kakaocdn.net/dn/example-profile.png")
 })
 @RequestBody(
         description = "회원가입 요청 데이터",
@@ -40,7 +39,6 @@ import java.lang.annotation.Target;
                         description = "성공적인 회원가입 요청 예시",
                         value = """
                                 {
-                                  "kakaoId": 123456789,
                                   "name": "홍길동",
                                   "location": "서울특별시 강남구",
                                   "role": "CONSUMER",
@@ -99,6 +97,23 @@ import java.lang.annotation.Target;
                 )
         )
 )
+@ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다.",
+        content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                        name = "INVALID_TOKEN",
+                        value = """
+                                {
+                                  "status": 401,
+                                  "code": "INVALID_TOKEN",
+                                  "message": "유효하지 않은 토큰입니다.",
+                                  "errors": [],
+                                  "time": "2025-04-24T13:30:00"
+                                }
+                                """
+                )
+        )
+)
 @ApiResponse(
         responseCode = "409",
         description = "이미 가입된 회원",
@@ -109,9 +124,9 @@ import java.lang.annotation.Target;
                         description = "이미 존재하는 카카오 ID로 가입을 시도했을 때",
                         value = """
                                 {
-                                  "status": 409,
-                                  "code": "DUPLICATE_MEMBER",
-                                  "message": "이미 존재하는 회원입니다.",
+                                  "status": 404,
+                                  "code": "MEMBER_NOT_FOUND",
+                                  "message": "사용자를 찾을 수 없습니다.",
                                   "errors": [],
                                   "time": "2025-04-15T10:12:34"
                                 }
@@ -131,7 +146,7 @@ import java.lang.annotation.Target;
                                 {
                                   "status": 500,
                                   "code": "INTERNAL_SERVER_ERROR",
-                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요.",
+                                  "message": "서버에 오류가 발생했습니다.",
                                   "errors": [],
                                   "time": "2025-04-15T10:12:34"
                                 }
