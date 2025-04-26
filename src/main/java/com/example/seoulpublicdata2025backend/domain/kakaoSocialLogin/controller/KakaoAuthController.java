@@ -79,6 +79,7 @@ public class KakaoAuthController {
                 .path("/")
                 .sameSite("None")
                 .secure(true)
+                .domain("morak.vercel.app")
                 .maxAge(Duration.ofHours(2))
                 .build();
 
@@ -87,6 +88,7 @@ public class KakaoAuthController {
                 .path("/")
                 .sameSite("None")
                 .secure(true)
+                .domain("morak.vercel.app")
                 .maxAge(Duration.ofHours(2))
                 .build();
 
