@@ -94,12 +94,16 @@ public class KakaoAuthController {
         ResponseCookie accessCookie = ResponseCookie.from("access", token)
                 .httpOnly(true)
                 .path("/")
+                .sameSite("None")
+                .secure(true)
                 .maxAge(Duration.ofHours(2))
                 .build();
 
         ResponseCookie kakaoIdCookie = ResponseCookie.from("kakaoId", kakaoId.toString())
                 .httpOnly(true)
                 .path("/")
+                .sameSite("None")
+                .secure(true)
                 .maxAge(Duration.ofHours(2))
                 .build();
 
