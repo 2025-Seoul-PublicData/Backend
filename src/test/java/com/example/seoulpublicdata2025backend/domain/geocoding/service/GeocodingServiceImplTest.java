@@ -34,7 +34,7 @@ class GeocodingServiceImplTest {
                 .companyLocation("용산구 한강로 3가 GS한강에클라트 오피스동 505호")
                 .location(new Location(37.5314276, 126.9554449))
                 .companyTelNum("02-713-7811")
-                .companyBusiness("복합공간")
+                .business("복합공간")
                 .companyCategory(CompanyCategory.COMPLEX_SPACE)
                 .build();
 
