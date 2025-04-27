@@ -1,4 +1,4 @@
-package com.example.seoulpublicdata2025backend.domain.geocoding.entity;
+package com.example.seoulpublicdata2025backend.domain.company.entity;
 
 public enum CompanyCategory {
     ETC, // 기타

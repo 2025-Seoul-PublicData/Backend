@@ -1,6 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.review.service;
 
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
@@ -10,7 +10,6 @@ import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview
 import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

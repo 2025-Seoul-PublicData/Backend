@@ -1,6 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.review.dto;
 
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.entity.ReviewCategory;
 import jakarta.validation.constraints.NotNull;
