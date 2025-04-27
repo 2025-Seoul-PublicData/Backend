@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers("/reviews/public/**").permitAll()
+                            .requestMatchers("/company/preview").permitAll()
                             .requestMatchers("/auth/login/kakao",
                                     "/v3/api-docs/**",
                                     "/swagger-ui/**",
@@ -36,6 +37,7 @@ public class SecurityConfig {
                             .hasRole("PRE_MEMBER")
                             .anyRequest()
                             .authenticated();
+
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
