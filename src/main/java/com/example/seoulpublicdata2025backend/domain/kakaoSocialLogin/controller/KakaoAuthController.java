@@ -34,7 +34,7 @@ public class KakaoAuthController {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
 
-    private static final String FRONT_BASEURL = "https://morak.vercel.app";
+    private static final String FRONT_BASEURL = "https://morak.site";
 
     @GetMapping("/auth/login/kakao")
     @KakaoLoginCheckDocs
@@ -79,7 +79,7 @@ public class KakaoAuthController {
                 .path("/")
                 .sameSite("None")
                 .secure(true)
-                .domain("morak.vercel.app")
+                .domain(".morak.site")
                 .maxAge(Duration.ofHours(2))
                 .build();
 
@@ -88,7 +88,7 @@ public class KakaoAuthController {
                 .path("/")
                 .sameSite("None")
                 .secure(true)
-                .domain("morak.vercel.app")
+                .domain(".morak.site")
                 .maxAge(Duration.ofHours(2))
                 .build();
 
