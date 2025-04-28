@@ -4,6 +4,7 @@ import com.example.seoulpublicdata2025backend.global.auth.springsecurity.JwtAuth
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -32,6 +33,8 @@ public class SecurityConfig {
                                     "/swagger-ui/**",
                                     "/swagger-resources/**",
                                     "/webjars/**")
+                            .permitAll()
+                            .requestMatchers(HttpMethod.OPTIONS, "/**")
                             .permitAll()
                             .requestMatchers("/member/signup", "/reviews/**")
                             .hasRole("PRE_MEMBER")
