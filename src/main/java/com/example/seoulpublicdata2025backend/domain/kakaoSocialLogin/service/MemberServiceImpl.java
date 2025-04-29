@@ -12,11 +12,14 @@ import com.example.seoulpublicdata2025backend.global.exception.customException.N
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -24,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public KakaoIdStatusDto initMember(Long kakaoId) {
         Member member = Member.init(kakaoId);
         try {
@@ -35,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public SignupResponseDto updateMember(SignupRequestDto dto) {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         Member findMember = memberRepository.findByKakaoId(kakaoId).orElseThrow(
