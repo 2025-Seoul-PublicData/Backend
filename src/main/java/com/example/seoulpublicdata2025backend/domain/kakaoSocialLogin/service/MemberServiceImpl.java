@@ -11,13 +11,13 @@ import com.example.seoulpublicdata2025backend.global.exception.customException.D
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
