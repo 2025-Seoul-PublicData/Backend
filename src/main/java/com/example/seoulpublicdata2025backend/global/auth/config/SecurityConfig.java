@@ -32,18 +32,20 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/reviews/public/**").permitAll()
-                            .requestMatchers("/company/preview").permitAll()
+                            .requestMatchers("/reviews/public/**")
+                                .permitAll()
+                            .requestMatchers("/company/preview")
+                                .permitAll()
                             .requestMatchers("/auth/login/kakao",
                                     "/v3/api-docs/**",
                                     "/swagger-ui/**",
                                     "/swagger-resources/**",
                                     "/webjars/**")
-                            .permitAll()
+                                .permitAll()
                             .requestMatchers(HttpMethod.OPTIONS, "/**")
-                            .permitAll()
+                                .permitAll()
                             .requestMatchers("/member/signup", "/reviews/**")
-                            .hasAuthority("PRE_MEMBER")
+                                .hasAuthority("PRE_MEMBER")
                             .anyRequest()
                             .authenticated();
 
@@ -56,7 +58,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
-                "https://morak.site", "https://www.morak.site", "https://api.morak.site"
+                "https://morak.site",
+                "https://www.morak.site",
+                "https://api.morak.site",
+                "http://localhost:5173"
         ));
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));     // ← 특히 Content-Type, Authorization
