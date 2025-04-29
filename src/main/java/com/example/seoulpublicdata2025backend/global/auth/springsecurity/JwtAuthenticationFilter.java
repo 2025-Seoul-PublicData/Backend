@@ -39,7 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/swagger-ui/index.html",
             "/swagger-resources/**",
             "/webjars/**",
-            "/reviews/public/**"
+            "/reviews/public/**",
+            "/company/preview/"
     );
 
     @Override
@@ -47,6 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NotNull FilterChain filterChain)
             throws ServletException, IOException {
         String requestURI = request.getRequestURI();
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (EXCLUDE_PATTERNS.contains(requestURI)) {
             filterChain.doFilter(request, response);

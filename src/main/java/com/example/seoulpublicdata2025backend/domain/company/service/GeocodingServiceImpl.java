@@ -1,20 +1,19 @@
-package com.example.seoulpublicdata2025backend.domain.geocoding.service;
+package com.example.seoulpublicdata2025backend.domain.company.service;
 
-import com.example.seoulpublicdata2025backend.domain.geocoding.dao.GeocodingRepository;
-import com.example.seoulpublicdata2025backend.domain.geocoding.dto.MemberLocationDto;
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.company.dao.CompanyRepository;
+import com.example.seoulpublicdata2025backend.domain.company.dto.MemberLocationDto;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class GeocodingServiceImpl implements GeocodingService{
 
-    private final GeocodingRepository geocodingRepository;
+    private final CompanyRepository companyRepository;
 
     @SneakyThrows
     public String URLEn(String location) {
@@ -22,10 +21,10 @@ public class GeocodingServiceImpl implements GeocodingService{
     }
 
     @Override
-    public String getNmapSchemeUrl(MemberLocationDto memberLocationDto, String companyName) {
+    public String getNmapSchemeUrl(MemberLocationDto memberLocationDto, Long companyId) {
 
-        Company company = geocodingRepository.findByCompanyName(companyName)
-                .orElseThrow(() -> new IllegalArgumentException("Not Exist Company: " + companyName));
+        Company company = companyRepository.findByCompanyId(companyId)
+                .orElseThrow(() -> new IllegalArgumentException("Not Exist CompanyId: " + companyId));
 
         double dlat = company.getLocation().getLatitude();
         double dlng = company.getLocation().getLongitude();

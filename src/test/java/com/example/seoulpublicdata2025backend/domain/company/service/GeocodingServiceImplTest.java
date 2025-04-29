@@ -1,15 +1,14 @@
-package com.example.seoulpublicdata2025backend.domain.geocoding.service;
+package com.example.seoulpublicdata2025backend.domain.company.service;
 
-import com.example.seoulpublicdata2025backend.domain.geocoding.dao.GeocodingRepository;
-import com.example.seoulpublicdata2025backend.domain.geocoding.dto.MemberLocationDto;
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.CompanyCategory;
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Location;
+import com.example.seoulpublicdata2025backend.domain.company.dao.CompanyRepository;
+import com.example.seoulpublicdata2025backend.domain.company.dto.MemberLocationDto;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCategory;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -23,7 +22,7 @@ class GeocodingServiceImplTest {
     GeocodingService geocodingService;
 
     @Autowired
-    GeocodingRepository geocodingRepository;
+    CompanyRepository companyRepository;
 
     @BeforeEach
     void setUp() {
@@ -34,11 +33,11 @@ class GeocodingServiceImplTest {
                 .companyLocation("용산구 한강로 3가 GS한강에클라트 오피스동 505호")
                 .location(new Location(37.5314276, 126.9554449))
                 .companyTelNum("02-713-7811")
-                .companyBusiness("복합공간")
+                .business("복합공간")
                 .companyCategory(CompanyCategory.COMPLEX_SPACE)
                 .build();
 
-        geocodingRepository.save(company);
+        companyRepository.save(company);
     }
 
 
@@ -50,10 +49,10 @@ class GeocodingServiceImplTest {
         ReflectionTestUtils.setField(dto, "longitude", 126.924656);
         ReflectionTestUtils.setField(dto, "location", "홍익대학교 서울캠퍼스제4공학관");
 
-        String companyName = "어시스타앤파트너스";
+        Long companyId = 1L;
 
         // when
-        String url = geocodingService.getNmapSchemeUrl(dto, companyName);
+        String url = geocodingService.getNmapSchemeUrl(dto, companyId);
 
         // join
         System.out.println(url);

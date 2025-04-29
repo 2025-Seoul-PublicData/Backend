@@ -22,8 +22,8 @@ public class Member {
     private String name;
     private String location;
 
-    @Column(name = "profile_image_url")
-    private String profileImageUrl;
+    @Column(name = "profile_color")
+    private String profileColor;
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
@@ -38,7 +38,7 @@ public class Member {
     public void update(SignupRequestDto dto) {
         this.name = dto.getName();
         this.location = dto.getLocation();
-        this.profileImageUrl = dto.getProfileImageUrl();
+        this.profileColor = dto.getProfileColor();
         this.role = Member.Role.valueOf(dto.getRole().toUpperCase());
         this.status = MemberStatus.MEMBER;
     }

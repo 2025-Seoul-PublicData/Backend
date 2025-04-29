@@ -1,13 +1,14 @@
 package com.example.seoulpublicdata2025backend.domain.naverReceipt.controller;
 
-import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ExtractedReceiptInfoDto;
+import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoRequestDto;
+import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoResponseDto;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.service.NaverReceiptService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,11 +17,8 @@ public class NaverReceiptController {
     private final NaverReceiptService naverReceiptService;
 
     @PostMapping("/naver/receipt")
-    public ResponseEntity<ExtractedReceiptInfoDto> parseNaverReceipt(
-            @RequestBody Long companyId,
-            @RequestBody MultipartFile file
-    ) {
-        ExtractedReceiptInfoDto information = naverReceiptService.getCompanyInformation(file,companyId);
+    public ResponseEntity<ReceiptInfoResponseDto> parseNaverReceipt(@Valid @ModelAttribute ReceiptInfoRequestDto dto) {
+        ReceiptInfoResponseDto information = naverReceiptService.getCompanyInformation(dto);
         return ResponseEntity.ok(information);
     }
 }

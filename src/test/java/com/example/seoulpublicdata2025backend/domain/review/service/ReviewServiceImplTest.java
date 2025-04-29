@@ -1,8 +1,8 @@
 package com.example.seoulpublicdata2025backend.domain.review.service;
 
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.CompanyCategory;
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Location;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCategory;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
@@ -74,7 +74,7 @@ class ReviewServiceImplTest {
                 .companyLocation("서울")
                 .location(new Location(37.5, 127.0))
                 .companyTelNum("02-1234-5678")
-                .companyBusiness("기타")
+                .business("기타")
                 .companyCategory(CompanyCategory.ETC)
                 .build();
 
@@ -189,7 +189,7 @@ class ReviewServiceImplTest {
                 .kakao(entityManager.find(Member.class, testKakaoId1))
                 .review("방금 작성한 리뷰")
                 .temperature(95.0)
-                .reviewCategory(ReviewCategory.KIND)
+                .reviewCategory(ReviewCategory.CLEAN)
                 .build();
 
         companyReviewRepository.save(review);
@@ -209,13 +209,13 @@ class ReviewServiceImplTest {
         CompanyReviewId id = new CompanyReviewId(1L, companyReviewRepository.findById(new CompanyReviewId(1L, reviewTime1)).get().getPaymentInfoTime());
         CompanyReview review = companyReviewRepository.findById(id).orElseThrow();
 
-        review.updateReview("수정된 리뷰", 77.7, ReviewCategory.COST);
+        review.updateReview("수정된 리뷰", 77.7, ReviewCategory.CLEAN);
         companyReviewRepository.save(review);
 
         CompanyReview updated = companyReviewRepository.findById(id).orElseThrow();
         assertEquals("수정된 리뷰", updated.getReview());
         assertEquals(77.7, updated.getTemperature());
-        assertEquals(ReviewCategory.COST, updated.getReviewCategory());
+        assertEquals(ReviewCategory.CLEAN, updated.getReviewCategory());
     }
 
     @Test

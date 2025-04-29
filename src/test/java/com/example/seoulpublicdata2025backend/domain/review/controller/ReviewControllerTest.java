@@ -1,6 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.review.controller;
 
-import com.example.seoulpublicdata2025backend.domain.geocoding.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
@@ -8,7 +8,6 @@ import com.example.seoulpublicdata2025backend.domain.review.entity.ReviewCategor
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;

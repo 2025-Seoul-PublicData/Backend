@@ -1,4 +1,4 @@
-package com.example.seoulpublicdata2025backend.domain.geocoding.entity;
+package com.example.seoulpublicdata2025backend.domain.company.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,12 +24,20 @@ public class Company {
     @Column(name = "company_location")
     private String companyLocation;
 
+    private String business;
+
+    @Column(name = "company_tel_num")
+    private String companyTelNum;
+
+    @Column(name = "company_type")
+    @Enumerated(EnumType.STRING)
+    private CompanyType companyType;
+
+    @Column(name = "company_category")
+    @Enumerated(EnumType.STRING)
+    private CompanyCategory companyCategory;
+
     @Embedded
     private Location location;
 
-    private String companyTelNum;
-    private String companyBusiness;
-
-    @Enumerated(EnumType.STRING)
-    private CompanyCategory companyCategory;
 }

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.Duration;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -33,15 +34,12 @@ public class KakaoAuthController {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
 
-    private static final String MOBILE_BASEURL = "http://172.16.21.135:5173";
-    private static final String LOCAL_BASEURL = "http://localhost:5173";
-    private static final String REFERER = "Referer";
+    private static final String FRONT_BASEURL = "https://morak.site";
 
     @GetMapping("/auth/login/kakao")
     @KakaoLoginCheckDocs
     public ResponseEntity<Void> checkMemberSignUp(
-            @RequestParam("code") String code,
-            HttpServletRequest request
+            @RequestParam("code") String code
     ) {
         String accessToken = kakaoService.getAccessTokenFromKakao(code);
         KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(accessToken);
@@ -49,28 +47,25 @@ public class KakaoAuthController {
 
         KakaoIdStatusDto kakaoIdStatusDto = memberService.initMember(kakaoId);
         String token = jwtProvider.createToken(kakaoIdStatusDto);
-
         List<ResponseCookie> cookies = createCookies(token, kakaoId);
-        String baseUrl = getBaseUrl(request);
-
-        HttpHeaders headers = setHttpHeaders(cookies, kakaoIdStatusDto, baseUrl);
+        HttpHeaders headers = setHttpHeaders(cookies, kakaoIdStatusDto);
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
     private static HttpHeaders setHttpHeaders(
-            List<ResponseCookie> cookies, KakaoIdStatusDto kakaoIdStatusDto, String baseUrl
+            List<ResponseCookie> cookies, KakaoIdStatusDto kakaoIdStatusDto
     ) {
         HttpHeaders headers = new HttpHeaders();
         for (ResponseCookie cookie : cookies) {
             headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
         }
         if (kakaoIdStatusDto.getStatus().equals(MemberStatus.MEMBER)) {
-            String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl)
+            String redirectUrl = UriComponentsBuilder.fromUriString(FRONT_BASEURL)
                     .build()
                     .toUriString();
             headers.setLocation(URI.create(redirectUrl));
         } else if (kakaoIdStatusDto.getStatus().equals(MemberStatus.PRE_MEMBER)) {
-            String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl + "/signup")
+            String redirectUrl = UriComponentsBuilder.fromUriString(FRONT_BASEURL + "/signup")
                     .build()
                     .toUriString();
             headers.setLocation(URI.create(redirectUrl));
@@ -78,30 +73,22 @@ public class KakaoAuthController {
         return headers;
     }
 
-    private static String getBaseUrl(HttpServletRequest request) {
-        String referer = request.getHeader(REFERER);
-
-        String baseUrl;
-        if (referer != null && referer.contains("172.16.21.135")) {
-            baseUrl = MOBILE_BASEURL;
-        } else {
-            baseUrl = LOCAL_BASEURL;
-        }
-        return baseUrl;
-    }
-
     private static List<ResponseCookie> createCookies(String token, Long kakaoId) {
         ResponseCookie accessCookie = ResponseCookie.from("access", token)
                 .httpOnly(true)
                 .path("/")
-                .sameSite("Strict")
+                .sameSite("None")
+                .secure(true)
+                .domain(".morak.site")
                 .maxAge(Duration.ofHours(2))
                 .build();
 
         ResponseCookie kakaoIdCookie = ResponseCookie.from("kakaoId", kakaoId.toString())
                 .httpOnly(true)
                 .path("/")
-                .sameSite("Strict")
+                .sameSite("None")
+                .secure(true)
+                .domain(".morak.site")
                 .maxAge(Duration.ofHours(2))
                 .build();
 

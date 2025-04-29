@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ExtractedReceiptInfoDto {
+public class ReceiptInfoDto {
     private String storeName;
     private String storeAddress;
     private String storeTel;
