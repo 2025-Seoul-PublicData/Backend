@@ -53,4 +53,15 @@ public class StoryController {
     public List<BestStoryDto> bestStoryList() {
         return storyService.bestStory();
     }
+
+    @GetMapping("/member-likes")
+    public List<StoryPreviewDto> getLikedStories() {
+        return memberStoryLikesService.getLikedStories();
+    }
+
+    @GetMapping("/count-member-likes")
+    public Long countMemberLikes() {
+        return memberStoryLikesService.countLikesByMember();
+    }
+
 }

@@ -9,7 +9,7 @@ public interface MemberStoryLikesService {
 
     void unlikeStory(Long storyId);
 
-    List<StoryPreviewDto> getLikedStories(Long kakaoId);
+    List<StoryPreviewDto> getLikedStories();
 
-    Long countLikesByMember(Long kakaoId);
+    Long countLikesByMember();
 }

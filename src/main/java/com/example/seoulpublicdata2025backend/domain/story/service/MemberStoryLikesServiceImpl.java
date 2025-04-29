@@ -66,8 +66,9 @@ public class MemberStoryLikesServiceImpl implements MemberStoryLikesService {
     }
 
     @Override
-    public List<StoryPreviewDto> getLikedStories(Long kakaoId) {
-        List<MemberStoryLikes> likes = memberStoryLikesRepository.findByKakaoId(kakaoId);
+    public List<StoryPreviewDto> getLikedStories() {
+        Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
+        List<MemberStoryLikes> likes = memberStoryLikesRepository.findByKakaoId(currentKakaoId);
 
         return likes.stream()
                 .map(like -> {
@@ -78,7 +79,9 @@ public class MemberStoryLikesServiceImpl implements MemberStoryLikesService {
     }
 
     @Override
-    public Long countLikesByMember(Long kakaoId) {
-        return memberStoryLikesRepository.countByKakaoId(kakaoId);
+    public Long countLikesByMember() {
+        Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
+
+        return memberStoryLikesRepository.countByKakaoId(currentKakaoId);
     }
 }

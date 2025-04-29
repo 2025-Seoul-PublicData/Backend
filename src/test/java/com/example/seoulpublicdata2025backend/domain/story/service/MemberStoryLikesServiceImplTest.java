@@ -134,8 +134,7 @@ class MemberStoryLikesServiceImplTest {
         memberStoryLikesService.likeStory(testStory1.getStoryId());
         memberStoryLikesService.likeStory(testStory2.getStoryId());
 
-        List<StoryPreviewDto> likedStories = memberStoryLikesService.getLikedStories(testMember.getKakaoId());
-
+        List<StoryPreviewDto> likedStories = memberStoryLikesService.getLikedStories();
         assertEquals(2, likedStories.size());
     }
 
@@ -144,8 +143,7 @@ class MemberStoryLikesServiceImplTest {
         memberStoryLikesService.likeStory(testStory1.getStoryId());
         memberStoryLikesService.likeStory(testStory2.getStoryId());
 
-        Long count = memberStoryLikesService.countLikesByMember(testMember.getKakaoId());
-
+        Long count = memberStoryLikesService.countLikesByMember();
         assertEquals(2L, count);
     }
 }
