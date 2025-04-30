@@ -43,6 +43,7 @@ public class MemberConsumptionServiceImpl implements MemberConsumptionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MemberConsumptionResponseDto> findConsumptionByMember() {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         List<MemberConsumption> memberConsumptions
@@ -56,6 +57,7 @@ public class MemberConsumptionServiceImpl implements MemberConsumptionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MemberConsumptionResponseDto> findConsumptionByMemberAndCompanyType(CompanyType companyType) {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         List<MemberConsumption> memberConsumptions = memberConsumptionRepository
