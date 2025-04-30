@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.review.controller;
 
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.review.*;
@@ -69,7 +70,7 @@ public class ReviewController {
 
     @GetMapping("/get-all-member-reviews")
     @GetMemberReviewsDocs
-    public List<ReviewDto> getAllMemberReviews() {
+    public List<MemberReviewDto> getAllMemberReviews() {
         return reviewService.getAllMyReviews();
     }
     @GetMapping("/public/get-count-company-review")
