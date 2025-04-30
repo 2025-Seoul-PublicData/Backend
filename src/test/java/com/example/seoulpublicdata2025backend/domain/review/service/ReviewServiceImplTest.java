@@ -87,6 +87,7 @@ class ReviewServiceImplTest {
                 .kakaoId(1001L)
                 .name("홍길동")
                 .location("서울")
+                .profileColor("Gray")
                 .role(Member.Role.CONSUMER) // enum 값 지정 필요
                 .build();
         entityManager.persist(member);
@@ -95,6 +96,7 @@ class ReviewServiceImplTest {
         Member member2 = Member.builder()
                 .kakaoId(1002L)
                 .name("홍길동")
+                .profileColor("Orange")
                 .location("서울")
                 .role(Member.Role.CONSUMER) // enum 값 지정 필요
                 .build();
@@ -107,6 +109,7 @@ class ReviewServiceImplTest {
                 .paymentInfoConfirmNum(1L)
                 .paymentInfoTime(reviewTime1)
                 .company(company)
+                .kakaoId(member.getKakaoId())
                 .kakao(member)
                 .review("좋아요1!")
                 .temperature(85.5)
@@ -118,6 +121,7 @@ class ReviewServiceImplTest {
                 .paymentInfoConfirmNum(2L)
                 .paymentInfoTime(reviewTime2)
                 .company(company)
+                .kakaoId(member.getKakaoId())
                 .kakao(member)
                 .review("좋아요2!")
                 .temperature(88.5)
@@ -129,6 +133,7 @@ class ReviewServiceImplTest {
                 .paymentInfoConfirmNum(3L)
                 .paymentInfoTime(reviewTime3)
                 .company(company)
+                .kakaoId(member2.getKakaoId())
                 .kakao(member2)
                 .review("좋아요3!")
                 .temperature(88.5)
