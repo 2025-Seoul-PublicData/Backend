@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers("/reviews/public/**").permitAll()
-                            .requestMatchers("/company/preview").permitAll()
+                            .requestMatchers("/company/public/**").permitAll()
                             .requestMatchers("/story/public/**").permitAll()
                             .requestMatchers("/auth/login/kakao",
                                     "/v3/api-docs/**",
