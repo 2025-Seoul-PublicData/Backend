@@ -106,7 +106,7 @@ class ReviewControllerTest {
     void getAllCompanyReviews() throws Exception {
         //Given
         when(reviewService.getAllCompanyReviews(1L)).thenReturn(
-                List.of(new ReviewDto(1L, 1001L, "좋아요!", 88.5))
+                List.of(new ReviewDto(1L, 1001L, "전재학", "Gray", "좋아요!", 88.5))
         );
 
         // when & then

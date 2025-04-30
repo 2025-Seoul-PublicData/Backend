@@ -5,11 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ReviewDto {
+public class MemberReviewDto {
     private Long companyId;
     private Long kakaoId;
-    private String name;
-    private String profileColor;
     private String reviewContent;
     private Double temperature;
 }

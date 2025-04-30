@@ -35,14 +35,14 @@ public class CompanyReview {
     private Company company;
 
     @ManyToOne
-    @JoinColumn(name = "kakao_Id", referencedColumnName = "kakaoId")
+    @JoinColumn(name = "kakao_Id", referencedColumnName = "kakaoId", insertable = false, updatable = false)
     private Member kakao;
 
     private String review;
     private Double temperature;
 
-    @Enumerated
-    @Column(name = "review_category")   // enum 말고 set으로 가능
+    @Enumerated(EnumType.STRING)
+    @Column(name = "review_category")
     private ReviewCategory reviewCategory;
 
     public void updateReview(String review, Double temperature, ReviewCategory reviewCategory) {

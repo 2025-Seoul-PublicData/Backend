@@ -5,6 +5,7 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCateg
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
+import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId;
@@ -154,13 +155,13 @@ class ReviewServiceImplTest {
     void getAllMyReviews() {
         authenticateAs(testKakaoId1);
 
-        List<ReviewDto> reviewDtos = reviewService.getAllMyReviews();
+        List<MemberReviewDto> reviewDtos = reviewService.getAllMyReviews();
         assertEquals(2, reviewDtos.size());
         assertEquals("좋아요2!", reviewDtos.get(1).getReviewContent());
 
         authenticateAs(testKakaoId2);
 
-        List<ReviewDto> reviewDtos2 = reviewService.getAllMyReviews();
+        List<MemberReviewDto> reviewDtos2 = reviewService.getAllMyReviews();
         assertEquals(1, reviewDtos2.size());
         assertEquals("좋아요3!", reviewDtos2.get(0).getReviewContent());
     }
