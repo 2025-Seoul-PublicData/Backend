@@ -8,7 +8,7 @@ import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.NaverOcrRe
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoDto;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoRequestDto;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoResponseDto;
-import com.example.seoulpublicdata2025backend.domain.consumption.service.MemberConsumptionService;
+import com.example.seoulpublicdata2025backend.domain.member.service.MemberConsumptionService;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.RequiredArgsConstructor;

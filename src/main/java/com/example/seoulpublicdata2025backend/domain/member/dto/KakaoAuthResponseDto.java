@@ -1,6 +1,6 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto;
+package com.example.seoulpublicdata2025backend.domain.member.dto;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
+import com.example.seoulpublicdata2025backend.domain.member.type.MemberStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 

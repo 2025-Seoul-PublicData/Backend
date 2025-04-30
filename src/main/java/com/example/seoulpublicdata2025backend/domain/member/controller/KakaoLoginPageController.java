@@ -1,4 +1,4 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controller;
+package com.example.seoulpublicdata2025backend.domain.member.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

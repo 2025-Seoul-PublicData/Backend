@@ -3,7 +3,7 @@ package com.example.seoulpublicdata2025backend.domain.review.service;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCategory;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;

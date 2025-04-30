@@ -1,7 +1,7 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity;
+package com.example.seoulpublicdata2025backend.domain.member.entity;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
+import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
+import com.example.seoulpublicdata2025backend.domain.member.type.MemberStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

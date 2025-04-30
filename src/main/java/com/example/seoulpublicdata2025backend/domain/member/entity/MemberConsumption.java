@@ -1,7 +1,6 @@
-package com.example.seoulpublicdata2025backend.domain.consumption.entity;
+package com.example.seoulpublicdata2025backend.domain.member.entity;
 
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,7 +31,7 @@ public class MemberConsumption {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "kakao_Id")
     private Member member;
 
     @Enumerated(EnumType.STRING)

@@ -1,4 +1,4 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto;
+package com.example.seoulpublicdata2025backend.domain.member.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

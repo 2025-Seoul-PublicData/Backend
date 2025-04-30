@@ -1,7 +1,7 @@
 package com.example.seoulpublicdata2025backend.global.auth.springsecurity;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import jakarta.transaction.Transactional;

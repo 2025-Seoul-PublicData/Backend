@@ -1,11 +1,10 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service;
+package com.example.seoulpublicdata2025backend.domain.member.service;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoTokenResponseDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoUserInfoResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoTokenResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoUserInfoResponseDto;
 import com.example.seoulpublicdata2025backend.global.exception.customException.KakaoApiException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import io.netty.handler.codec.http.HttpHeaderValues;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

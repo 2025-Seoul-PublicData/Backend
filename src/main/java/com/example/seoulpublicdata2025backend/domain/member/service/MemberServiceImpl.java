@@ -1,12 +1,12 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service;
+package com.example.seoulpublicdata2025backend.domain.member.service;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoAuthResponseDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoIdStatusDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupResponseDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
+import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
+import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoAuthResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoIdStatusDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.type.MemberStatus;
 import com.example.seoulpublicdata2025backend.global.exception.customException.DuplicationMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;

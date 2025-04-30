@@ -1,6 +1,6 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao;
+package com.example.seoulpublicdata2025backend.domain.member.dao;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,18 +1,16 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.controller;
+package com.example.seoulpublicdata2025backend.domain.member.controller;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoIdStatusDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoUserInfoResponseDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.KakaoService;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
+import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoIdStatusDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoUserInfoResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.service.KakaoService;
+import com.example.seoulpublicdata2025backend.domain.member.service.MemberService;
+import com.example.seoulpublicdata2025backend.domain.member.type.MemberStatus;
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.KakaoLoginCheckDocs;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.Duration;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

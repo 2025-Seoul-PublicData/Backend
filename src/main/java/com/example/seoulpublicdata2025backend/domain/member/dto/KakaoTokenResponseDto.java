@@ -1,4 +1,4 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto;
+package com.example.seoulpublicdata2025backend.domain.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

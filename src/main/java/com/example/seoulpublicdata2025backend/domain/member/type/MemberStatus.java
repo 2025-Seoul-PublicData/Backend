@@ -1,4 +1,4 @@
-package com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type;
+package com.example.seoulpublicdata2025backend.domain.member.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
