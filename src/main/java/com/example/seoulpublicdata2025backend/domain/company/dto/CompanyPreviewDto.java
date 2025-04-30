@@ -32,4 +32,15 @@ public class CompanyPreviewDto {
         dto.companyType = company.getCompanyType();
         return dto;
     }
+
+    public static CompanyPreviewDto fromEntityBasic(Company company) {
+        CompanyPreviewDto dto = new CompanyPreviewDto();
+        dto.companyId = company.getCompanyId();
+        dto.companyName = company.getCompanyName();
+        dto.companyCategory = company.getCompanyCategory();
+        dto.companyLocation = company.getCompanyLocation();
+        dto.business = company.getBusiness();
+        dto.companyType = company.getCompanyType();
+        return dto;
+    }
 }
