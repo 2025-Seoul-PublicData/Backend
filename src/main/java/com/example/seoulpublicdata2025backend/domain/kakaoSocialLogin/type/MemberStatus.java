@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MemberStatus {
-    MEMBER("회원"),
-    PRE_MEMBER("가입 전"),
-    NOT_MEMBER("비회원");
+    MEMBER("MEMBER"),
+    PRE_MEMBER("PRE_MEMBER"),
+    NOT_MEMBER("NOT_MEMBER");
 
     private final String value;
 }

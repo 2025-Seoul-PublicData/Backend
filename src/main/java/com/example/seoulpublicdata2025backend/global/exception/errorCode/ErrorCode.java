@@ -27,6 +27,9 @@ public enum ErrorCode {
     // 4000번대: 권한 관련
     FORBIDDEN("4000", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
+    // 5000번대: 기업 관련 리뷰
+    COMPANY_NOT_FOUND("5000","기업을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+
     // 9000번대: 서버 오류
     INTERNAL_SERVER_ERROR("9000", "서버에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_IMAGE_URL("9001", "프로필 이미지 URL이 유효하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
