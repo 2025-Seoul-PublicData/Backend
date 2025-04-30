@@ -4,6 +4,7 @@ import com.example.seoulpublicdata2025backend.domain.company.dto.CompanyPreviewD
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCategory;
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.company.service.CompanyService;
+import com.example.seoulpublicdata2025backend.domain.company.service.MemberCompanySaveService;
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +45,8 @@ class CompanyControllerTest {
     static class MockConfig {
 
         private static final CompanyService companyService = Mockito.mock(CompanyService.class);
-        private static final JwtParser jwtParser = Mockito.mock(JwtParser.class);  // 추가
+        private static final MemberCompanySaveService memberCompanySaveService = Mockito.mock(MemberCompanySaveService.class);
+        private static final JwtParser jwtParser = Mockito.mock(JwtParser.class);
 
         @Bean
         public CompanyService companyService() {
@@ -52,10 +54,16 @@ class CompanyControllerTest {
         }
 
         @Bean
-        public JwtParser jwtParser() {  // 추가
+        public MemberCompanySaveService memberCompanySaveService() {
+            return memberCompanySaveService;
+        }
+
+        @Bean
+        public JwtParser jwtParser() {
             return jwtParser;
         }
     }
+
 
     @Test
     @DisplayName("회사 프리뷰 조회 성공 테스트")
@@ -76,7 +84,7 @@ class CompanyControllerTest {
                 .thenReturn(mockDto);
 
         // when & then
-        mockMvc.perform(get("/company/preview")
+        mockMvc.perform(get("/company/public/preview")
                         .param("companyId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyId").value(1))

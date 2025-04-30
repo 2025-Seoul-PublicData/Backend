@@ -30,11 +30,13 @@ public class Company {
     private String companyTelNum;
 
     @Column(name = "company_type")
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)  // converter가 있어서 필요 없다고 합니다.
+    @Convert(converter = CompanyTypeConverter.class)
     private CompanyType companyType;
 
     @Column(name = "company_category")
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
+    @Convert(converter = CompanyCategoryConverter.class)
     private CompanyCategory companyCategory;
 
     @Embedded
