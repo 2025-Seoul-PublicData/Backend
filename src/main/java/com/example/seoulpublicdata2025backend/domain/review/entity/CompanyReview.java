@@ -38,6 +38,9 @@ public class CompanyReview {
     @JoinColumn(name = "kakao_Id", referencedColumnName = "kakaoId", insertable = false, updatable = false)
     private Member kakao;
 
+    @Column(name = "kakao_id")
+    private Long kakaoId;
+
     private String review;
     private Double temperature;
 
