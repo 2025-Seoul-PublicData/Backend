@@ -31,9 +31,9 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
         NaverOcrResponseDto result = ocrClient.callOcrApi(dto.getFile());
         ReceiptInfoDto receiptInfoDto = parser.extractInfoFromOcr(result);
 
-//        if(isNotSameCompany(companyDto, receiptInfoDto)) {
-//            throw new NotFoundCompanyException(ErrorCode.COMPANY_NOT_FOUND);
-//        }
+        if(isNotSameCompany(companyDto, receiptInfoDto)) {
+            throw new NotFoundCompanyException(ErrorCode.COMPANY_NOT_FOUND);
+        }
 
         /*
         여기서 금액을 추출해서 사용자가 어떤 기업에 얼마를 사용했는지 정보를 추출해야 한다.
