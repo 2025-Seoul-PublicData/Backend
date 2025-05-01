@@ -12,6 +12,7 @@ import com.example.seoulpublicdata2025backend.global.exception.customException.N
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -42,6 +43,25 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
     }
 
     private boolean isNotSameCompany(CompanyLocationTypeDto companyDto, ReceiptInfoDto receiptInfoDto) {
-        return !companyDto.getCompanyLocation().equals(receiptInfoDto.getStoreAddress());
+        String companyLocation = companyDto.getCompanyLocation();
+        String companyAddress = receiptInfoDto.getStoreAddress();
+        LevenshteinDistance levenshtein = new LevenshteinDistance(null);
+
+        String normalizedCompanyLocation = normalize(companyLocation);
+        String normalizedCompanyAddress = normalize(companyAddress);
+
+        int distance = levenshtein.apply(normalizedCompanyLocation, normalizedCompanyAddress);
+        int maxLen = Math.max(normalizedCompanyLocation.length(), normalizedCompanyAddress.length());
+
+        if (maxLen == 0) return false;
+        return 1.0 - ((double) distance / maxLen) < 0.8;
+    }
+
+    private static String normalize(String input) {
+        return input.replaceAll("\\s+", "")       // 모든 공백 제거
+                .replaceAll("서울특별시", "서울") // 행정구 정규화
+                .replaceAll("[^가-힣0-9]", "")  // 특수 문자 제거
+                .toLowerCase()
+                .trim();
     }
 }
