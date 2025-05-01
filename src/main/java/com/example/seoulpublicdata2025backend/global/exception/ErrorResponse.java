@@ -36,6 +36,7 @@ public class ErrorResponse {
         this.status = code.getHttpStatus().value();
         this.code = code.getCode();
         this.errors = new ArrayList<>();
+        this.time = LocalDateTime.now();
     }
 
 

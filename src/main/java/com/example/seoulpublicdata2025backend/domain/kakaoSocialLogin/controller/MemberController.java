@@ -4,10 +4,13 @@ import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.Signup
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupResponseDto;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.util.CookieFactory;
+import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.SignUpDocs;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +20,19 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtProvider jwtProvider;
 
     @PostMapping("/signup")
     @SignUpDocs
-    public ResponseEntity<SignupResponseDto> signup(@Valid @RequestBody SignupRequestDto dto) {
-        SignupResponseDto response = memberService.updateMember(dto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequestDto dto) {
+        SignupResponseDto signupResponseDto = memberService.updateMember(dto);
+        String updatedToken = jwtProvider.createToken(signupResponseDto.getMemberId(),
+                signupResponseDto.getMemberStatus());
+        // 쿠키 생성
+        ResponseCookie cookie = CookieFactory.createCookie("access", updatedToken);
+
+        return ResponseEntity.ok()
+                .header("Set-Cookie", cookie.toString())
+                .build();
     }
 }

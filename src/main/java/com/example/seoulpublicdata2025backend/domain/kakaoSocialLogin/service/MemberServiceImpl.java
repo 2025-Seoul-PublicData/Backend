@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = memberRepository.findByKakaoId(kakaoId).orElseThrow(
                 () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
         findMember.update(dto);
-        return SignupResponseDto.from(kakaoId);
+        return SignupResponseDto.from(kakaoId, findMember.getStatus());
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoU
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.KakaoService;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.service.MemberService;
 import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
+import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.util.CookieFactory;
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.KakaoLoginCheckDocs;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,8 +47,12 @@ public class KakaoAuthController {
         Long kakaoId = userInfo.getId();
 
         KakaoIdStatusDto kakaoIdStatusDto = memberService.initMember(kakaoId);
-        String token = jwtProvider.createToken(kakaoIdStatusDto);
-        List<ResponseCookie> cookies = createCookies(token, kakaoId);
+        String token = jwtProvider.createToken(kakaoId, kakaoIdStatusDto.getStatus());
+
+        ResponseCookie accessCookie = CookieFactory.createCookie("access", token);
+        ResponseCookie kakaoIdCookie = CookieFactory.createCookie("kakaoId", kakaoId.toString());
+        List<ResponseCookie> cookies = List.of(accessCookie, kakaoIdCookie);
+
         HttpHeaders headers = setHttpHeaders(cookies, kakaoIdStatusDto);
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
@@ -72,27 +77,4 @@ public class KakaoAuthController {
         }
         return headers;
     }
-
-    private static List<ResponseCookie> createCookies(String token, Long kakaoId) {
-        ResponseCookie accessCookie = ResponseCookie.from("access", token)
-                .httpOnly(true)
-                .path("/")
-                .sameSite("None")
-                .secure(true)
-                .domain(".morak.site")
-                .maxAge(Duration.ofHours(2))
-                .build();
-
-        ResponseCookie kakaoIdCookie = ResponseCookie.from("kakaoId", kakaoId.toString())
-                .httpOnly(true)
-                .path("/")
-                .sameSite("None")
-                .secure(true)
-                .domain(".morak.site")
-                .maxAge(Duration.ofHours(2))
-                .build();
-
-        return List.of(accessCookie, kakaoIdCookie);
-    }
-
 }
