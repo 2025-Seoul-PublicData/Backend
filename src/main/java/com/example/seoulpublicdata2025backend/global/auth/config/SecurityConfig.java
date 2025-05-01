@@ -46,7 +46,7 @@ public class SecurityConfig {
                             .requestMatchers("/member/signup", "/reviews/**")
                                 .hasAuthority("PRE_MEMBER")
                             .anyRequest()
-                            .authenticated();
+                                .authenticated();
 
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -62,7 +62,7 @@ public class SecurityConfig {
                 "https://api.morak.site",
                 "http://localhost:5173"
         ));
-        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));     // ← 특히 Content-Type, Authorization
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
