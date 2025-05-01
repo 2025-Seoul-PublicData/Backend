@@ -36,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .kakao(Member.builder().kakaoId(currentKakaoId).build())
                 .review(dto.getReview())
                 .temperature(dto.getTemperature())
-                .reviewCategory(dto.getReviewCategory())
+                .reviewCategories(dto.getReviewCategories())
                 .build();
 
         CompanyReview saved = companyReviewRepository.save(entity);
@@ -48,7 +48,7 @@ public class ReviewServiceImpl implements ReviewService {
                 saved.getKakao(),
                 saved.getReview(),
                 saved.getTemperature(),
-                saved.getReviewCategory()
+                saved.getReviewCategories()
         );    }
 
     @Override
@@ -58,7 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
         ).orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
 
         // 필드 업데이트
-        entity.updateReview(dto.getReview(), dto.getTemperature(), dto.getReviewCategory());
+        entity.updateReview(dto.getReview(), dto.getTemperature(), dto.getReviewCategories());
 
         CompanyReview updated = companyReviewRepository.save(entity);
 
@@ -69,7 +69,7 @@ public class ReviewServiceImpl implements ReviewService {
                 updated.getKakao(),
                 updated.getReview(),
                 updated.getTemperature(),
-                updated.getReviewCategory()
+                updated.getReviewCategories()
         );
     }
 
@@ -89,7 +89,7 @@ public class ReviewServiceImpl implements ReviewService {
                 entity.getKakao(),
                 entity.getReview(),
                 entity.getTemperature(),
-                entity.getReviewCategory()
+                entity.getReviewCategories()
         );
     }
 

@@ -22,7 +22,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -113,7 +115,7 @@ class ReviewServiceImplTest {
                 .kakao(member)
                 .review("좋아요1!")
                 .temperature(85.5)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
                 .build();
         entityManager.persist(review1);
 
@@ -125,7 +127,7 @@ class ReviewServiceImplTest {
                 .kakao(member)
                 .review("좋아요2!")
                 .temperature(88.5)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
                 .build();
         entityManager.persist(review2);
 
@@ -137,7 +139,7 @@ class ReviewServiceImplTest {
                 .kakao(member2)
                 .review("좋아요3!")
                 .temperature(88.5)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
                 .build();
         entityManager.persist(review3);
 
@@ -195,7 +197,7 @@ class ReviewServiceImplTest {
                 .kakao(entityManager.find(Member.class, testKakaoId1))
                 .review("방금 작성한 리뷰")
                 .temperature(95.0)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN))
                 .build();
 
         companyReviewRepository.save(review);
@@ -215,13 +217,13 @@ class ReviewServiceImplTest {
         CompanyReviewId id = new CompanyReviewId(1L, companyReviewRepository.findById(new CompanyReviewId(1L, reviewTime1)).get().getPaymentInfoTime());
         CompanyReview review = companyReviewRepository.findById(id).orElseThrow();
 
-        review.updateReview("수정된 리뷰", 77.7, ReviewCategory.CLEAN);
+        review.updateReview("수정된 리뷰", 77.7, new HashSet<>(Set.of(ReviewCategory.CLEAN)));
         companyReviewRepository.save(review);
 
         CompanyReview updated = companyReviewRepository.findById(id).orElseThrow();
         assertEquals("수정된 리뷰", updated.getReview());
         assertEquals(77.7, updated.getTemperature());
-        assertEquals(ReviewCategory.CLEAN, updated.getReviewCategory());
+        assertTrue(updated.getReviewCategories().contains(ReviewCategory.CLEAN));
     }
 
     @Test
