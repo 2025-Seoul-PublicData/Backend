@@ -6,6 +6,8 @@ import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.service.MemberConsumptionService;
 import com.example.seoulpublicdata2025backend.domain.member.service.MemberService;
+import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.GetMeberConsumptionDetailDocs;
+import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.GetMemberConsumptionDocs;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.SignUpDocs;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -29,12 +31,14 @@ public class MemberController {
     }
 
     @GetMapping("/consumption")
+    @GetMemberConsumptionDocs
     public ResponseEntity<List<MemberConsumptionResponseDto>> getMemberConsumption() {
         List<MemberConsumptionResponseDto> response = memberConsumptionService.findConsumptionByMember();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/consumption/detail")
+    @GetMeberConsumptionDetailDocs
     public ResponseEntity<List<MemberConsumptionResponseDto>> getMemberConsumptionDetail(@RequestParam CompanyType companyType) {
         List<MemberConsumptionResponseDto> response = memberConsumptionService.findConsumptionByMemberAndCompanyType(companyType);
         return ResponseEntity.ok(response);
