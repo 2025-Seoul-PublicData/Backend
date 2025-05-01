@@ -3,6 +3,7 @@ package com.example.seoulpublicdata2025backend.domain.naverReceipt.controller;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoRequestDto;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoResponseDto;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.service.NaverReceiptService;
+import com.example.seoulpublicdata2025backend.global.swagger.annotations.naverReceipt.NaverReceiptDocs;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class NaverReceiptController {
     private final NaverReceiptService naverReceiptService;
 
     @PostMapping("/naver/receipt")
+    @NaverReceiptDocs
     public ResponseEntity<ReceiptInfoResponseDto> parseNaverReceipt(@Valid @ModelAttribute ReceiptInfoRequestDto dto) {
         ReceiptInfoResponseDto information = naverReceiptService.getCompanyInformation(dto);
         return ResponseEntity.ok(information);
