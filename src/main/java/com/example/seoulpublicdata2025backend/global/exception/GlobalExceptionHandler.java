@@ -62,6 +62,7 @@ public class GlobalExceptionHandler {
         log.error("HttpClientErrorException", ex);
         return ResponseEntity.status(ex.getStatusCode())
                 .body(ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE));
+    }
 
     // 일반적인 RuntimeError 해결
     @ExceptionHandler(RuntimeException.class)
