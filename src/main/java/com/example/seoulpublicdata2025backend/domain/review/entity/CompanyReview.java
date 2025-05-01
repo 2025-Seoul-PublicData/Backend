@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "company_reviews")
@@ -44,13 +46,22 @@ public class CompanyReview {
     private String review;
     private Double temperature;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "company_review_category",
+            joinColumns = {
+                    @JoinColumn(name = "paymentInfo_confirm_num", referencedColumnName = "paymentInfo_confirm_num"),
+                    @JoinColumn(name = "paymentInfo_time", referencedColumnName = "paymentInfo_time")
+            }
+    )
     @Enumerated(EnumType.STRING)
     @Column(name = "review_category")
-    private ReviewCategory reviewCategory;
+    private Set<ReviewCategory> reviewCategories = new HashSet<>();
 
-    public void updateReview(String review, Double temperature, ReviewCategory reviewCategory) {
+
+    public void updateReview(String review, Double temperature, Set<ReviewCategory> reviewCategories) {
         this.review = review;
         this.temperature = temperature;
-        this.reviewCategory = reviewCategory;
+        this.reviewCategories = reviewCategories;
     }
 }

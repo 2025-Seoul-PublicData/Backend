@@ -32,10 +32,7 @@ public class JwtProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(KakaoIdStatusDto dto) {
-        Long kakaoId = dto.getKakaoId();
-        MemberStatus memberStatus = dto.getStatus();
-
+    public String createToken(Long kakaoId, MemberStatus memberStatus) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + accessTokenValidityInMillis);
 
