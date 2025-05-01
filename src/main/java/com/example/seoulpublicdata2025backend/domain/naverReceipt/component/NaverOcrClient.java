@@ -1,11 +1,14 @@
 package com.example.seoulpublicdata2025backend.domain.naverReceipt.component;
 
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.NaverOcrResponseDto;
+import com.example.seoulpublicdata2025backend.global.exception.customException.NaverOcrException;
+import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -36,6 +39,12 @@ public class NaverOcrClient {
                 .header("X-OCR-SECRET", secretKey)
                 .body(parts)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                    throw new NaverOcrException(ErrorCode.NAVER_OCR_BAD_REQUEST);
+                })
+                .onStatus(HttpStatusCode::is5xxServerError, (req, res) -> {
+                    throw new NaverOcrException(ErrorCode.NAVER_OCR_INTERNAL_SERVER_ERROR);
+                })
                 .body(NaverOcrResponseDto.class);
     }
 

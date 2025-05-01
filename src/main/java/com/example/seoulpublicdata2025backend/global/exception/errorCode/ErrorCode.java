@@ -34,7 +34,6 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR("9000", "서버에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_IMAGE_URL("9001", "프로필 이미지 URL이 유효하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
-
     // 6000번대: OCR 영수증 파싱 관련
     RECEIPT_IMAGE_NOT_FOUND("6000", "영수증 이미지 정보가 없습니다.", HttpStatus.BAD_REQUEST),
     RECEIPT_RESULT_NOT_FOUND("6001", "영수증 정보가 누락되었습니다.", HttpStatus.BAD_REQUEST),
@@ -45,6 +44,10 @@ public enum ErrorCode {
     RECEIPT_ITEM_DETAIL_INCOMPLETE("6006", "상품 정보가 누락되었습니다.", HttpStatus.BAD_REQUEST),
     RECEIPT_DATETIME_FORMAT_INVALID("6007", "날짜 또는 시간 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
 
+
+    // 7000번대 : Naver Ocr 요청 중 예외
+    NAVER_OCR_BAD_REQUEST("7000", "NAVER OCR 요청이 잘못되었습니다. (400 Bad Request)", HttpStatus.BAD_REQUEST),
+    NAVER_OCR_INTERNAL_SERVER_ERROR("7001", "NAVER OCR 서버 오류가 발생했습니다. (500 Internal Server Error)", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     private final String code;

@@ -11,8 +11,10 @@ import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInf
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NaverReceiptServiceImpl implements NaverReceiptService {
@@ -27,10 +29,8 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
                 companyRepository.findCompanyLocationTypeByCompanyId(dto.getCompanyId()).orElseThrow(
                         ()-> new NotFoundCompanyException(ErrorCode.COMPANY_NOT_FOUND)
                 );
-
         NaverOcrResponseDto result = ocrClient.callOcrApi(dto.getFile());
         ReceiptInfoDto receiptInfoDto = parser.extractInfoFromOcr(result);
-
         if(isNotSameCompany(companyDto, receiptInfoDto)) {
             throw new NotFoundCompanyException(ErrorCode.COMPANY_NOT_FOUND);
         }
@@ -38,7 +38,6 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
         /*
         여기서 금액을 추출해서 사용자가 어떤 기업에 얼마를 사용했는지 정보를 추출해야 한다.
          */
-
         return ReceiptInfoResponseDto.of(receiptInfoDto, companyDto.getLocation());
     }
 
