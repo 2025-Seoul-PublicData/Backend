@@ -10,10 +10,13 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "리뷰 개수 조회",
-        description = "특정 회사의 리뷰 수 또는 로그인된 회원이 작성한 리뷰 수를 조회합니다."
+        description = """
+                - 특정 회사 ID를 제공하면 해당 회사의 리뷰 수를 반환합니다.  
+                - 회사 ID 없이 호출하면 로그인된 회원의 리뷰 수를 반환합니다.
+                """
 )
 @Parameters({
-        @Parameter(name = "companyId", description = "회사 ID (회사 리뷰 수 조회 시 사용)", example = "1")
+        @Parameter(name = "companyId", description = "회사 ID (회사 리뷰 수 조회 시에만 사용)", example = "1", required = false)
 })
 @ApiResponse(
         responseCode = "200",
@@ -22,13 +25,18 @@ import java.lang.annotation.*;
                 mediaType = "application/json",
                 examples = @ExampleObject(
                         name = "리뷰 수 조회 성공 예시",
-                        value = "3"
+                        description = "조회 결과로 리뷰 수를 정수로 반환",
+                        value = """
+                                {
+                                  "count": 3
+                                }
+                                """
                 )
         )
 )
 @ApiResponse(
         responseCode = "404",
-        description = "해당 ID로 리뷰를 찾을 수 없음",
+        description = "해당 회원 또는 회사를 찾을 수 없음",
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(

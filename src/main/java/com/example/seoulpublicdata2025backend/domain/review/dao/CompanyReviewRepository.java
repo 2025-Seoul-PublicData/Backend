@@ -4,7 +4,6 @@ import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
-import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,13 +12,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
-public interface CompanyReviewRepository extends JpaRepository<CompanyReview, CompanyReviewId> {
+public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Long> {
 
-    @Query("SELECT new com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto(" +
-            "cr.company.companyId, cr.kakao.kakaoId, cr.kakao.name, cr.kakao.profileColor, cr.review, cr.temperature) " +
-            "FROM CompanyReview cr " +
-            "WHERE cr.company.companyId = :companyId")
-    List<ReviewDto> findReviewDtoByCompanyId(@Param("companyId") Long companyId);
+    List<CompanyReview> findByCompany_CompanyId(Long companyId);
 
     @Query("SELECT new com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto(" +
             "cr.company.companyId, cr.kakao.kakaoId, cr.review, cr.temperature) " +
@@ -37,10 +32,5 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Co
             "WHERE cr.kakao.kakaoId = :kakaoId")
     Long getCountByKakaoId(@Param("kakaoId") Long kakaoId);
 
-    @Query("SELECT new com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto(" +
-            "cr.company.companyId, cr.kakao.kakaoId, cr.kakao.name, cr.kakao.profileColor,cr.review, cr.temperature) " +
-            "FROM CompanyReview cr " +
-            "WHERE cr.company.companyId = :companyId")
-    Page<ReviewDto> findReviewDtoByCompanyId(@Param("companyId") Long companyId, Pageable pageable);
-
+    Page<CompanyReview> findByCompany_CompanyId(Long companyId, Pageable pageable);
 }

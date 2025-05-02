@@ -1,11 +1,17 @@
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.review;
 
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
-import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -18,9 +24,7 @@ import java.lang.annotation.*;
         description = "회원 리뷰 조회 성공",
         content = @Content(
                 mediaType = "application/json",
-                array = @ArraySchema(
-                        schema = @Schema(implementation = ReviewDto.class)
-                ),
+                array = @ArraySchema(schema = @Schema(implementation = ReviewDto.class)),
                 examples = @ExampleObject(
                         name = "회원 리뷰 조회 예시",
                         description = "현재 로그인된 사용자가 작성한 리뷰 목록",
@@ -31,7 +35,14 @@ import java.lang.annotation.*;
                                     "kakaoId": 1001,
                                     "review": "좋아요!",
                                     "temperature": 88.0,
-                                    "reviewCategory": "CLEAN"
+                                    "reviewCategories": ["CLEAN", "KIND"]
+                                  },
+                                  {
+                                    "companyId": 2,
+                                    "kakaoId": 1001,
+                                    "review": "조금 별로였어요.",
+                                    "temperature": 74.3,
+                                    "reviewCategories": ["REASONABLE_PRICE"]
                                   }
                                 ]
                                 """
@@ -44,6 +55,8 @@ import java.lang.annotation.*;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
+                        name = "회원 없음 예시",
+                        description = "쿠키로 식별한 kakaoId에 해당하는 회원이 존재하지 않는 경우",
                         value = """
                                 {
                                   "status": 404,
@@ -62,11 +75,13 @@ import java.lang.annotation.*;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
+                        name = "회원 리뷰 조회 실패 - 서버 오류",
+                        description = "서버 오류로 인해 요청 처리에 실패한 경우",
                         value = """
                                 {
                                   "status": 500,
                                   "code": "INTERNAL_SERVER_ERROR",
-                                  "message": "서버에 문제가 발생했습니다.",
+                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요.",
                                   "errors": [],
                                   "time": "2025-04-22T10:12:34"
                                 }

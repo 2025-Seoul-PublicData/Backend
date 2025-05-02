@@ -10,21 +10,25 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "가게 온도 조회",
-        description = "특정 회사의 평균 온도를 조회합니다."
+        description = "특정 회사에 대한 리뷰 온도(평균 점수)를 조회합니다."
 )
 @Parameters({
-        @Parameter(name = "companyId", description = "평균 온도를 조회할 회사의 ID", example = "1")
+        @Parameter(name = "companyId", description = "평균 온도를 조회할 회사의 ID", required = true, example = "1")
 })
 @ApiResponse(
         responseCode = "200",
         description = "평균 온도 조회 성공",
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(type = "number", format = "double"),
+                schema = @Schema(type = "object"),
                 examples = @ExampleObject(
                         name = "평균 온도 예시",
                         description = "평균 온도가 87.5일 경우의 응답",
-                        value = "87.5"
+                        value = """
+                                {
+                                  "temperature": 87.5
+                                }
+                                """
                 )
         )
 )
@@ -34,6 +38,7 @@ import java.lang.annotation.*;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
+                        name = "회사 없음 예시",
                         value = """
                                 {
                                   "status": 404,
@@ -52,6 +57,7 @@ import java.lang.annotation.*;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
+                        name = "서버 오류 예시",
                         value = """
                                 {
                                   "status": 500,
