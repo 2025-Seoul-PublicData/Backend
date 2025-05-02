@@ -23,10 +23,6 @@ import java.lang.annotation.*;
         description = "리뷰 페이지 조회 성공",
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(
-                        implementation = ReviewDto.class,
-                        type = "object"
-                ),
                 examples = @ExampleObject(
                         name = "페이징된 리뷰 목록",
                         description = "첫 페이지에 size=2로 조회한 리뷰 목록 예시",
@@ -38,14 +34,14 @@ import java.lang.annotation.*;
                                       "kakaoId": 1001,
                                       "review": "깨끗하고 친절했어요.",
                                       "temperature": 88.0,
-                                      "reviewCategory": "CLEAN"
+                                      "reviewCategories": ["CLEAN", "KIND"]
                                     },
                                     {
                                       "companyId": 1,
                                       "kakaoId": 1002,
                                       "review": "재방문 의사 있음.",
                                       "temperature": 90.5,
-                                      "reviewCategory": "KIND"
+                                      "reviewCategories": ["REVISIT"]
                                     }
                                   ],
                                   "pageable": {
@@ -68,6 +64,8 @@ import java.lang.annotation.*;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
+                        name = "잘못된 요청 예시",
+                        description = "size가 0 이하일 경우의 예시",
                         value = """
                                 {
                                   "status": 400,
@@ -92,11 +90,13 @@ import java.lang.annotation.*;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
+                        name = "서버 오류 예시",
+                        description = "서버 오류로 인해 리뷰를 조회하지 못한 경우",
                         value = """
                                 {
                                   "status": 500,
                                   "code": "INTERNAL_SERVER_ERROR",
-                                  "message": "서버에 문제가 발생했습니다.",
+                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요.",
                                   "errors": [],
                                   "time": "2025-04-22T10:12:34"
                                 }

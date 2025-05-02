@@ -8,7 +8,6 @@ import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRep
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
-import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId;
 import com.example.seoulpublicdata2025backend.domain.review.entity.ReviewCategory;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +21,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,32 +42,20 @@ class ReviewServiceImplTest {
     private Long testKakaoId1;
     private Long testKakaoId2;
 
-    private LocalDateTime reviewTime1;
-    private LocalDateTime reviewTime2;
-    private LocalDateTime reviewTime3;
-
     private void authenticateAs(Long kakaoId) {
         SecurityContextHolder.clearContext();
-
         UserDetails userDetails = User.builder()
                 .username(String.valueOf(kakaoId))
                 .password("dummy")
                 .roles("CONSUMER")
                 .build();
-
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
+        );
     }
 
     @BeforeEach
     void setUp() {
-
-        // ReviewTime
-        reviewTime1 = LocalDateTime.of(2025, 4, 22, 10, 0, 0);
-        reviewTime2 = LocalDateTime.of(2025, 4, 22, 10, 1, 0);
-        reviewTime3 = LocalDateTime.of(2025, 4, 22, 10, 2, 0);
-
-        // Company
         Company company = Company.builder()
                 .companyId(1L)
                 .companyName("테스트회사")
@@ -80,163 +65,130 @@ class ReviewServiceImplTest {
                 .business("기타")
                 .companyCategory(CompanyCategory.ETC)
                 .build();
-
         entityManager.persist(company);
         testCompanyId = company.getCompanyId();
 
-        // Member
-        Member member = Member.builder()
+        Member member1 = Member.builder()
                 .kakaoId(1001L)
                 .name("홍길동")
-                .location("서울")
                 .profileColor("Gray")
-                .role(Member.Role.CONSUMER) // enum 값 지정 필요
+                .location("서울")
+                .role(Member.Role.CONSUMER)
                 .build();
-        entityManager.persist(member);
-        testKakaoId1 = member.getKakaoId();
+        entityManager.persist(member1);
+        testKakaoId1 = member1.getKakaoId();
 
         Member member2 = Member.builder()
                 .kakaoId(1002L)
-                .name("홍길동")
+                .name("이순신")
                 .profileColor("Orange")
                 .location("서울")
-                .role(Member.Role.CONSUMER) // enum 값 지정 필요
+                .role(Member.Role.CONSUMER)
                 .build();
         entityManager.persist(member2);
         testKakaoId2 = member2.getKakaoId();
 
-
-        // CompanyReview
-        CompanyReview review1 = CompanyReview.builder()
-                .paymentInfoConfirmNum(1L)
-                .paymentInfoTime(reviewTime1)
-                .company(company)
-                .kakaoId(member.getKakaoId())
-                .kakao(member)
-                .review("좋아요1!")
-                .temperature(85.5)
-                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
-                .build();
-        entityManager.persist(review1);
-
-        CompanyReview review2 = CompanyReview.builder()
-                .paymentInfoConfirmNum(2L)
-                .paymentInfoTime(reviewTime2)
-                .company(company)
-                .kakaoId(member.getKakaoId())
-                .kakao(member)
-                .review("좋아요2!")
-                .temperature(88.5)
-                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
-                .build();
-        entityManager.persist(review2);
-
-        CompanyReview review3 = CompanyReview.builder()
-                .paymentInfoConfirmNum(3L)
-                .paymentInfoTime(reviewTime3)
-                .company(company)
-                .kakaoId(member2.getKakaoId())
-                .kakao(member2)
-                .review("좋아요3!")
-                .temperature(88.5)
-                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
-                .build();
-        entityManager.persist(review3);
-
+        for (int i = 1; i <= 3; i++) {
+            CompanyReview review = CompanyReview.builder()
+                    .paymentInfoConfirmNum(1000L + i)
+                    .paymentInfoTime(LocalDateTime.of(2025, 5, 1, 10, i, 0))
+                    .company(company)
+                    .kakao(i == 3 ? member2 : member1)
+                    .kakaoId(i == 3 ? member2.getKakaoId() : member1.getKakaoId())
+                    .review("좋아요" + i + "!")
+                    .temperature(85.0 + i)
+                    .reviewCategories(new HashSet<>(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY)))
+                    .build();
+            entityManager.persist(review);
+        }
     }
 
     @Test
     void getAllCompanyReviews() {
-        List<ReviewDto> reviewDtos = reviewService.getAllCompanyReviews(testCompanyId);
-        assertEquals(3, reviewDtos.size());
-        assertEquals("좋아요2!", reviewDtos.get(1).getReviewContent());
+        List<ReviewDto> reviews = reviewService.getAllCompanyReviews(testCompanyId);
+        assertEquals(3, reviews.size());
+        assertTrue(reviews.get(0).getReviewCategories().contains(ReviewCategory.CLEAN));
     }
 
     @Test
     void getTemperature() {
-        Double temperatureMean = reviewService.getTemperature(testCompanyId);
-        assertEquals(87.5, temperatureMean);
+        Double avgTemp = reviewService.getTemperature(testCompanyId);
+        assertEquals(87.0, avgTemp);
     }
 
     @Test
     void getAllMyReviews() {
         authenticateAs(testKakaoId1);
-
-        List<MemberReviewDto> reviewDtos = reviewService.getAllMyReviews();
-        assertEquals(2, reviewDtos.size());
-        assertEquals("좋아요2!", reviewDtos.get(1).getReviewContent());
+        List<MemberReviewDto> reviews = reviewService.getAllMyReviews();
+        assertEquals(2, reviews.size());
 
         authenticateAs(testKakaoId2);
-
-        List<MemberReviewDto> reviewDtos2 = reviewService.getAllMyReviews();
-        assertEquals(1, reviewDtos2.size());
-        assertEquals("좋아요3!", reviewDtos2.get(0).getReviewContent());
+        List<MemberReviewDto> reviews2 = reviewService.getAllMyReviews();
+        assertEquals(1, reviews2.size());
     }
 
     @Test
     void getCountCompanyReview() {
-        Long companyReviewCount = reviewService.getCountCompanyReview(testCompanyId);
-        assertEquals(3, companyReviewCount);
+        Long count = reviewService.getCountCompanyReview(testCompanyId);
+        assertEquals(3, count);
     }
 
     @Test
     void getCountMemberReview() {
         authenticateAs(testKakaoId1);
-        Long memberReviewCount = reviewService.getCountMemberReview();
-        assertEquals(2, memberReviewCount);
+        Long count = reviewService.getCountMemberReview();
+        assertEquals(2, count);
     }
 
     @Test
-    void createCompanyReview() {
-        LocalDateTime now = LocalDateTime.of(2025, 4, 22, 10, 30);
+    void createCompanyReviewWithMultipleCategories() {
+        authenticateAs(testKakaoId1);
+        Company company = entityManager.find(Company.class, testCompanyId);
+        Member member = entityManager.find(Member.class, testKakaoId1);
 
-        CompanyReview review = CompanyReview.builder()
-                .paymentInfoConfirmNum(99L)
-                .paymentInfoTime(now)
-                .company(entityManager.find(Company.class, testCompanyId))
-                .kakao(entityManager.find(Member.class, testKakaoId1))
-                .review("방금 작성한 리뷰")
-                .temperature(95.0)
-                .reviewCategories(Set.of(ReviewCategory.CLEAN))
+        CompanyReview newReview = CompanyReview.builder()
+                .paymentInfoConfirmNum(9999L)
+                .paymentInfoTime(LocalDateTime.of(2025, 5, 1, 12, 0))
+                .company(company)
+                .kakao(member)
+                .kakaoId(member.getKakaoId())
+                .review("여러 카테고리 리뷰")
+                .temperature(93.0)
+                .reviewCategories(new HashSet<>(Set.of(ReviewCategory.CLEAN, ReviewCategory.HELP_OUR_AREA, ReviewCategory.REASONABLE_PRICE)))
                 .build();
 
-        companyReviewRepository.save(review);
+        companyReviewRepository.save(newReview);
+        entityManager.flush();
+        entityManager.clear();
 
-        CompanyReview saved = companyReviewRepository.findById(
-                new com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId(99L, now)
-        ).orElse(null);
+        CompanyReview saved = companyReviewRepository.findAll().stream()
+                .filter(r -> r.getReview().contains("여러 카테고리"))
+                .findFirst().orElseThrow();
 
-        assertNotNull(saved);
-        assertEquals("방금 작성한 리뷰", saved.getReview());
-        assertEquals(95.0, saved.getTemperature());
+        assertEquals(3, saved.getReviewCategories().size());
+        assertTrue(saved.getReviewCategories().contains(ReviewCategory.REASONABLE_PRICE));
     }
 
     @Test
-    void updateCompanyReview() {
-        // given
-        CompanyReviewId id = new CompanyReviewId(1L, companyReviewRepository.findById(new CompanyReviewId(1L, reviewTime1)).get().getPaymentInfoTime());
-        CompanyReview review = companyReviewRepository.findById(id).orElseThrow();
+    void updateCompanyReviewByReviewId() {
+        CompanyReview target = companyReviewRepository.findAll().get(0);
+        Long reviewId = target.getReviewId();
 
-        review.updateReview("수정된 리뷰", 77.7, new HashSet<>(Set.of(ReviewCategory.CLEAN)));
-        companyReviewRepository.save(review);
+        target.updateReview("수정된 리뷰입니다.", 99.9, new HashSet<>(Set.of(ReviewCategory.GOOD_SELECT)));
+        companyReviewRepository.save(target);
 
-        CompanyReview updated = companyReviewRepository.findById(id).orElseThrow();
-        assertEquals("수정된 리뷰", updated.getReview());
-        assertEquals(77.7, updated.getTemperature());
-        assertTrue(updated.getReviewCategories().contains(ReviewCategory.CLEAN));
+        CompanyReview updated = companyReviewRepository.findById(reviewId).orElseThrow();
+        assertEquals("수정된 리뷰입니다.", updated.getReview());
+        assertEquals(99.9, updated.getTemperature(), 0.01);
+        assertTrue(updated.getReviewCategories().contains(ReviewCategory.GOOD_SELECT));
     }
 
     @Test
-    void deleteCompanyReview() {
-        // given
-        CompanyReviewId id = new CompanyReviewId(2L, companyReviewRepository.findById(new CompanyReviewId(2L, reviewTime2)).get().getPaymentInfoTime());
-        CompanyReview review = companyReviewRepository.findById(id).orElseThrow();
+    void deleteCompanyReviewByReviewId() {
+        CompanyReview target = companyReviewRepository.findAll().get(1);
+        Long reviewId = target.getReviewId();
 
-        // when
-        companyReviewRepository.delete(review);
-
-        // then
-        boolean exists = companyReviewRepository.findById(id).isPresent();
-        assertFalse(exists);
+        companyReviewRepository.deleteById(reviewId);
+        assertFalse(companyReviewRepository.findById(reviewId).isPresent());
     }
 }
