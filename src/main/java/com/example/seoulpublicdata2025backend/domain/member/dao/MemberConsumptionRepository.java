@@ -15,5 +15,5 @@ public interface MemberConsumptionRepository extends JpaRepository<MemberConsump
     List<MemberConsumption> findMemberConsumptionByKakaoId(Long kakaoId);
 
     @Query("SELECT m FROM MemberConsumption m WHERE m.member.kakaoId = :kakaoId AND m.companyType = :companyType")
-    List<MemberConsumption> findConsumptionByKakaoIdAndCompanyType(Long memberId, CompanyType companyType);
+    Optional<MemberConsumption> findConsumptionByKakaoIdAndCompanyType(Long memberId, CompanyType companyType);
 }

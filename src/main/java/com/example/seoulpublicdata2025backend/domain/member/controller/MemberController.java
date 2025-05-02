@@ -50,8 +50,8 @@ public class MemberController {
 
     @GetMapping("/consumption/detail")
     @GetMeberConsumptionDetailDocs
-    public ResponseEntity<List<MemberConsumptionResponseDto>> getMemberConsumptionDetail(@RequestParam CompanyType companyType) {
-        List<MemberConsumptionResponseDto> response = memberConsumptionService.findConsumptionByMemberAndCompanyType(companyType);
+    public ResponseEntity<MemberConsumptionResponseDto> getMemberConsumptionDetail(@RequestParam CompanyType companyType) {
+        MemberConsumptionResponseDto response = memberConsumptionService.findConsumptionByMemberAndCompanyType(companyType);
         return ResponseEntity.ok(response);
     }
 }

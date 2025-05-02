@@ -10,5 +10,5 @@ public interface MemberConsumptionService {
 
     List<MemberConsumptionResponseDto> findConsumptionByMember();
 
-    List<MemberConsumptionResponseDto> findConsumptionByMemberAndCompanyType(CompanyType companyType);
+    MemberConsumptionResponseDto findConsumptionByMemberAndCompanyType(CompanyType companyType);
 }

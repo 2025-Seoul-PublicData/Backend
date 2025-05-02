@@ -58,16 +58,20 @@ public class MemberConsumptionServiceImpl implements MemberConsumptionService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MemberConsumptionResponseDto> findConsumptionByMemberAndCompanyType(CompanyType companyType) {
+    public MemberConsumptionResponseDto findConsumptionByMemberAndCompanyType(CompanyType companyType) {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
-        List<MemberConsumption> memberConsumptions = memberConsumptionRepository
+        Optional<MemberConsumption> optionalConsumption = memberConsumptionRepository
                 .findConsumptionByKakaoIdAndCompanyType(kakaoId, companyType);
 
-        return memberConsumptions.stream()
+        return optionalConsumption
                 .map(consumption -> MemberConsumptionResponseDto.builder()
                         .companyType(consumption.getCompanyType())
                         .totalPrice(consumption.getTotalPrice())
-                        .build()).toList();
+                        .build())
+                .orElse(MemberConsumptionResponseDto.builder()
+                        .companyType(companyType)
+                        .totalPrice(0L)
+                        .build());
     }
 
 
