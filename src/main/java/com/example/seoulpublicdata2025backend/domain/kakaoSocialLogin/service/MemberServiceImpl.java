@@ -29,13 +29,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public KakaoIdStatusDto initMember(Long kakaoId) {
-        Member member = Member.init(kakaoId);
-        try {
-            memberRepository.save(member);
-            return new KakaoIdStatusDto(member.getKakaoId(), member.getStatus());
-        } catch (DataIntegrityViolationException exception) {
-            throw new DuplicationMemberException(ErrorCode.DUPLICATE_MEMBER);
-        }
+        // member 를 찾고 이미 가입된 member 라면 init을 하지 않는다.
+        Member member = memberRepository.findByKakaoId(kakaoId)
+                .orElseGet(() -> {
+                    Member newMember = Member.init(kakaoId);
+                    return memberRepository.save(newMember);
+                });
+
+        return new KakaoIdStatusDto(member.getKakaoId(), member.getStatus());
     }
 
     @Override
