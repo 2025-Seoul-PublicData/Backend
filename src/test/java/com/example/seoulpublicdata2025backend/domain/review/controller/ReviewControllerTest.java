@@ -150,7 +150,7 @@ class ReviewControllerTest {
 
         when(MockConfig.reviewService.updateCompanyReview(any(), any())).thenReturn(requestDto);
 
-        mockMvc.perform(put("/reviews/update/1")
+        mockMvc.perform(post("/reviews/update/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto))
                         .cookie(new Cookie("accessToken", "1001"))
