@@ -1,8 +1,7 @@
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.member;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoAuthResponseDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupRequestDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.SignupResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

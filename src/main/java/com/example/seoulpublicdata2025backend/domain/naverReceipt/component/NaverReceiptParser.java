@@ -4,8 +4,12 @@ import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.NaverOcrRe
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoDto;
 import com.example.seoulpublicdata2025backend.global.exception.customException.InvalidReceiptException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class NaverReceiptParser {
     // 네이버 OCR 을 거친 데이터로부터 우리가 원하는 데이터를 추출합니다.

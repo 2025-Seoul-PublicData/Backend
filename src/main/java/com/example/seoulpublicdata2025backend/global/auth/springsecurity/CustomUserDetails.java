@@ -1,8 +1,8 @@
 package com.example.seoulpublicdata2025backend.global.auth.springsecurity;
 
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.type.MemberStatus;
 import java.util.Collection;
 import java.util.List;
 import lombok.Getter;

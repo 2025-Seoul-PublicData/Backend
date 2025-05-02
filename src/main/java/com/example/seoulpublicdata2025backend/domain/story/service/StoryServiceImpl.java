@@ -1,19 +1,15 @@
 package com.example.seoulpublicdata2025backend.domain.story.service;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
-import com.example.seoulpublicdata2025backend.domain.story.dao.MemberStoryLikesRepository;
 import com.example.seoulpublicdata2025backend.domain.story.dao.StoryRepository;
 import com.example.seoulpublicdata2025backend.domain.story.dto.BestStoryDto;
 import com.example.seoulpublicdata2025backend.domain.story.dto.StoryDetailDto;
 import com.example.seoulpublicdata2025backend.domain.story.dto.StoryPreviewDto;
 import com.example.seoulpublicdata2025backend.domain.story.entity.Story;
-import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

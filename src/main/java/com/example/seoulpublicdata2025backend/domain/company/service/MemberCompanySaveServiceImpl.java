@@ -6,8 +6,8 @@ import com.example.seoulpublicdata2025backend.domain.company.dto.CompanyPreviewD
 import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.company.entity.MemberCompanySave;
 import com.example.seoulpublicdata2025backend.domain.company.entity.MemberCompanySaveId;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.global.exception.customException.MemberCompanySaveException;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;

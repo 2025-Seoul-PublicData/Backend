@@ -1,7 +1,7 @@
 package com.example.seoulpublicdata2025backend.global.auth.jwt;
 
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dto.KakaoIdStatusDto;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.type.MemberStatus;
+import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoIdStatusDto;
+import com.example.seoulpublicdata2025backend.domain.member.type.MemberStatus;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

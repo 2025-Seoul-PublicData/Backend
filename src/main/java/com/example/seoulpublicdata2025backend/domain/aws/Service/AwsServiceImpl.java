@@ -4,7 +4,7 @@ import com.example.seoulpublicdata2025backend.domain.aws.dao.UploadFileRepositor
 import com.example.seoulpublicdata2025backend.domain.aws.dto.PresignedUrlRequestDto;
 import com.example.seoulpublicdata2025backend.domain.aws.dto.PresignedUrlResponseDto;
 import com.example.seoulpublicdata2025backend.domain.aws.entity.UploadFile;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
+import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.global.exception.customException.AuthenticationException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;

@@ -1,7 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.review.entity;
 
 import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

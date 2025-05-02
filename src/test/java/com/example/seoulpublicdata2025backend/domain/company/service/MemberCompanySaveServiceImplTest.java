@@ -4,8 +4,8 @@ import com.example.seoulpublicdata2025backend.domain.company.dao.CompanyReposito
 import com.example.seoulpublicdata2025backend.domain.company.dao.MemberCompanySaveRepository;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.company.entity.MemberCompanySave;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.dao.MemberRepository;
-import com.example.seoulpublicdata2025backend.domain.kakaoSocialLogin.entity.Member;
+import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
+import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.global.exception.customException.MemberCompanySaveException;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
