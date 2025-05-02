@@ -9,6 +9,7 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -25,5 +26,5 @@ public class CompanyReviewDto {
     @NotNull(message = "온도를 체크해주세요.")
     private Double temperature;
 
-    private ReviewCategory reviewCategory;
+    private Set<ReviewCategory> reviewCategories;
 }

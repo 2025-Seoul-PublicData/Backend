@@ -8,6 +8,8 @@ import lombok.Getter;
 public class ReviewDto {
     private Long companyId;
     private Long kakaoId;
+    private String name;
+    private String profileColor;
     private String reviewContent;
     private Double temperature;
 }

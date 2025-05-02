@@ -9,6 +9,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
@@ -56,9 +57,26 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<ErrorResponse> handleHttpClientError(HttpClientErrorException ex) {
+        log.error("HttpClientErrorException", ex);
+        return ResponseEntity.status(ex.getStatusCode())
+                .body(ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE));
+    }
+
+    // 일반적인 RuntimeError 해결
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
+        log.error("RuntimeException", e);
+        ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+        return ResponseEntity
+                .status(ErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus())
+                .body(errorResponse);
+    }
+
     // 기타 예외
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("Exception", e);
         ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return ResponseEntity

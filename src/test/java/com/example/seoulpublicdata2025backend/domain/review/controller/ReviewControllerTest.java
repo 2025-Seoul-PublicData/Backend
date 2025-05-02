@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -84,7 +85,7 @@ class ReviewControllerTest {
                 Member.builder().kakaoId(1001L).name("홍길동").build(),
                 "친절하고 깨끗했어요!",
                 89.5,
-                ReviewCategory.CLEAN
+                Set.of(ReviewCategory.CLEAN)
         );
 
         when(MockConfig.reviewService.creatCompanyReview(any())).thenReturn(requestDto);
@@ -106,7 +107,7 @@ class ReviewControllerTest {
     void getAllCompanyReviews() throws Exception {
         //Given
         when(reviewService.getAllCompanyReviews(1L)).thenReturn(
-                List.of(new ReviewDto(1L, 1001L, "좋아요!", 88.5))
+                List.of(new ReviewDto(1L, 1001L, "전재학", "Gray", "좋아요!", 88.5))
         );
 
         // when & then

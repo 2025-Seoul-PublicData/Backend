@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
         @Parameter(name = "name", description = "사용자 이름",example = "홍길동"),
         @Parameter(name = "location", description = "사용자가 사는 동네 주소", example = "서울특별시 강남구"),
         @Parameter(name = "role", description = "소비자라면 CONSUMER, 사장님이면 CORPORATE", example = "CONSUMER"),
-        @Parameter(name = "profileImageUrl", description = "기본 프로필 중에서 어떤 것을 선택했는지 입력하면 될 것 같습니다. 아직 이 부분은 미정입니다.", example = "https://k.kakaocdn.net/dn/example-profile.png")
+        @Parameter(name = "profileColor", description = "기본 프로필의 색깔 표기 (\"gray\", \"pink\", \"blue\", \"orange\") ", example = "pink")
 })
 @RequestBody(
         description = "회원가입 요청 데이터",
@@ -41,7 +41,7 @@ import java.lang.annotation.Target;
                                   "name": "홍길동",
                                   "location": "서울특별시 강남구",
                                   "role": "CONSUMER",
-                                  "profileImageUrl": "https://k.kakaocdn.net/dn/example-profile.png"
+                                  "profileColor": "gray"
                                 }
                                 """
                 )
@@ -49,21 +49,8 @@ import java.lang.annotation.Target;
 )
 @ApiResponse(
         responseCode = "200",
-        description = "회원가입에 성공",
-        content = @Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation = SignupResponseDto.class),
-                examples = @ExampleObject(
-                                name = "회원가입 성공 예시",
-                                description = "성공한 회원가입 응답 예시",
-                                value = """
-                                {
-                                    "memberId": 1
-                                }
-                                """
-                        )
-
-        )
+        description = "회원가입에 성공. 본문 없이 Set-Cookie 헤더에 accessToken을 포함합니다.",
+        content = @Content(schema = @Schema(hidden = true))
 )
 @ApiResponse(
         responseCode = "400",
@@ -114,6 +101,26 @@ import java.lang.annotation.Target;
         )
 )
 @ApiResponse(
+        responseCode = "404",
+        description = "존재하지 않는 kakaoId",
+        content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                        name = "회원가입 실패 - 존재하지 않는 kakaoId",
+                        description = "존재하지 않는 카카오 ID로 가입을 시도했을 때",
+                        value = """
+                                {
+                                  "status": 404,
+                                  "code": "MEMBER_NOT_FOUND",
+                                  "message": "사용자를 찾을 수 없습니다.",
+                                  "errors": [],
+                                  "time": "2025-04-15T10:12:34"
+                                }
+                                """
+                )
+        )
+)
+@ApiResponse(
         responseCode = "409",
         description = "이미 가입된 회원",
         content = @Content(
@@ -123,9 +130,9 @@ import java.lang.annotation.Target;
                         description = "이미 존재하는 카카오 ID로 가입을 시도했을 때",
                         value = """
                                 {
-                                  "status": 404,
-                                  "code": "MEMBER_NOT_FOUND",
-                                  "message": "사용자를 찾을 수 없습니다.",
+                                  "status": 409,
+                                  "code": "DUPLICATE_MEMBER",
+                                  "message": "이미 가입된 사용자입니다.",
                                   "errors": [],
                                   "time": "2025-04-15T10:12:34"
                                 }

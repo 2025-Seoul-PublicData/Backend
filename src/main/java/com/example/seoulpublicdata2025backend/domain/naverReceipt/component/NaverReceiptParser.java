@@ -1,8 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.naverReceipt.component;
 
-import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoDto;
-import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoDto.ItemInfo;
 import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.NaverOcrResponseDto;
+import com.example.seoulpublicdata2025backend.domain.naverReceipt.dto.ReceiptInfoDto;
 import com.example.seoulpublicdata2025backend.global.exception.customException.InvalidReceiptException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import java.util.ArrayList;
@@ -55,30 +54,6 @@ public class NaverReceiptParser {
             throw new InvalidReceiptException(ErrorCode.RECEIPT_TEL_NOT_FOUND);
         }
 
-        List<ItemInfo> items = new ArrayList<>();
-
-        if (receipt.getSubResults() != null && !receipt.getSubResults().isEmpty()) {
-            for (var sub : receipt.getSubResults()) {
-                for (var item : sub.getItems()) {
-                    if (item.getName() == null || item.getName().getText() == null ||
-                            item.getCount() == null || item.getCount().getText() == null ||
-                            item.getPrice() == null || item.getPrice().getPrice() == null ||
-                            item.getPrice().getPrice().getText() == null) {
-                        log.warn("누락된 항목 → name: {}, count: {}, price: {}",
-                                item.getName(), item.getCount(), item.getPrice());
-                        continue;
-                    }
-
-                    ReceiptInfoDto.ItemInfo info = new ReceiptInfoDto.ItemInfo();
-                    info.setName(item.getName().getText());
-                    info.setCount(item.getCount().getText());
-                    info.setPrice(item.getPrice().getPrice().getText());
-                    items.add(info);
-                }
-            }
-        }
-
-        result.setItems(items);
         return result;
     }
 

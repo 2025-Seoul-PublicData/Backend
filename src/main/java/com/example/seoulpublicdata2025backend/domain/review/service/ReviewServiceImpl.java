@@ -4,6 +4,7 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId;
@@ -35,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .kakao(Member.builder().kakaoId(currentKakaoId).build())
                 .review(dto.getReview())
                 .temperature(dto.getTemperature())
-                .reviewCategory(dto.getReviewCategory())
+                .reviewCategories(dto.getReviewCategories())
                 .build();
 
         CompanyReview saved = companyReviewRepository.save(entity);
@@ -47,7 +48,7 @@ public class ReviewServiceImpl implements ReviewService {
                 saved.getKakao(),
                 saved.getReview(),
                 saved.getTemperature(),
-                saved.getReviewCategory()
+                saved.getReviewCategories()
         );    }
 
     @Override
@@ -57,7 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
         ).orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
 
         // 필드 업데이트
-        entity.updateReview(dto.getReview(), dto.getTemperature(), dto.getReviewCategory());
+        entity.updateReview(dto.getReview(), dto.getTemperature(), dto.getReviewCategories());
 
         CompanyReview updated = companyReviewRepository.save(entity);
 
@@ -68,7 +69,7 @@ public class ReviewServiceImpl implements ReviewService {
                 updated.getKakao(),
                 updated.getReview(),
                 updated.getTemperature(),
-                updated.getReviewCategory()
+                updated.getReviewCategories()
         );
     }
 
@@ -88,13 +89,12 @@ public class ReviewServiceImpl implements ReviewService {
                 entity.getKakao(),
                 entity.getReview(),
                 entity.getTemperature(),
-                entity.getReviewCategory()
+                entity.getReviewCategories()
         );
     }
 
     @Override
     public List<ReviewDto> getAllCompanyReviews(Long companyId) {
-
         return companyReviewRepository.findReviewDtoByCompanyId(companyId);
     }
 
@@ -106,6 +106,11 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Double getTemperature(Long companyId) {
         List<ReviewDto> allCompanyReviewDto = companyReviewRepository.findReviewDtoByCompanyId(companyId);
+
+        if (allCompanyReviewDto.size() == 0) {
+            return 0.0;
+        }
+
         double temperature = 0;
         int reviewsSize = allCompanyReviewDto.size();
 
@@ -117,7 +122,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDto> getAllMyReviews() {
+    public List<MemberReviewDto> getAllMyReviews() {
         Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
 
         return companyReviewRepository.findReviewDtoByKakaoId(currentKakaoId);

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "company_reviews")
@@ -35,19 +37,31 @@ public class CompanyReview {
     private Company company;
 
     @ManyToOne
-    @JoinColumn(name = "kakao_Id", referencedColumnName = "kakaoId")
+    @JoinColumn(name = "kakao_Id", referencedColumnName = "kakaoId", insertable = false, updatable = false)
     private Member kakao;
+
+    @Column(name = "kakao_id")
+    private Long kakaoId;
 
     private String review;
     private Double temperature;
 
-    @Enumerated
-    @Column(name = "review_category")   // enum 말고 set으로 가능
-    private ReviewCategory reviewCategory;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "company_review_category",
+            joinColumns = {
+                    @JoinColumn(name = "paymentInfo_confirm_num", referencedColumnName = "paymentInfo_confirm_num"),
+                    @JoinColumn(name = "paymentInfo_time", referencedColumnName = "paymentInfo_time")
+            }
+    )
+    @Enumerated(EnumType.STRING)
+    @Column(name = "review_category")
+    private Set<ReviewCategory> reviewCategories = new HashSet<>();
 
-    public void updateReview(String review, Double temperature, ReviewCategory reviewCategory) {
+
+    public void updateReview(String review, Double temperature, Set<ReviewCategory> reviewCategories) {
         this.review = review;
         this.temperature = temperature;
-        this.reviewCategory = reviewCategory;
+        this.reviewCategories = reviewCategories;
     }
 }

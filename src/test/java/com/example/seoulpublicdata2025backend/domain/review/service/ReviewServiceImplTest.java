@@ -5,6 +5,7 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCateg
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
+import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId;
@@ -21,7 +22,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,6 +89,7 @@ class ReviewServiceImplTest {
                 .kakaoId(1001L)
                 .name("홍길동")
                 .location("서울")
+                .profileColor("Gray")
                 .role(Member.Role.CONSUMER) // enum 값 지정 필요
                 .build();
         entityManager.persist(member);
@@ -94,6 +98,7 @@ class ReviewServiceImplTest {
         Member member2 = Member.builder()
                 .kakaoId(1002L)
                 .name("홍길동")
+                .profileColor("Orange")
                 .location("서울")
                 .role(Member.Role.CONSUMER) // enum 값 지정 필요
                 .build();
@@ -106,10 +111,11 @@ class ReviewServiceImplTest {
                 .paymentInfoConfirmNum(1L)
                 .paymentInfoTime(reviewTime1)
                 .company(company)
+                .kakaoId(member.getKakaoId())
                 .kakao(member)
                 .review("좋아요1!")
                 .temperature(85.5)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
                 .build();
         entityManager.persist(review1);
 
@@ -117,10 +123,11 @@ class ReviewServiceImplTest {
                 .paymentInfoConfirmNum(2L)
                 .paymentInfoTime(reviewTime2)
                 .company(company)
+                .kakaoId(member.getKakaoId())
                 .kakao(member)
                 .review("좋아요2!")
                 .temperature(88.5)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
                 .build();
         entityManager.persist(review2);
 
@@ -128,10 +135,11 @@ class ReviewServiceImplTest {
                 .paymentInfoConfirmNum(3L)
                 .paymentInfoTime(reviewTime3)
                 .company(company)
+                .kakaoId(member2.getKakaoId())
                 .kakao(member2)
                 .review("좋아요3!")
                 .temperature(88.5)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN, ReviewCategory.GOOD_QUALITY))
                 .build();
         entityManager.persist(review3);
 
@@ -154,13 +162,13 @@ class ReviewServiceImplTest {
     void getAllMyReviews() {
         authenticateAs(testKakaoId1);
 
-        List<ReviewDto> reviewDtos = reviewService.getAllMyReviews();
+        List<MemberReviewDto> reviewDtos = reviewService.getAllMyReviews();
         assertEquals(2, reviewDtos.size());
         assertEquals("좋아요2!", reviewDtos.get(1).getReviewContent());
 
         authenticateAs(testKakaoId2);
 
-        List<ReviewDto> reviewDtos2 = reviewService.getAllMyReviews();
+        List<MemberReviewDto> reviewDtos2 = reviewService.getAllMyReviews();
         assertEquals(1, reviewDtos2.size());
         assertEquals("좋아요3!", reviewDtos2.get(0).getReviewContent());
     }
@@ -189,7 +197,7 @@ class ReviewServiceImplTest {
                 .kakao(entityManager.find(Member.class, testKakaoId1))
                 .review("방금 작성한 리뷰")
                 .temperature(95.0)
-                .reviewCategory(ReviewCategory.CLEAN)
+                .reviewCategories(Set.of(ReviewCategory.CLEAN))
                 .build();
 
         companyReviewRepository.save(review);
@@ -209,13 +217,13 @@ class ReviewServiceImplTest {
         CompanyReviewId id = new CompanyReviewId(1L, companyReviewRepository.findById(new CompanyReviewId(1L, reviewTime1)).get().getPaymentInfoTime());
         CompanyReview review = companyReviewRepository.findById(id).orElseThrow();
 
-        review.updateReview("수정된 리뷰", 77.7, ReviewCategory.CLEAN);
+        review.updateReview("수정된 리뷰", 77.7, new HashSet<>(Set.of(ReviewCategory.CLEAN)));
         companyReviewRepository.save(review);
 
         CompanyReview updated = companyReviewRepository.findById(id).orElseThrow();
         assertEquals("수정된 리뷰", updated.getReview());
         assertEquals(77.7, updated.getTemperature());
-        assertEquals(ReviewCategory.CLEAN, updated.getReviewCategory());
+        assertTrue(updated.getReviewCategories().contains(ReviewCategory.CLEAN));
     }
 
     @Test

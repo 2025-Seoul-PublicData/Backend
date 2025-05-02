@@ -17,6 +17,7 @@ public class CompanyPreviewDto {
 
     private String companyLocation;
     private String business;
+    private String companyTelNum;
     private CompanyType companyType;
 
     // 변환 메서드
@@ -30,6 +31,19 @@ public class CompanyPreviewDto {
         dto.companyLocation = company.getCompanyLocation();
         dto.business = company.getBusiness();
         dto.companyType = company.getCompanyType();
+        dto.companyTelNum = company.getCompanyTelNum();
+        return dto;
+    }
+
+    public static CompanyPreviewDto fromEntityBasic(Company company) {
+        CompanyPreviewDto dto = new CompanyPreviewDto();
+        dto.companyId = company.getCompanyId();
+        dto.companyName = company.getCompanyName();
+        dto.companyCategory = company.getCompanyCategory();
+        dto.companyLocation = company.getCompanyLocation();
+        dto.business = company.getBusiness();
+        dto.companyType = company.getCompanyType();
+        dto.companyTelNum = company.getCompanyTelNum();
         return dto;
     }
 }
