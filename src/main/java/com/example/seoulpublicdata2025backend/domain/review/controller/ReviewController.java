@@ -23,28 +23,22 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/review")
+    @PostMapping("/write")
     @CreateReviewDocs
     public CompanyReviewDto createReview(@RequestBody CompanyReviewDto companyReviewDto) {
         return reviewService.creatCompanyReview(companyReviewDto);
     }
 
-    @PutMapping("/review")
+    @PostMapping("/update/{reviewId}")
     @UpdateReviewDocs
-    public CompanyReviewDto updateReview(@RequestBody CompanyReviewDto companyReviewDto) {
-        Long num = companyReviewDto.getPaymentInfoConfirmNum();
-        LocalDateTime time = companyReviewDto.getPaymentInfoTime();
-
-        return reviewService.updateCompanyReview(num, time, companyReviewDto);
+    public CompanyReviewDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewDto companyReviewDto) {
+        return reviewService.updateCompanyReview(reviewId, companyReviewDto);
     }
 
-    @DeleteMapping("/review")
+    @DeleteMapping("/{reviewId}")
     @DeleteReviewDocs
-    public CompanyReviewDto deleteReview(@RequestBody CompanyReviewDto companyReviewDto) {
-        Long num = companyReviewDto.getPaymentInfoConfirmNum();
-        LocalDateTime time = companyReviewDto.getPaymentInfoTime();
-
-        return reviewService.deleteCompanyReview(num, time);
+    public CompanyReviewDto deleteReview(@PathVariable Long reviewId) {
+        return reviewService.deleteCompanyReview(reviewId);
     }
 
 
@@ -55,6 +49,7 @@ public class ReviewController {
     }
 
     @GetMapping("/public/get-company-reviews")
+    @GetPagingCompanyReviewsDocs
     public Page<ReviewDto> getPagingCompanyReviews(@RequestParam Long companyId,
                                                    @Positive @RequestParam int size, @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paymentInfoTime"));

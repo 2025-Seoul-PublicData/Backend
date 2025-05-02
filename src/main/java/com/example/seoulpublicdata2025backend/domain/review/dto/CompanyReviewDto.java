@@ -14,7 +14,10 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 public class CompanyReviewDto {
+
+    private Long reviewId;
     private Long paymentInfoConfirmNum;
+
     @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime paymentInfoTime;
 

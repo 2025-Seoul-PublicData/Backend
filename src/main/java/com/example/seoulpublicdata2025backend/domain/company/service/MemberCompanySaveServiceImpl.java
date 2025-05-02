@@ -8,6 +8,10 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.MemberCompan
 import com.example.seoulpublicdata2025backend.domain.company.entity.MemberCompanySaveId;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
+import com.example.seoulpublicdata2025backend.global.exception.customException.MemberCompanySaveException;
+import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
+import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
+import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,13 +33,13 @@ public class MemberCompanySaveServiceImpl implements MemberCompanySaveService {
         Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
 
         if (memberCompanySaveRepository.existsByKakaoIdAndCompanyId(currentKakaoId, companyId)) {
-            throw new IllegalStateException("이미 찜한 기업입니다.");
+            throw new MemberCompanySaveException(ErrorCode.DUPLICATE_COMPANY_SAVE);
         }
 
         Member member = memberRepository.findByKakaoId(currentKakaoId)
-                .orElseThrow(() -> new RuntimeException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
         Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new RuntimeException("기업이 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundCompanyException(ErrorCode.COMPANY_NOT_FOUND));
 
         MemberCompanySave like = MemberCompanySave.builder()
                 .kakaoId(currentKakaoId)
@@ -55,7 +59,7 @@ public class MemberCompanySaveServiceImpl implements MemberCompanySaveService {
         MemberCompanySaveId id = new MemberCompanySaveId(currentKakaoId, companyId);
 
         MemberCompanySave save = memberCompanySaveRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("찜한 기록이 없습니다."));
+                .orElseThrow(() -> new MemberCompanySaveException(ErrorCode.COMPANY_SAVE_RECORD_NOT_FOUND));
 
         memberCompanySaveRepository.delete(save);
     }

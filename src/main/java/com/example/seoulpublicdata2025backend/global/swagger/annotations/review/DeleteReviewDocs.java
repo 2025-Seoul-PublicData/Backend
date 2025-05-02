@@ -20,34 +20,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "리뷰 삭제",
-        description = "기존 리뷰를 삭제합니다. paymentInfoConfirmNum 및 paymentInfoTime으로 식별하며, 작성자(kakaoId)는 쿠키에서 자동 추출됩니다."
+        description = "리뷰 ID로 리뷰를 삭제합니다. 작성자(kakaoId)는 쿠키에서 자동 추출됩니다."
 )
-@Parameters({
-        @Parameter(name = "paymentInfoConfirmNum", description = "결제 정보 확인 번호", example = "123"),
-        @Parameter(name = "paymentInfoTime", description = "결제 시간 (yyyy/MM/dd HH:mm:ss 형식)", example = "2025/04/22 10:00:00"),
-        @Parameter(name = "company", description = "리뷰 대상 회사 객체 (companyId 필수)", example = "{\"companyId\": 1}")
-})
-@RequestBody(
-        description = "리뷰 삭제 요청 데이터 (작성자 kakaoId는 쿠키에서 자동 추출됨)",
-        required = true,
-        content = @Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation = CompanyReviewDto.class),
-                examples = @ExampleObject(
-                        name = "리뷰 삭제 요청 예시",
-                        description = "kakaoId는 쿠키에서 자동 추출됩니다.",
-                        value = """
-                                {
-                                  \"paymentInfoConfirmNum\": 123,
-                                  \"paymentInfoTime\": \"2025-04-22T10:00:00\",
-                                  \"company\": {
-                                    \"companyId\": 1
-                                  }
-                                }
-                                """
-                )
-        )
-)
+@Parameter(name = "reviewId", description = "삭제할 리뷰의 ID", example = "100")
 @ApiResponse(
         responseCode = "200",
         description = "리뷰 삭제 성공",
@@ -56,20 +31,18 @@ import java.lang.annotation.Target;
                 schema = @Schema(implementation = CompanyReviewDto.class),
                 examples = @ExampleObject(
                         name = "리뷰 삭제 성공 예시",
-                        description = "요청이 성공적으로 처리되었을 때",
                         value = """
                                 {
-                                  \"paymentInfoConfirmNum\": 123,
-                                  \"paymentInfoTime\": \"2025-04-22T10:00:00\",
-                                  \"company\": {
-                                    \"companyId\": 1
+                                  "reviewId": 100,
+                                  "company": {
+                                    "companyId": 1
                                   },
-                                  \"kakao\": {
-                                    \"kakaoId\": 1001
+                                  "kakao": {
+                                    "kakaoId": 1001
                                   },
-                                  \"review\": \"서비스가 개선되었습니다.\",
-                                  \"temperature\": 91.2,
-                                  \"reviewCategory\": \"KIND\"
+                                  "review": "서비스가 개선되었습니다.",
+                                  "temperature": 91.2,
+                                  "reviewCategories": ["KIND"]
                                 }
                                 """
                 )
@@ -81,15 +54,13 @@ import java.lang.annotation.Target;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
-                        name = "리뷰 삭제 실패 - 존재하지 않는 리뷰",
-                        description = "리뷰가 존재하지 않아 삭제할 수 없는 경우",
                         value = """
                                 {
-                                  \"status\": 404,
-                                  \"code\": \"REVIEW_NOT_FOUND\",
-                                  \"message\": \"해당 리뷰를 찾을 수 없습니다.\",
-                                  \"errors\": [],
-                                  \"time\": \"2025-04-22T10:12:34\"
+                                  "status": 404,
+                                  "code": "REVIEW_NOT_FOUND",
+                                  "message": "해당 리뷰를 찾을 수 없습니다.",
+                                  "errors": [],
+                                  "time": "2025-04-22T10:12:34"
                                 }
                                 """
                 )
@@ -101,15 +72,13 @@ import java.lang.annotation.Target;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
-                        name = "리뷰 삭제 실패 - 서버 오류",
-                        description = "서버 오류로 인해 요청 처리에 실패한 경우",
                         value = """
                                 {
-                                  \"status\": 500,
-                                  \"code\": \"INTERNAL_SERVER_ERROR\",
-                                  \"message\": \"서버에 문제가 발생했습니다. 관리자에게 문의하세요.\",
-                                  \"errors\": [],
-                                  \"time\": \"2025-04-22T10:12:34\"
+                                  "status": 500,
+                                  "code": "INTERNAL_SERVER_ERROR",
+                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요.",
+                                  "errors": [],
+                                  "time": "2025-04-22T10:12:34"
                                 }
                                 """
                 )

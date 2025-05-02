@@ -14,9 +14,9 @@ public interface ReviewService {
     // review CUD
     CompanyReviewDto creatCompanyReview(CompanyReviewDto companyReviewDto);
 
-    CompanyReviewDto updateCompanyReview(Long paymentInfoConfirmNum, LocalDateTime paymentInfoTime, CompanyReviewDto companyReviewDto);
+    CompanyReviewDto updateCompanyReview(Long reviewId, CompanyReviewDto companyReviewDto);
 
-    CompanyReviewDto deleteCompanyReview(Long paymentInfoConfirmNum, LocalDateTime paymentInfoTime);
+    CompanyReviewDto deleteCompanyReview(Long reviewId);
 
     List<ReviewDto> getAllCompanyReviews(Long companyId);
 

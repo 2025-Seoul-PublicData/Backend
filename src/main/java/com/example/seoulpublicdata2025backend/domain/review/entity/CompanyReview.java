@@ -19,20 +19,21 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@IdClass(CompanyReviewId.class)
 public class CompanyReview {
 
     @Id
-    @Column(name="paymentInfo_confirm_num")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
+    private Long reviewId;
+
+    @Column(name="paymentInfo_confirm_num", unique = true)
     private Long paymentInfoConfirmNum;
 
-    @Id
     @Column(name = "paymentInfo_time")
     @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime paymentInfoTime;
 
     @ManyToOne
-//    @JoinColumn(name = "company_id", referencedColumnName = "companyId")
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -49,10 +50,7 @@ public class CompanyReview {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "company_review_category",
-            joinColumns = {
-                    @JoinColumn(name = "paymentInfo_confirm_num", referencedColumnName = "paymentInfo_confirm_num"),
-                    @JoinColumn(name = "paymentInfo_time", referencedColumnName = "paymentInfo_time")
-            }
+            joinColumns = @JoinColumn(name = "review_id", referencedColumnName = "review_id")
     )
     @Enumerated(EnumType.STRING)
     @Column(name = "review_category")

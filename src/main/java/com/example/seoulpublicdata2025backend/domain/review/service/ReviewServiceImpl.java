@@ -7,7 +7,6 @@ import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
-import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReviewId;
 import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
         CompanyReview saved = companyReviewRepository.save(entity);
 
         return new CompanyReviewDto(
+                saved.getReviewId(),
                 saved.getPaymentInfoConfirmNum(),
                 saved.getPaymentInfoTime(),
                 saved.getCompany(),
@@ -49,13 +49,13 @@ public class ReviewServiceImpl implements ReviewService {
                 saved.getReview(),
                 saved.getTemperature(),
                 saved.getReviewCategories()
-        );    }
+        );
+    }
 
     @Override
-    public CompanyReviewDto updateCompanyReview(Long paymentInfoConfirmNum, LocalDateTime paymentInfoTime, CompanyReviewDto dto) {
-        CompanyReview entity = companyReviewRepository.findById(
-                new CompanyReviewId(paymentInfoConfirmNum, paymentInfoTime)
-        ).orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
+    public CompanyReviewDto updateCompanyReview(Long reviewId, CompanyReviewDto dto) {
+        CompanyReview entity = companyReviewRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
 
         // 필드 업데이트
         entity.updateReview(dto.getReview(), dto.getTemperature(), dto.getReviewCategories());
@@ -63,6 +63,7 @@ public class ReviewServiceImpl implements ReviewService {
         CompanyReview updated = companyReviewRepository.save(entity);
 
         return new CompanyReviewDto(
+                updated.getReviewId(),
                 updated.getPaymentInfoConfirmNum(),
                 updated.getPaymentInfoTime(),
                 updated.getCompany(),
@@ -74,15 +75,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public CompanyReviewDto deleteCompanyReview(Long paymentInfoConfirmNum, LocalDateTime paymentInfoTime) {
-        CompanyReviewId id = new CompanyReviewId(paymentInfoConfirmNum, paymentInfoTime);
-
-        CompanyReview entity = companyReviewRepository.findById(id)
+    public CompanyReviewDto deleteCompanyReview(Long reviewId) {
+        CompanyReview entity = companyReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
 
         companyReviewRepository.delete(entity);
 
         return new CompanyReviewDto(
+                entity.getReviewId(),
                 entity.getPaymentInfoConfirmNum(),
                 entity.getPaymentInfoTime(),
                 entity.getCompany(),
@@ -95,26 +95,47 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDto> getAllCompanyReviews(Long companyId) {
-        return companyReviewRepository.findReviewDtoByCompanyId(companyId);
+        List<CompanyReview> reviews = companyReviewRepository.findByCompany_CompanyId(companyId);
+
+        return reviews.stream()
+                .map(cr -> new ReviewDto(
+                        cr.getCompany().getCompanyId(),
+                        cr.getKakao().getKakaoId(),
+                        cr.getKakao().getName(),
+                        cr.getKakao().getProfileColor(),
+                        cr.getReview(),
+                        cr.getTemperature(),
+                        cr.getReviewCategories()
+                ))
+                .toList();
     }
 
     @Override
     public Page<ReviewDto> getPagingCompanyReviews(Long companyId, Pageable pageable) {
-        return companyReviewRepository.findReviewDtoByCompanyId(companyId, pageable);
+        return companyReviewRepository.findByCompany_CompanyId(companyId, pageable)
+                .map(cr -> new ReviewDto(
+                        cr.getCompany().getCompanyId(),
+                        cr.getKakao().getKakaoId(),
+                        cr.getKakao().getName(),
+                        cr.getKakao().getProfileColor(),
+                        cr.getReview(),
+                        cr.getTemperature(),
+                        cr.getReviewCategories()
+                ));
     }
 
     @Override
     public Double getTemperature(Long companyId) {
-        List<ReviewDto> allCompanyReviewDto = companyReviewRepository.findReviewDtoByCompanyId(companyId);
+        List<CompanyReview> reviews = companyReviewRepository.findByCompany_CompanyId(companyId);
 
-        if (allCompanyReviewDto.size() == 0) {
+        if (reviews.size() == 0) {
             return 0.0;
         }
 
         double temperature = 0;
-        int reviewsSize = allCompanyReviewDto.size();
+        int reviewsSize = reviews.size();
 
-        for (ReviewDto i: allCompanyReviewDto) {
+        for (CompanyReview i: reviews) {
             temperature += i.getTemperature();
         }
 

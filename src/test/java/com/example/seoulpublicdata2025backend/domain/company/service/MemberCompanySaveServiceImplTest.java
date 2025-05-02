@@ -6,6 +6,7 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.company.entity.MemberCompanySave;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
+import com.example.seoulpublicdata2025backend.global.exception.customException.MemberCompanySaveException;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,7 +101,7 @@ class MemberCompanySaveServiceImplTest {
     void 중복_찜_예외() {
         memberCompanySaveService.saveCompany(testCompany1.getCompanyId());
 
-        IllegalStateException exception = assertThrows(IllegalStateException.class,
+        MemberCompanySaveException exception = assertThrows(MemberCompanySaveException.class,
                 () -> memberCompanySaveService.saveCompany(testCompany1.getCompanyId()));
         assertEquals("이미 찜한 기업입니다.", exception.getMessage());
     }

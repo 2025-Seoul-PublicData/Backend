@@ -8,6 +8,7 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
+import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -83,11 +84,11 @@ class CompanyServiceImplTest {
 
     @Test
     void 존재하지_않는_기업ID_조회시_예외() {
-        IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(
-                IllegalArgumentException.class,
+        NotFoundCompanyException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                NotFoundCompanyException.class,
                 () -> companyService.companyPreview(999L)
         );
 
-        assertEquals("Not Exist CompanyId: 999", exception.getMessage());
+        assertEquals("기업을 찾을 수 없습니다.", exception.getMessage());
     }
 }
