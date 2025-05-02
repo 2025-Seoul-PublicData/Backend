@@ -29,7 +29,7 @@ public class ReviewController {
         return reviewService.creatCompanyReview(companyReviewDto);
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{reviewId}")
     @UpdateReviewDocs
     public CompanyReviewDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewDto companyReviewDto) {
         return reviewService.updateCompanyReview(reviewId, companyReviewDto);
