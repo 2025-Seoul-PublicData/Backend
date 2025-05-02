@@ -18,7 +18,9 @@ import java.lang.annotation.*;
         @Parameter(name = "companyId", description = "찜할 대상 기업의 ID", example = "1")
 })
 @ApiResponse(responseCode = "200", description = "찜 등록 성공")
-@ApiResponse(responseCode = "400", description = "이미 찜한 기업인 경우")
+@ApiResponse(responseCode = "409", description = "이미 찜한 기업인 경우")
 @ApiResponse(responseCode = "404", description = "존재하지 않는 회원 또는 기업")
 public @interface SaveCompanyDocs {
 }
+
+

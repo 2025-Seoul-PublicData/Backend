@@ -11,7 +11,7 @@ public enum ErrorCode {
     // 1000번대: 인증 관련
     INVALID_CODE("1000", "유효하지 않은 인가코드입니다.", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED("1001", "인증되지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
-    INVALID_TOKEN("1002","유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_TOKEN("1002", "유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
     INVALID_KAKAO_REQUEST("1098", "카카오 인가 요청이 잘못되었습니다.", HttpStatus.BAD_REQUEST),
     KAKAO_SERVER_ERROR("1099", "카카오 서버에 문제가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
@@ -28,7 +28,9 @@ public enum ErrorCode {
     FORBIDDEN("4000", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
     // 5000번대: 기업 관련 리뷰
-    COMPANY_NOT_FOUND("5000","기업을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    COMPANY_NOT_FOUND("5000", "기업을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    DUPLICATE_COMPANY_SAVE("5001", "이미 찜한 기업입니다.", HttpStatus.CONFLICT),
+    COMPANY_SAVE_RECORD_NOT_FOUND("5002", "찜한 기록이 없습니다.", HttpStatus.NOT_FOUND),
 
     // 9000번대: 서버 오류
     INTERNAL_SERVER_ERROR("9000", "서버에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -47,7 +49,8 @@ public enum ErrorCode {
 
     // 7000번대 : Naver Ocr 요청 중 예외
     NAVER_OCR_BAD_REQUEST("7000", "NAVER OCR 요청이 잘못되었습니다. (400 Bad Request)", HttpStatus.BAD_REQUEST),
-    NAVER_OCR_INTERNAL_SERVER_ERROR("7001", "NAVER OCR 서버 오류가 발생했습니다. (500 Internal Server Error)", HttpStatus.INTERNAL_SERVER_ERROR),
+    NAVER_OCR_INTERNAL_SERVER_ERROR("7001", "NAVER OCR 서버 오류가 발생했습니다. (500 Internal Server Error)",
+            HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     private final String code;

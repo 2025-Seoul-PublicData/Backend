@@ -3,6 +3,8 @@ package com.example.seoulpublicdata2025backend.domain.company.service;
 import com.example.seoulpublicdata2025backend.domain.company.dao.CompanyRepository;
 import com.example.seoulpublicdata2025backend.domain.company.dto.MemberLocationDto;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
+import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
+import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class GeocodingServiceImpl implements GeocodingService{
     public String getNmapSchemeUrl(MemberLocationDto memberLocationDto, Long companyId) {
 
         Company company = companyRepository.findByCompanyId(companyId)
-                .orElseThrow(() -> new IllegalArgumentException("Not Exist CompanyId: " + companyId));
+                .orElseThrow(() -> new NotFoundCompanyException(ErrorCode.COMPANY_NOT_FOUND));
 
         double dlat = company.getLocation().getLatitude();
         double dlng = company.getLocation().getLongitude();
