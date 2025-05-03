@@ -33,4 +33,7 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Lo
     Long getCountByKakaoId(@Param("kakaoId") Long kakaoId);
 
     Page<CompanyReview> findByCompany_CompanyId(Long companyId, Pageable pageable);
+
+    @Query("SELECT MAX(r.paymentInfoConfirmNum) FROM CompanyReview r")
+    Long findMaxPaymentInfoConfirmNum();
 }

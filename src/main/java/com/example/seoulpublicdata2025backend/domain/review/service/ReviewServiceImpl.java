@@ -28,6 +28,16 @@ public class ReviewServiceImpl implements ReviewService {
 
         Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
 
+        Long confirmNum = dto.getPaymentInfoConfirmNum();
+        if (confirmNum == null) {
+            Long maxConfirmNum = companyReviewRepository.findMaxPaymentInfoConfirmNum();
+            confirmNum = (maxConfirmNum == null) ? 1L : maxConfirmNum + 1;
+        }
+
+        LocalDateTime paymentTime = (dto.getPaymentInfoTime() != null)
+                ? dto.getPaymentInfoTime()
+                : LocalDateTime.now();
+
         CompanyReview entity = CompanyReview.builder()
                 .paymentInfoConfirmNum(dto.getPaymentInfoConfirmNum())
                 .paymentInfoTime(dto.getPaymentInfoTime())
