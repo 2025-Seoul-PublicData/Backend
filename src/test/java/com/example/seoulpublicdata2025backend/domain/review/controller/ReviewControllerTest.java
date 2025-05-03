@@ -2,7 +2,7 @@ package com.example.seoulpublicdata2025backend.domain.review.controller;
 
 import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.ReviewCategory;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
@@ -75,23 +75,23 @@ class ReviewControllerTest {
         when(MockConfig.jwtParser.getAuthentication("1001"))
                 .thenReturn(new UsernamePasswordAuthenticationToken("1001", null, List.of()));
 
-        CompanyReviewDto requestDto = new CompanyReviewDto(
+        CompanyReviewResponseDto requestDto = new CompanyReviewResponseDto(
                 null,
                 1L,
                 LocalDateTime.of(2025, 4, 25, 14, 30),
-                Company.builder().companyId(1L).companyName("테스트회사").build(),
-                Member.builder().kakaoId(1001L).name("홍길동").build(),
+                1L,
+                1001L,
                 "친절하고 깨끗했어요!",
                 89.5,
                 Set.of(ReviewCategory.CLEAN, ReviewCategory.REVISIT)
         );
 
-        CompanyReviewDto responseDto = new CompanyReviewDto(
+        CompanyReviewResponseDto responseDto = new CompanyReviewResponseDto(
                 100L,
                 1L,
                 LocalDateTime.of(2025, 4, 25, 14, 30),
-                requestDto.getCompany(),
-                requestDto.getKakao(),
+                requestDto.getCompanyId(),
+                requestDto.getKakaoId(),
                 requestDto.getReview(),
                 requestDto.getTemperature(),
                 requestDto.getReviewCategories()
@@ -133,12 +133,12 @@ class ReviewControllerTest {
     @Test
     @DisplayName("리뷰 수정 요청 테스트")
     void updateReview() throws Exception {
-        CompanyReviewDto requestDto = new CompanyReviewDto(
+        CompanyReviewResponseDto requestDto = new CompanyReviewResponseDto(
                 1L,
                 12345L,
                 LocalDateTime.of(2025, 5, 2, 10, 30),
-                Company.builder().companyId(1L).companyName("수정된 회사").build(),
-                Member.builder().kakaoId(1001L).name("홍길동").build(),
+                1L,
+                1001L,
                 "수정된 리뷰입니다.",
                 77.7,
                 Set.of(ReviewCategory.CLEAN, ReviewCategory.REASONABLE_PRICE)
@@ -163,12 +163,12 @@ class ReviewControllerTest {
     @Test
     @DisplayName("리뷰 삭제 요청 테스트")
     void deleteReview() throws Exception {
-        CompanyReviewDto requestDto = new CompanyReviewDto(
+        CompanyReviewResponseDto requestDto = new CompanyReviewResponseDto(
                 1L,
                 12345L,
                 LocalDateTime.of(2025, 5, 2, 10, 30),
-                Company.builder().companyId(1L).companyName("삭제 대상 회사").build(),
-                Member.builder().kakaoId(1001L).name("홍길동").build(),
+                1L,
+                1001L,
                 "삭제할 리뷰입니다.",
                 50.0,
                 Set.of(ReviewCategory.CLEAN)
@@ -183,8 +183,6 @@ class ReviewControllerTest {
         mockMvc.perform(delete("/reviews/1")
                         .cookie(new Cookie("accessToken", "1001"))
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.review").value("삭제할 리뷰입니다."))
-                .andExpect(jsonPath("$.temperature").value(50.0));
+                .andExpect(status().isNoContent());
     }
 }
