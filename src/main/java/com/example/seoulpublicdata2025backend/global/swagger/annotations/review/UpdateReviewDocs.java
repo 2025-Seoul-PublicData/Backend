@@ -1,9 +1,8 @@
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.review;
 
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,16 +26,16 @@ import java.lang.annotation.Target;
         required = true,
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = CompanyReviewDto.class),
+                schema = @Schema(implementation = CompanyReviewResponseDto.class),
                 examples = @ExampleObject(
                         value = """
                                 {
-                                  "company": {
-                                    "companyId": 1
-                                  },
-                                  "review": "서비스가 개선되었습니다.",
-                                  "temperature": 91.2,
-                                  "reviewCategories": ["KIND", "CLEAN"]
+                                  "companyId": 1,
+                                  "paymentInfoConfirmNum": 123456789,
+                                  "paymentInfoTime": "2025/05/01 12:34:56",
+                                  "review": "좋은 가게였습니다.",
+                                  "temperature": 88.5,
+                                  "reviewCategories": ["CLEAN", "REVISIT"]
                                 }
                                 """
                 )
@@ -47,20 +46,18 @@ import java.lang.annotation.Target;
         description = "리뷰 수정 성공",
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = CompanyReviewDto.class),
+                schema = @Schema(implementation = CompanyReviewResponseDto.class),
                 examples = @ExampleObject(
                         value = """
                                 {
                                   "reviewId": 100,
-                                  "company": {
-                                    "companyId": 1
-                                  },
-                                  "kakao": {
-                                    "kakaoId": 1001
-                                  },
-                                  "review": "서비스가 개선되었습니다.",
-                                  "temperature": 91.2,
-                                  "reviewCategories": ["KIND", "CLEAN"]
+                                  "paymentInfoConfirmNum": 123,
+                                  "paymentInfoTime": "2025-04-22T10:00:00",
+                                  "companyId": 1,
+                                  "kakaoId": 1001,
+                                  "review": "좋은 가게였습니다.",
+                                  "temperature": 88.5,
+                                  "reviewCategories": ["CLEAN", "REVISIT"]
                                 }
                                 """
                 )

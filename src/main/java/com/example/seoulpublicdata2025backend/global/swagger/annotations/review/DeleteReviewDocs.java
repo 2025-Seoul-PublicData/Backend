@@ -1,14 +1,12 @@
 
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.review;
 
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import java.lang.annotation.ElementType;
@@ -24,29 +22,8 @@ import java.lang.annotation.Target;
 )
 @Parameter(name = "reviewId", description = "삭제할 리뷰의 ID", example = "100")
 @ApiResponse(
-        responseCode = "200",
-        description = "리뷰 삭제 성공",
-        content = @Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation = CompanyReviewDto.class),
-                examples = @ExampleObject(
-                        name = "리뷰 삭제 성공 예시",
-                        value = """
-                                {
-                                  "reviewId": 100,
-                                  "company": {
-                                    "companyId": 1
-                                  },
-                                  "kakao": {
-                                    "kakaoId": 1001
-                                  },
-                                  "review": "서비스가 개선되었습니다.",
-                                  "temperature": 91.2,
-                                  "reviewCategories": ["KIND"]
-                                }
-                                """
-                )
-        )
+        responseCode = "204",
+        description = "리뷰 삭제 성공"
 )
 @ApiResponse(
         responseCode = "404",

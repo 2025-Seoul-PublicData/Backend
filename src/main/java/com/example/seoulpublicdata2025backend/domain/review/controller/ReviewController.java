@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +38,9 @@ public class ReviewController {
 
     @DeleteMapping("/{reviewId}")
     @DeleteReviewDocs
-    public CompanyReviewResponseDto deleteReview(@PathVariable Long reviewId) {
-        return reviewService.deleteCompanyReview(reviewId);
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+        reviewService.deleteCompanyReview(reviewId);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -1,6 +1,5 @@
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.review;
 
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
@@ -29,22 +28,22 @@ import java.lang.annotation.*;
                         value = """
                                 [
                                   {
-                                    \"companyId\": 1,
-                                    \"kakaoId\": 1001,
-                                    \"nickname\": \"홍길동\",
-                                    \"profileColor\": \"Gray\",
-                                    \"review\": \"깔끔하고 친절해요.\",
-                                    \"temperature\": 87.5,
-                                    \"reviewCategories\": [\"CLEAN\"]
+                                    "companyId": 1,
+                                    "kakaoId": 1001,
+                                    "nickname": "홍길동",
+                                    "profileColor": "Gray",
+                                    "review": "깔끔하고 친절해요.",
+                                    "temperature": 87.5,
+                                    "reviewCategories": ["CLEAN"]
                                   },
                                   {
-                                    \"companyId\": 1,
-                                    \"kakaoId\": 1002,
-                                    \"nickname\": \"이순신\",
-                                    \"profileColor\": \"Blue\",
-                                    \"review\": \"재방문 의사 있어요.\",
-                                    \"temperature\": 89.0,
-                                    \"reviewCategories\": [\"KIND\"]
+                                    "companyId": 1,
+                                    "kakaoId": 1002,
+                                    "nickname": "이순신",
+                                    "profileColor": "Blue",
+                                    "review": "재방문 의사 있어요.",
+                                    "temperature": 89.0,
+                                    "reviewCategories": ["KIND"]
                                   }
                                 ]
                                 """
@@ -61,11 +60,11 @@ import java.lang.annotation.*;
                         description = "해당 ID를 가진 회사를 찾지 못한 경우",
                         value = """
                                 {
-                                  \"status\": 404,
-                                  \"code\": \"COMPANY_NOT_FOUND\",
-                                  \"message\": \"해당 회사를 찾을 수 없습니다.\",
-                                  \"errors\": [],
-                                  \"time\": \"2025-04-22T10:12:34\"
+                                  "status": 404,
+                                  "code": "COMPANY_NOT_FOUND",
+                                  "message": "해당 회사를 찾을 수 없습니다.",
+                                  "errors": [],
+                                  "time": "2025-04-22T10:12:34"
                                 }
                                 """
                 )
@@ -77,15 +76,15 @@ import java.lang.annotation.*;
         content = @Content(
                 mediaType = "application/json",
                 examples = @ExampleObject(
-                        name = "서버 오류 예시",
-                        description = "서버 오류로 인해 리뷰를 조회하지 못한 경우",
+                        name = "리뷰 요청 실패 - 서버 오류",
+                        description = "서버 오류로 인해 요청 처리에 실패한 경우",
                         value = """
                                 {
-                                  \"status\": 500,
-                                  \"code\": \"INTERNAL_SERVER_ERROR\",
-                                  \"message\": \"서버에 문제가 발생했습니다. 관리자에게 문의하세요.\",
-                                  \"errors\": [],
-                                  \"time\": \"2025-04-22T10:12:34\"
+                                  "status": 500,
+                                  "code": "INTERNAL_SERVER_ERROR",
+                                  "message": "서버에 문제가 발생했습니다. 관리자에게 문의하세요.",
+                                  "errors": [],
+                                  "time": "2025-04-22T10:12:34"
                                 }
                                 """
                 )
