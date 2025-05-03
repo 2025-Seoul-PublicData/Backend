@@ -2,8 +2,6 @@ package com.example.seoulpublicdata2025backend.global.swagger.annotations.review
 
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,21 +17,20 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "리뷰 등록",
-        description = "새로운 리뷰를 작성합니다. 작성자(kakaoId)는 쿠키에서 자동 추출됩니다."
+        description = "새로운 리뷰를 작성합니다. 작성자(kakaoId)는 쿠키에서 자동 추출됩니다. " +
+                "paymentInfoConfirmNum과 paymentInfoTime은 생략 시 자동으로 처리됩니다."
 )
 @RequestBody(
-        description = "리뷰 등록 요청 데이터",
+        description = "리뷰 등록 요청 데이터 (paymentInfoConfirmNum과 paymentInfoTime은 선택 입력. 생략 시 서버에서 자동 생성됨)",
         required = true,
         content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = CompanyReviewDto.class),
                 examples = @ExampleObject(
                         name = "리뷰 등록 요청 예시",
-                        description = "kakaoId는 쿠키에서 자동 추출됨",
+                        description = "kakaoId는 쿠키에서 자동 추출되며, paymentInfoConfirmNum과 paymentInfoTime은 생략 가능합니다.",
                         value = """
                                 {
-                                  "paymentInfoConfirmNum": 123,
-                                  "paymentInfoTime": "2025-04-22T10:00:00",
                                   "company": {
                                     "companyId": 1
                                   },
@@ -53,7 +50,7 @@ import java.lang.annotation.Target;
                 schema = @Schema(implementation = CompanyReviewDto.class),
                 examples = @ExampleObject(
                         name = "리뷰 작성 성공",
-                        description = "요청이 성공적으로 처리되었을 때",
+                        description = "요청이 성공적으로 처리되었을 때의 응답 예시",
                         value = """
                                 {
                                   "reviewId": 100,
