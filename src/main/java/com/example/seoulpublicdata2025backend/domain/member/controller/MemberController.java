@@ -10,10 +10,13 @@ import com.example.seoulpublicdata2025backend.domain.member.service.MemberServic
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.GetMeberConsumptionDetailDocs;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.GetMemberConsumptionDocs;
+import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.LogoutDocs;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.SignUpDocs;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,4 +57,15 @@ public class MemberController {
         MemberConsumptionResponseDto response = memberConsumptionService.findConsumptionByMemberAndCompanyType(companyType);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/logout")
+    @LogoutDocs
+    public ResponseEntity<Void> logout() {
+        ResponseCookie deleteCookie = CookieFactory.createCookie("access", "");
+
+        return ResponseEntity.noContent()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .build();
+    }
+
 }
