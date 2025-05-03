@@ -8,5 +8,6 @@ public class ReceiptInfoDto {
     private String storeAddress;
     private String storeTel;
     private String orderDateTime;
+    private String confirmNumber;
 }
 

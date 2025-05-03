@@ -54,6 +54,13 @@ public class NaverReceiptParser {
             throw new InvalidReceiptException(ErrorCode.RECEIPT_TEL_NOT_FOUND);
         }
 
+        var confirmNumField = paymentInfo.getConfirmNum();
+        if (confirmNumField != null && confirmNumField.getText() != null) {
+            result.setConfirmNumber(confirmNumField.getText());
+        } else {
+            result.setConfirmNumber(null);
+        }
+
         return result;
     }
 

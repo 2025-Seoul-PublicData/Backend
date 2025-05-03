@@ -11,6 +11,7 @@ public class ReceiptInfoResponseDto {
     private final String storeAddress;
     private final String storeTel;
     private final String orderDateTime;
+    private final String confirmNumber;
     private final Location location;
 
     public static ReceiptInfoResponseDto of(ReceiptInfoDto dto, Location location) {
@@ -19,6 +20,7 @@ public class ReceiptInfoResponseDto {
                 dto.getStoreAddress(),
                 dto.getStoreTel(),
                 dto.getOrderDateTime(),
+                dto.getConfirmNumber(),
                 location
         );
     }

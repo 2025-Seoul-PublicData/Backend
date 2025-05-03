@@ -85,18 +85,6 @@ import java.lang.annotation.Target;
                                           "time": "2025-05-01T21:00:00"
                                         }
                                         """
-                        ),
-                        @ExampleObject(
-                                name = "OCR 요청 오류",
-                                value = """
-                                        {
-                                          "status": 500,
-                                          "code": "NAVER_OCR_INTERNAL_SERVER_ERROR",
-                                          "message": "NAVER OCR 서버 오류가 발생했습니다. (500 Internal Server Error)",
-                                          "errors": [],
-                                          "time": "2025-05-01T21:00:00"
-                                        }
-                                        """
                         )
                 }
         )
