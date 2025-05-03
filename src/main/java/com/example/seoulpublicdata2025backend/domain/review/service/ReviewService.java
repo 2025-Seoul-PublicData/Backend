@@ -2,6 +2,7 @@ package com.example.seoulpublicdata2025backend.domain.review.service;
 
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewUpdateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ public interface ReviewService {
     // review CUD
     CompanyReviewResponseDto creatCompanyReview(CompanyReviewCreateRequestDto companyReviewCreateRequestDto);
 
-    CompanyReviewResponseDto updateCompanyReview(Long reviewId, CompanyReviewCreateRequestDto companyReviewCreateRequestDto);
+    CompanyReviewResponseDto updateCompanyReview(Long reviewId, CompanyReviewUpdateRequestDto companyReviewUpdateRequestDto);
 
     CompanyReviewResponseDto deleteCompanyReview(Long reviewId);
 

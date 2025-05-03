@@ -7,6 +7,7 @@ import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewUpdateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
@@ -80,7 +81,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public CompanyReviewResponseDto updateCompanyReview(Long reviewId, CompanyReviewCreateRequestDto dto) {
+    public CompanyReviewResponseDto updateCompanyReview(Long reviewId, CompanyReviewUpdateRequestDto dto) {
         CompanyReview entity = companyReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
 

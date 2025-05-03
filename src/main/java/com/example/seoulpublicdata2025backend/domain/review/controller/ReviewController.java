@@ -2,6 +2,7 @@ package com.example.seoulpublicdata2025backend.domain.review.controller;
 
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewUpdateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
@@ -26,14 +27,14 @@ public class ReviewController {
 
     @PostMapping("/write")
     @CreateReviewDocs
-    public CompanyReviewResponseDto createReview(@RequestBody CompanyReviewCreateRequestDto companyReviewCreateRequestDto) {
-        return reviewService.creatCompanyReview(companyReviewCreateRequestDto);
+    public CompanyReviewResponseDto createReview(@RequestBody CompanyReviewCreateRequestDto dto) {
+        return reviewService.creatCompanyReview(dto);
     }
 
     @PostMapping("/update/{reviewId}")
     @UpdateReviewDocs
-    public CompanyReviewResponseDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewCreateRequestDto companyReviewCreateRequestDto) {
-        return reviewService.updateCompanyReview(reviewId, companyReviewCreateRequestDto);
+    public CompanyReviewResponseDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewUpdateRequestDto dto) {
+        return reviewService.updateCompanyReview(reviewId, dto);
     }
 
     @DeleteMapping("/{reviewId}")
