@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.review.controller;
 
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,19 +25,19 @@ public class ReviewController {
 
     @PostMapping("/write")
     @CreateReviewDocs
-    public CompanyReviewDto createReview(@RequestBody CompanyReviewDto companyReviewDto) {
-        return reviewService.creatCompanyReview(companyReviewDto);
+    public CompanyReviewResponseDto createReview(@RequestBody CompanyReviewCreateRequestDto companyReviewCreateRequestDto) {
+        return reviewService.creatCompanyReview(companyReviewCreateRequestDto);
     }
 
     @PostMapping("/update/{reviewId}")
     @UpdateReviewDocs
-    public CompanyReviewDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewDto companyReviewDto) {
-        return reviewService.updateCompanyReview(reviewId, companyReviewDto);
+    public CompanyReviewResponseDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewCreateRequestDto companyReviewCreateRequestDto) {
+        return reviewService.updateCompanyReview(reviewId, companyReviewCreateRequestDto);
     }
 
     @DeleteMapping("/{reviewId}")
     @DeleteReviewDocs
-    public CompanyReviewDto deleteReview(@PathVariable Long reviewId) {
+    public CompanyReviewResponseDto deleteReview(@PathVariable Long reviewId) {
         return reviewService.deleteCompanyReview(reviewId);
     }
 
