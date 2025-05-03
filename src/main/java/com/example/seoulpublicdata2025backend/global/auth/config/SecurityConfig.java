@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 .permitAll()
                             .requestMatchers(HttpMethod.OPTIONS, "/**")
                                 .permitAll()
-                            .requestMatchers("/member/signup", "/reviews/**")
+                            .requestMatchers("/member/signup")
                                 .hasAuthority("PRE_MEMBER")
                             .anyRequest()
                                 .authenticated();

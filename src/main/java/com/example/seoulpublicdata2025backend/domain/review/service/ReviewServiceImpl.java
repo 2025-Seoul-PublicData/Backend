@@ -39,8 +39,8 @@ public class ReviewServiceImpl implements ReviewService {
                 : LocalDateTime.now();
 
         CompanyReview entity = CompanyReview.builder()
-                .paymentInfoConfirmNum(dto.getPaymentInfoConfirmNum())
-                .paymentInfoTime(dto.getPaymentInfoTime())
+                .paymentInfoConfirmNum(confirmNum)
+                .paymentInfoTime(paymentTime)
                 .company(Company.builder().companyId(dto.getCompany().getCompanyId()).build()) // 연관관계는 ID만 설정
                 .kakao(Member.builder().kakaoId(currentKakaoId).build())
                 .review(dto.getReview())
