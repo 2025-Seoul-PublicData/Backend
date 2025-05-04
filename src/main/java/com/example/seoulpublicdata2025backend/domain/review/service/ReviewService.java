@@ -1,22 +1,23 @@
 package com.example.seoulpublicdata2025backend.domain.review.service;
 
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewUpdateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReviewService {
 
     // review CUD
-    CompanyReviewDto creatCompanyReview(CompanyReviewDto companyReviewDto);
+    CompanyReviewResponseDto creatCompanyReview(CompanyReviewCreateRequestDto companyReviewCreateRequestDto);
 
-    CompanyReviewDto updateCompanyReview(Long reviewId, CompanyReviewDto companyReviewDto);
+    CompanyReviewResponseDto updateCompanyReview(Long reviewId, CompanyReviewUpdateRequestDto companyReviewUpdateRequestDto);
 
-    CompanyReviewDto deleteCompanyReview(Long reviewId);
+    CompanyReviewResponseDto deleteCompanyReview(Long reviewId);
 
     List<ReviewDto> getAllCompanyReviews(Long companyId);
 

@@ -1,6 +1,8 @@
 package com.example.seoulpublicdata2025backend.domain.review.controller;
 
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewUpdateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
@@ -11,9 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,20 +27,21 @@ public class ReviewController {
 
     @PostMapping("/write")
     @CreateReviewDocs
-    public CompanyReviewDto createReview(@RequestBody CompanyReviewDto companyReviewDto) {
-        return reviewService.creatCompanyReview(companyReviewDto);
+    public CompanyReviewResponseDto createReview(@RequestBody CompanyReviewCreateRequestDto dto) {
+        return reviewService.creatCompanyReview(dto);
     }
 
     @PostMapping("/update/{reviewId}")
     @UpdateReviewDocs
-    public CompanyReviewDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewDto companyReviewDto) {
-        return reviewService.updateCompanyReview(reviewId, companyReviewDto);
+    public CompanyReviewResponseDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewUpdateRequestDto dto) {
+        return reviewService.updateCompanyReview(reviewId, dto);
     }
 
     @DeleteMapping("/{reviewId}")
     @DeleteReviewDocs
-    public CompanyReviewDto deleteReview(@PathVariable Long reviewId) {
-        return reviewService.deleteCompanyReview(reviewId);
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+        reviewService.deleteCompanyReview(reviewId);
+        return ResponseEntity.noContent().build();
     }
 
 

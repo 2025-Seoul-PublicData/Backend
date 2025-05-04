@@ -1,6 +1,6 @@
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.review;
 
-import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewDto;
+import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -25,15 +25,15 @@ import java.lang.annotation.Target;
         required = true,
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = CompanyReviewDto.class),
+                schema = @Schema(implementation = CompanyReviewResponseDto.class),
                 examples = @ExampleObject(
                         name = "리뷰 등록 요청 예시",
                         description = "kakaoId는 쿠키에서 자동 추출되며, paymentInfoConfirmNum과 paymentInfoTime은 생략 가능합니다.",
                         value = """
                                 {
-                                  "company": {
-                                    "companyId": 1
-                                  },
+                                  "companyId": 1,
+                                  "paymentInfoConfirmNum": 123456789,
+                                  "paymentInfoTime": "2025/05/01 12:34:56",
                                   "review": "좋은 가게였습니다.",
                                   "temperature": 88.5,
                                   "reviewCategories": ["CLEAN", "REVISIT"]
@@ -47,7 +47,7 @@ import java.lang.annotation.Target;
         description = "요청 성공",
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = CompanyReviewDto.class),
+                schema = @Schema(implementation = CompanyReviewResponseDto.class),
                 examples = @ExampleObject(
                         name = "리뷰 작성 성공",
                         description = "요청이 성공적으로 처리되었을 때의 응답 예시",
@@ -56,12 +56,8 @@ import java.lang.annotation.Target;
                                   "reviewId": 100,
                                   "paymentInfoConfirmNum": 123,
                                   "paymentInfoTime": "2025-04-22T10:00:00",
-                                  "company": {
-                                    "companyId": 1
-                                  },
-                                  "kakao": {
-                                    "kakaoId": 1001
-                                  },
+                                  "companyId": 1,
+                                  "kakaoId": 1001,
                                   "review": "좋은 가게였습니다.",
                                   "temperature": 88.5,
                                   "reviewCategories": ["CLEAN", "REVISIT"]

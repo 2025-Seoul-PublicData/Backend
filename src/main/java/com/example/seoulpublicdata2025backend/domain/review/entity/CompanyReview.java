@@ -33,12 +33,15 @@ public class CompanyReview {
     @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime paymentInfoTime;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
 
-    @ManyToOne
-    @JoinColumn(name = "kakao_Id", referencedColumnName = "kakaoId", insertable = false, updatable = false)
+    @Column(name = "company_id")
+    private Long companyId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "kakao_id", insertable = false, updatable = false)
     private Member kakao;
 
     @Column(name = "kakao_id")
@@ -47,6 +50,7 @@ public class CompanyReview {
     private String review;
     private Double temperature;
 
+    @Builder.Default
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "company_review_category",

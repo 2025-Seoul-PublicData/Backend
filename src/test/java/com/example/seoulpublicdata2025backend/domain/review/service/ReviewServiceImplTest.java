@@ -93,6 +93,7 @@ class ReviewServiceImplTest {
                     .paymentInfoConfirmNum(1000L + i)
                     .paymentInfoTime(LocalDateTime.of(2025, 5, 1, 10, i, 0))
                     .company(company)
+                    .companyId(company.getCompanyId())
                     .kakao(i == 3 ? member2 : member1)
                     .kakaoId(i == 3 ? member2.getKakaoId() : member1.getKakaoId())
                     .review("좋아요" + i + "!")
