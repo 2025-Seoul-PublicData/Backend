@@ -1,5 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.member.service;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -49,7 +50,7 @@ class MemberConsumptionServiceImplTest {
 
     @AfterEach
     void tearDown() {
-        mockedStatic.close(); // 꼭 닫기
+        mockedStatic.close();
     }
 
 
@@ -121,6 +122,20 @@ class MemberConsumptionServiceImplTest {
     }
 
     @Test
+    @DisplayName("해당 멤버의 결제 목록이 없으면 빈 리스트를 반환한다")
+    void findConsumptionByMember_ReturnsEmptyList() throws Exception {
+        // Given
+        when(memberConsumptionRepository.findMemberConsumptionByKakaoId(kakaoId))
+                .thenReturn(List.of());
+
+        // When
+        List<MemberConsumptionResponseDto> result = service.findConsumptionByMember();
+
+        // Then
+        assertThat(result.size()).isEqualTo(0);
+    }
+
+    @Test
     @DisplayName("해당 멤버가 특정 카테고리에 소비한 모든 결제 금액 반환")
     void findConsumptionByMemberAndCompanyType_ReturnsFilteredList() {
         // Given
@@ -142,6 +157,22 @@ class MemberConsumptionServiceImplTest {
     }
 
     @Test
+    @DisplayName("카테고리 소비 내역이 없으면 totalPrice = 0 반환")
+    void findConsumptionByCompanyType_notFound_returnsZero() {
+        when(memberConsumptionRepository.findConsumptionByKakaoIdAndCompanyType(
+                kakaoId,
+                CompanyType.JOB_PROVISION)
+        ).thenReturn(Optional.empty());
+
+        MemberConsumptionResponseDto response =
+                service.findConsumptionByMemberAndCompanyType(CompanyType.JOB_PROVISION);
+
+        assertEquals(CompanyType.JOB_PROVISION, response.getCompanyType());
+        assertEquals(0L, response.getTotalPrice());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 유저에 대한 memberConsumption 저장")
     void saveConsumption_MemberNotFound_ThrowsException() {
         // Given
         when(memberRepository.findByKakaoId(kakaoId)).thenReturn(Optional.empty());
