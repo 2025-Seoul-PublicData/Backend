@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.member.controller;
 
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
+import com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.util.CookieFactory;
 import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
@@ -61,11 +62,16 @@ public class MemberController {
     @PostMapping("/logout")
     @LogoutDocs
     public ResponseEntity<Void> logout() {
-        ResponseCookie deleteCookie = CookieFactory.createCookie("access", "");
+        ResponseCookie deleteCookie = CookieFactory.deleteCookie("access");
 
         return ResponseEntity.noContent()
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
                 .build();
     }
 
+    @GetMapping("/auth/me")
+    public ResponseEntity<AuthResponseDto> getAuthMe() {
+        AuthResponseDto memberAuth = memberService.getMemberAuth();
+        return ResponseEntity.ok(memberAuth);
+    }
 }

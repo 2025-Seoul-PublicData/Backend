@@ -1,6 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.member.service;
 
-import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoAuthResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoIdStatusDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
@@ -14,7 +14,7 @@ public interface MemberService {
 
     Optional<Member> findByKakaoId(Long kakaoId);
 
-    KakaoAuthResponseDto getMemberStatus(Long kakaoId);
+    AuthResponseDto getMemberAuth();
 
     KakaoIdStatusDto initMember(Long kakaoId);
 }
