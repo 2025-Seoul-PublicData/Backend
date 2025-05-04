@@ -5,6 +5,7 @@ import com.example.seoulpublicdata2025backend.domain.support.dao.SupportAnnounce
 import com.example.seoulpublicdata2025backend.domain.support.dto.SupportAnnouncementDetailDto;
 import com.example.seoulpublicdata2025backend.domain.support.dto.SupportAnnouncementPreviewDto;
 import com.example.seoulpublicdata2025backend.domain.support.entity.SupportAnnouncement;
+import com.example.seoulpublicdata2025backend.global.exception.customException.SupportAnnouncementNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -45,7 +46,7 @@ public class SupportAnnouncementServiceImpl implements SupportAnnouncementServic
     @Override
     public SupportAnnouncementDetailDto getSupportAnnouncementDetail(Integer supportAnnouncementId) {
         SupportAnnouncement sa = supportAnnouncementRepository.findById(supportAnnouncementId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 지원 공고가 존재하지 않습니다."));
+                .orElseThrow(SupportAnnouncementNotFoundException::new);
 
         return new SupportAnnouncementDetailDto(
                 sa.getId(),
