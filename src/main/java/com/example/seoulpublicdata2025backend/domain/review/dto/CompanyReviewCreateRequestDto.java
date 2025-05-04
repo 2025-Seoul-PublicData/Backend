@@ -1,13 +1,13 @@
 package com.example.seoulpublicdata2025backend.domain.review.dto;
 
 import com.example.seoulpublicdata2025backend.domain.review.entity.ReviewCategory;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class CompanyReviewCreateRequestDto {
 
     private Long paymentInfoConfirmNum; // 승인 번호는 null 허용
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime paymentInfoTime;
 
     @NotNull(message = "리뷰는 꼭 작성해야 합니다.")
