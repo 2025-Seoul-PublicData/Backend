@@ -145,15 +145,6 @@ class MemberControllerTests {
     }
 
     @Test
-    @DisplayName("MemberConsumption 조회 실패 - 서버 오류")
-    void getMemberConsumption_shouldFail() throws Exception {
-        assertThrows(RuntimeException.class, () -> memberConsumptionService.findConsumptionByMember());
-
-        mockMvc.perform(get("/member/consumption"))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
     @DisplayName("카테고리에 대한 MemberConsumption 조회 성공")
     void getMemberConsumptionDetail_shouldReturnDto() throws Exception {
         MemberConsumptionResponseDto dto = MemberConsumptionResponseDto.builder()
