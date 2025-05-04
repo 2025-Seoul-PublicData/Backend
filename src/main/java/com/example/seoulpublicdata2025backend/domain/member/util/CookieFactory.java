@@ -15,4 +15,15 @@ public class CookieFactory {
                 .maxAge(Duration.ofHours(2))
                 .build();
     }
+
+    public static ResponseCookie deleteCookie(String key) {
+        return ResponseCookie.from(key, "")
+                .httpOnly(true)
+                .path("/")
+                .sameSite("None")
+                .secure(true)
+                .domain(".morak.site")
+                .maxAge(Duration.ZERO)
+                .build();
+    }
 }
