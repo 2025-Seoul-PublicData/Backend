@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.example.seoulpublicdata2025backend.domain.company.dto.CompanyLocationTypeDto;
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCategory;
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberConsumptionRepository;
@@ -58,7 +59,7 @@ class MemberConsumptionServiceImplTest {
     void saveConsumption_NewEntry_Success() {
         // Given
         CompanyLocationTypeDto companyDto = new CompanyLocationTypeDto(
-                -1L,"서울특별시 용산구", CompanyType.ETC, new Location(1,1)
+                -1L,"서울특별시 용산구", CompanyType.ETC, CompanyCategory.CAFE, new Location(1,1)
         );
         Member member = Member.builder().kakaoId(kakaoId).build();
         Long totalPrice = 1000L;
@@ -78,7 +79,7 @@ class MemberConsumptionServiceImplTest {
     void saveConsumption_ExistingEntry_AddsTotalPrice() {
         // Given
         CompanyLocationTypeDto companyDto = new CompanyLocationTypeDto(
-                -1L,"서울특별시 용산구", CompanyType.ETC, new Location(1,1)
+                -1L,"서울특별시 용산구", CompanyType.ETC, CompanyCategory.CAFE, new Location(1,1)
         );
         Member member = Member.builder().kakaoId(kakaoId).build();
         Long totalPrice = 1000L;
@@ -149,7 +150,7 @@ class MemberConsumptionServiceImplTest {
         // Then
         assertThrows(NotFoundMemberException.class, () ->
                 service.saveConsumption(new CompanyLocationTypeDto(
-                        -1L,"서울특별시 용산구", CompanyType.ETC, new Location(1,1)
+                        -1L,"서울특별시 용산구", CompanyType.ETC, CompanyCategory.CAFE, new Location(1,1)
                 ), 1000L));
     }
 }

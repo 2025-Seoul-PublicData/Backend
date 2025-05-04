@@ -36,6 +36,8 @@ import java.lang.annotation.Target;
                                   "storeAddress": "서울특별시 관악구 남부순환로 1817",
                                   "storeTel": "1522-3232",
                                   "orderDateTime": "2025-05-01T15:24:34",
+                                  "confirmNumber": "12345678",
+                                  "companyCategory": "CAFE",
                                   "location": {
                                     "lat": 37.48123,
                                     "lng": 126.9523

@@ -1,5 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.company.dto;
 
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCategory;
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import lombok.AllArgsConstructor;
@@ -11,5 +12,6 @@ public class CompanyLocationTypeDto {
     private Long companyId;
     private String companyLocation;
     private CompanyType companyType;
+    private CompanyCategory companyCategory;
     private Location location;
 }
