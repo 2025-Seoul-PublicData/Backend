@@ -7,6 +7,7 @@ import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.review.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,13 +28,13 @@ public class ReviewController {
 
     @PostMapping("/write")
     @CreateReviewDocs
-    public CompanyReviewResponseDto createReview(@RequestBody CompanyReviewCreateRequestDto dto) {
+    public CompanyReviewResponseDto createReview(@Valid @RequestBody CompanyReviewCreateRequestDto dto) {
         return reviewService.creatCompanyReview(dto);
     }
 
     @PostMapping("/update/{reviewId}")
     @UpdateReviewDocs
-    public CompanyReviewResponseDto updateReview(@PathVariable Long reviewId, @RequestBody CompanyReviewUpdateRequestDto dto) {
+    public CompanyReviewResponseDto updateReview(@PathVariable Long reviewId, @Valid @RequestBody CompanyReviewUpdateRequestDto dto) {
         return reviewService.updateCompanyReview(reviewId, dto);
     }
 
