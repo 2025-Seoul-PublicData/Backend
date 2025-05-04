@@ -27,7 +27,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     List<CompanyMapDto> findAllCompanyMapData();
            
     @Query("SELECT new com.example.seoulpublicdata2025backend.domain.company.dto.CompanyLocationTypeDto("
-            + "c.companyId, c.companyLocation, c.companyType, c.location)"
+            + "c.companyId, c.companyLocation, c.companyType, c.companyCategory, c.location)"
             + "FROM Company c "
             + "WHERE c.companyId = :companyId")
     Optional<CompanyLocationTypeDto> findCompanyLocationTypeByCompanyId(@Param("companyId") Long companyId);

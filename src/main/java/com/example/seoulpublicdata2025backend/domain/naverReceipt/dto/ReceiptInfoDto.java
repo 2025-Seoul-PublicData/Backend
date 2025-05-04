@@ -9,5 +9,6 @@ public class ReceiptInfoDto {
     private String storeTel;
     private String orderDateTime;
     private String confirmNumber;
+    private String companyCategory;
 }
 
