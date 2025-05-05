@@ -351,7 +351,8 @@
 
 ## 📚 문서 접근
 
-* Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+* Swagger UI(local): [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+* Swagger UI: [https://api.morak.site/swagger-ui/index.html](https://api.morak.site/swagger-ui/index.html)
 
 ## ⚙️ 기술 스택
 
