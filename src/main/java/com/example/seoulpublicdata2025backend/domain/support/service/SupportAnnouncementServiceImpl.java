@@ -38,7 +38,7 @@ public class SupportAnnouncementServiceImpl implements SupportAnnouncementServic
                         sa.getOrganization(),
                         sa.getStartDate(),
                         sa.getEndDate(),
-                        sa.getOrganization()
+                        sa.getAnnouncementType()
                 ))
                 .toList();
     }
