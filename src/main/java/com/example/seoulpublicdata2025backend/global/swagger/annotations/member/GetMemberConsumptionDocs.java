@@ -1,5 +1,6 @@
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.member;
 
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,16 +24,21 @@ import java.lang.annotation.*;
                 examples = @ExampleObject(
                         name = "소비 내역 예시",
                         value = """
-                                [
-                                  {
-                                    "companyType": "사회서비스제공형",
-                                    "totalPrice": 13000
-                                  },
-                                  {
-                                    "companyType": "일자리제공형",
-                                    "totalPrice": 8200
-                                  }
-                                ]
+                                {
+                                   "name": "test-user",
+                                   "reviewCount": 5,
+                                   "consumptions": [
+                                     {
+                                       "companyType": "사회서비스제공형",
+                                       "totalPrice": 13000
+                                     },
+                                     {
+                                       "companyType": "일자리제공형",
+                                       "totalPrice": 8200
+                                     }
+                                   ]
+                                 }
+                                
                                 """
                 )
         )
