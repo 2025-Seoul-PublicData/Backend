@@ -58,4 +58,11 @@ public class MemberServiceImpl implements MemberService {
                 () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
+
+    @Override
+    public String findMemberName() {
+        Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
+        return memberRepository.findMemberName(kakaoId).orElseThrow(
+                () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
+    }
 }

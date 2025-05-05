@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.global.swagger.annotations.member;
 
-import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDetailResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -25,16 +26,19 @@ import java.lang.annotation.*;
         description = "기업 유형별 소비 내역 조회 성공",
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = MemberConsumptionResponseDto.class),
+                schema = @Schema(implementation = MemberConsumptionDetailResponseDto.class),
                 examples = @ExampleObject(
                         name = "소비 내역 필터링 성공 예시",
                         value = """
-                                [
-                                  {
-                                    "companyType": "SOCIAL_SERVICE",
-                                    "totalPrice": 12000
+                                {
+                                  "name": "test-user",
+                                  "reviewCount": 5,
+                                  "consumption": {
+                                    "companyType": "사회서비스제공형",
+                                    "totalPrice": 13000
                                   }
-                                ]
+                                }
+                                
                                 """
                 )
         )

@@ -10,7 +10,7 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberConsumptionRepository;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
-import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.member.entity.MemberConsumption;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
@@ -114,7 +114,7 @@ class MemberConsumptionServiceImplTest {
                 .thenReturn(List.of(consumption));
 
         // When
-        List<MemberConsumptionResponseDto> result = service.findConsumptionByMember();
+        List<MemberConsumptionDto> result = service.findConsumptionByMember();
 
         // Then
         assertEquals(1, result.size());
@@ -130,7 +130,7 @@ class MemberConsumptionServiceImplTest {
                 .thenReturn(List.of());
 
         // When
-        List<MemberConsumptionResponseDto> result = service.findConsumptionByMember();
+        List<MemberConsumptionDto> result = service.findConsumptionByMember();
 
         // Then
         assertThat(result.size()).isEqualTo(0);
@@ -150,7 +150,7 @@ class MemberConsumptionServiceImplTest {
                 .thenReturn(Optional.ofNullable(consumption));
 
         // When
-        MemberConsumptionResponseDto result = service.findConsumptionByMemberAndCompanyType(type);
+        MemberConsumptionDto result = service.findConsumptionByMemberAndCompanyType(type);
 
         // Then
         assertEquals(2000L, result.getTotalPrice());
@@ -165,7 +165,7 @@ class MemberConsumptionServiceImplTest {
                 CompanyType.JOB_PROVISION)
         ).thenReturn(Optional.empty());
 
-        MemberConsumptionResponseDto response =
+        MemberConsumptionDto response =
                 service.findConsumptionByMemberAndCompanyType(CompanyType.JOB_PROVISION);
 
         assertEquals(CompanyType.JOB_PROVISION, response.getCompanyType());

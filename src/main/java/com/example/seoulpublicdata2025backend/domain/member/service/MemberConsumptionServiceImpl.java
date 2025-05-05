@@ -3,7 +3,7 @@ package com.example.seoulpublicdata2025backend.domain.member.service;
 import com.example.seoulpublicdata2025backend.domain.company.dto.CompanyLocationTypeDto;
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
-import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberConsumptionRepository;
 import com.example.seoulpublicdata2025backend.domain.member.entity.MemberConsumption;
@@ -44,13 +44,13 @@ public class MemberConsumptionServiceImpl implements MemberConsumptionService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MemberConsumptionResponseDto> findConsumptionByMember() {
+    public List<MemberConsumptionDto> findConsumptionByMember() {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         List<MemberConsumption> memberConsumptions
                 = memberConsumptionRepository.findMemberConsumptionByKakaoId(kakaoId);
 
         return memberConsumptions.stream()
-                .map(consumption -> MemberConsumptionResponseDto.builder()
+                .map(consumption -> MemberConsumptionDto.builder()
                         .companyType(consumption.getCompanyType())
                         .totalPrice(consumption.getTotalPrice())
                         .build()).toList();
@@ -58,17 +58,17 @@ public class MemberConsumptionServiceImpl implements MemberConsumptionService {
 
     @Override
     @Transactional(readOnly = true)
-    public MemberConsumptionResponseDto findConsumptionByMemberAndCompanyType(CompanyType companyType) {
+    public MemberConsumptionDto findConsumptionByMemberAndCompanyType(CompanyType companyType) {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         Optional<MemberConsumption> optionalConsumption = memberConsumptionRepository
                 .findConsumptionByKakaoIdAndCompanyType(kakaoId, companyType);
 
         return optionalConsumption
-                .map(consumption -> MemberConsumptionResponseDto.builder()
+                .map(consumption -> MemberConsumptionDto.builder()
                         .companyType(consumption.getCompanyType())
                         .totalPrice(consumption.getTotalPrice())
                         .build())
-                .orElse(MemberConsumptionResponseDto.builder()
+                .orElse(MemberConsumptionDto.builder()
                         .companyType(companyType)
                         .totalPrice(0L)
                         .build());

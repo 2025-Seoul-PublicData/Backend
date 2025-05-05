@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto;
-import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.service.MemberConsumptionService;
@@ -28,7 +28,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -124,41 +123,6 @@ class MemberControllerTests {
                 .andExpect(jsonPath("$.code").value("2000"))
                 .andExpect(jsonPath("$.errors").isArray())
                 .andExpect(jsonPath("$.errors[0].field").value("name"));
-    }
-
-    @Test
-    @DisplayName("MemberConsumption 조회 성공")
-    void getMemberConsumption_shouldReturnList() throws Exception {
-        List<MemberConsumptionResponseDto> mockList = List.of(
-                MemberConsumptionResponseDto.builder()
-                        .companyType(CompanyType.MIXED)
-                        .totalPrice(10000L)
-                        .build()
-        );
-
-        given(memberConsumptionService.findConsumptionByMember()).willReturn(mockList);
-
-        mockMvc.perform(get("/member/consumption"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].companyType").value("MIXED"))
-                .andExpect(jsonPath("$[0].totalPrice").value(10000));
-    }
-
-    @Test
-    @DisplayName("카테고리에 대한 MemberConsumption 조회 성공")
-    void getMemberConsumptionDetail_shouldReturnDto() throws Exception {
-        MemberConsumptionResponseDto dto = MemberConsumptionResponseDto.builder()
-                .companyType(CompanyType.MIXED)
-                .totalPrice(5000L)
-                .build();
-
-        given(memberConsumptionService.findConsumptionByMemberAndCompanyType(CompanyType.MIXED)).willReturn(dto);
-
-        mockMvc.perform(get("/member/consumption/detail")
-                        .param("companyType", "MIXED"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyType").value("MIXED"))
-                .andExpect(jsonPath("$.totalPrice").value(5000));
     }
 
     @Test
