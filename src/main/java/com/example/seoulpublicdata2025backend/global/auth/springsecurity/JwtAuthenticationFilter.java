@@ -41,7 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/webjars/**",
             "/reviews/public/**",
             "/company/public/**",
-            "/story/public/**"
+            "/story/public/**",
+            "/support/public"
     );
 
     @Override

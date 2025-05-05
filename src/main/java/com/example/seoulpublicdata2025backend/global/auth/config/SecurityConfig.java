@@ -35,6 +35,7 @@ public class SecurityConfig {
                             .requestMatchers("/reviews/public/**").permitAll()
                             .requestMatchers("/company/public/**").permitAll()
                             .requestMatchers("/story/public/**").permitAll()
+                            .requestMatchers("/support/public").permitAll()
                             .requestMatchers("/auth/login/kakao",
                                     "/v3/api-docs/**",
                                     "/swagger-ui/**",
