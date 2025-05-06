@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface StoryService {
 
-    List<StoryPreviewDto> getAllStoryPreview();
+    List<StoryPreviewDto> getAllStoryPreview(Integer size);
 
     StoryDetailDto storyDetail(Long storyId);
 

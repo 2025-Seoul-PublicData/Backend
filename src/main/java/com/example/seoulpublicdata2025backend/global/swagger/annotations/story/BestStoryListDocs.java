@@ -2,9 +2,10 @@ package com.example.seoulpublicdata2025backend.global.swagger.annotations.story;
 
 import com.example.seoulpublicdata2025backend.domain.story.dto.BestStoryDto;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import java.lang.annotation.*;
 
@@ -20,7 +21,7 @@ import java.lang.annotation.*;
         description = "Top 3 스토리 조회 성공",
         content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = BestStoryDto.class)
+                array = @ArraySchema(schema = @Schema(implementation = BestStoryDto.class))
         )
 )
 public @interface BestStoryListDocs {

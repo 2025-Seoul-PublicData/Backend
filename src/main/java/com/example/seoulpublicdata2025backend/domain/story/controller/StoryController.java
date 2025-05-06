@@ -22,10 +22,9 @@ public class StoryController {
 
     @GetMapping("/public/all")
     @GetAllStoryDocs
-    public List<StoryPreviewDto> getAllStory() {
-        return storyService.getAllStoryPreview();
+    public List<StoryPreviewDto> getAllStory(@RequestParam(required = false) Integer size) {
+        return storyService.getAllStoryPreview(size);
     }
-
     @GetMapping("/public/detail/{storyId}")
     @GetStoryDetailDocs
     public StoryDetailDto storyDetail(@PathVariable Long storyId){

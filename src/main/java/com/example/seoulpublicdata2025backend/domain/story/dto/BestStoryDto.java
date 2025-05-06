@@ -9,12 +9,15 @@ public class BestStoryDto {
     private Long storyId;
     private String storyTitle;
     private Long storyLikes;
+    private String imageUrl;
+
 
     public static BestStoryDto fromEntity(Story story) {
         BestStoryDto dto = new BestStoryDto();
         dto.storyId = story.getStoryId();
         dto.storyTitle = story.getStoryTitle();
         dto.storyLikes = story.getStoryLikes();
+        dto.imageUrl = story.getImageUrl();
         return dto;
     }
 }

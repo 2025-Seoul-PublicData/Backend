@@ -8,6 +8,7 @@ import com.example.seoulpublicdata2025backend.domain.story.entity.Story;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,14 +20,28 @@ public class StoryServiceImpl implements StoryService{
     private final StoryRepository storyRepository;
 
     @Override
-    public List<StoryPreviewDto> getAllStoryPreview() {
-        List<Story> storyList = storyRepository.findAll();
-//        Collections.shuffle(storyList);   // 랜덤으로 주기 위한 기능
+    public List<StoryPreviewDto> getAllStoryPreview(Integer size) {
+        List<Story> stories;
 
-        return storyList.stream()
-                .map(story -> new StoryPreviewDto(story.getStoryId(), story.getStoryTitle()))
+        if (size == null) {
+            // 전체 조회 (storyTime 내림차순 정렬)
+            stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "storyTime"));
+        } else {
+            // size만큼만 최신순 조회
+            stories = storyRepository
+                    .findAll(PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "storyTime")))
+                    .getContent();
+        }
+
+        return stories.stream()
+                .map(story -> new StoryPreviewDto(
+                        story.getStoryId(),
+                        story.getStoryTitle(),
+                        story.getImageUrl()
+                ))
                 .toList();
     }
+
 
     @Override
     public StoryDetailDto storyDetail(Long storyId) {
