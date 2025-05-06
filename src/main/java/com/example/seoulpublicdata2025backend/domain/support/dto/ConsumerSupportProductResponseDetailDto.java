@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ConsumerSupportProductResponseDto {
-    private Integer id;
+public class ConsumerSupportProductResponseDetailDto {
     private String bankName;
     private String productName;
     private String productType;
     private String benefit;
+    private String productLink;
     private String productDescription;
 }

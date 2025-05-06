@@ -52,8 +52,9 @@ public enum ErrorCode {
     NAVER_OCR_INTERNAL_SERVER_ERROR("7001", "NAVER OCR 서버 오류가 발생했습니다. (500 Internal Server Error)",
             HttpStatus.INTERNAL_SERVER_ERROR),
 
-    // 8000번대: 지원 공고 관련
+    // 8000번대: 지원 관련
     SUPPORT_ANNOUNCEMENT_NOT_FOUND("8000", "해당 지원 공고가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    CONSUMER_SUPPORT_NOT_FOUND("8001", "해당 소비자 지원 상품이 존재하지 않습니다", HttpStatus.NOT_FOUND),
     ;
 
     private final String code;
