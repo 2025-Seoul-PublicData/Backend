@@ -4,6 +4,7 @@ import com.example.seoulpublicdata2025backend.domain.company.dto.CompanyLocation
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberConsumptionRepository;
 import com.example.seoulpublicdata2025backend.domain.member.entity.MemberConsumption;
@@ -58,7 +59,8 @@ public class MemberConsumptionServiceImpl implements MemberConsumptionService {
 
     @Override
     @Transactional(readOnly = true)
-    public MemberConsumptionDto findConsumptionByMemberAndCompanyType(CompanyType companyType) {
+    public MemberConsumptionDto findConsumptionByMemberAndCompanyType(MemberConsumptionRequestDto dto) {
+        CompanyType companyType = dto.getCompanyType();
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         Optional<MemberConsumption> optionalConsumption = memberConsumptionRepository
                 .findConsumptionByKakaoIdAndCompanyType(kakaoId, companyType);

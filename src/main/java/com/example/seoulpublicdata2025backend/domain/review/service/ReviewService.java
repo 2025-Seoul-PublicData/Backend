@@ -1,5 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.review.service;
 
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewResponseDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewUpdateRequestDto;
@@ -32,4 +34,6 @@ public interface ReviewService {
 
     // 리뷰 개수 Member
     Long getCountMemberReview();
+
+    Long getCountMemberReviewByType(MemberConsumptionRequestDto dto);
 }

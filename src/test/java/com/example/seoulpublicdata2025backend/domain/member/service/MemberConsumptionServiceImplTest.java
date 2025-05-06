@@ -11,6 +11,7 @@ import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberConsumptionRepository;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
 import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.member.entity.MemberConsumption;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
@@ -145,12 +146,14 @@ class MemberConsumptionServiceImplTest {
                 .companyType(type)
                 .totalPrice(2000L)
                 .build();
-
+        MemberConsumptionRequestDto dto = MemberConsumptionRequestDto.builder()
+                .companyType(type)
+                .build();
         when(memberConsumptionRepository.findConsumptionByKakaoIdAndCompanyType(kakaoId, type))
                 .thenReturn(Optional.ofNullable(consumption));
 
         // When
-        MemberConsumptionDto result = service.findConsumptionByMemberAndCompanyType(type);
+        MemberConsumptionDto result = service.findConsumptionByMemberAndCompanyType(dto);
 
         // Then
         assertEquals(2000L, result.getTotalPrice());
@@ -160,13 +163,17 @@ class MemberConsumptionServiceImplTest {
     @Test
     @DisplayName("카테고리 소비 내역이 없으면 totalPrice = 0 반환")
     void findConsumptionByCompanyType_notFound_returnsZero() {
+        MemberConsumptionRequestDto dto = MemberConsumptionRequestDto.builder()
+                .companyType(CompanyType.JOB_PROVISION)
+                .build();
+
         when(memberConsumptionRepository.findConsumptionByKakaoIdAndCompanyType(
                 kakaoId,
                 CompanyType.JOB_PROVISION)
         ).thenReturn(Optional.empty());
 
         MemberConsumptionDto response =
-                service.findConsumptionByMemberAndCompanyType(CompanyType.JOB_PROVISION);
+                service.findConsumptionByMemberAndCompanyType(dto);
 
         assertEquals(CompanyType.JOB_PROVISION, response.getCompanyType());
         assertEquals(0L, response.getTotalPrice());

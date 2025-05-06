@@ -1,5 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.review.dao;
 
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
 import org.springframework.data.domain.Page;
@@ -34,4 +35,8 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Lo
 
     @Query("SELECT MAX(r.paymentInfoConfirmNum) FROM CompanyReview r")
     Long findMaxPaymentInfoConfirmNum();
+
+    @Query("SELECT COUNT(*) FROM CompanyReview cr "
+            + "WHERE cr.kakao.kakaoId = :kakaoId AND cr.company.companyType = :companyType")
+    Long getCountByKakaoIdAndCompanyType(Long companyId, CompanyType companyType);
 }
