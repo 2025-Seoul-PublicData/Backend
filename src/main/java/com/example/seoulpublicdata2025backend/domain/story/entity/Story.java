@@ -28,10 +28,16 @@ public class Story {
     @Column(name = "story_time", nullable = false)
     private LocalDate storyTime;
 
-    @Column(name = "story_detail", nullable = false)
+    @Column(name = "story_detail", nullable = false, columnDefinition = "TEXT")
     private String storyDetail;
 
     @Builder.Default
     @Column(name = "story_likes", nullable = false)
     private Long storyLikes = 0L;
+
+    @Column(name = "image_url", length = 2048)
+    private String imageUrl;
+
+    @Column(name = "source", length = 255)
+    private String source;
 }
