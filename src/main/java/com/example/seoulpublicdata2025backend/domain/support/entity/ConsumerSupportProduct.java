@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "member_support_products")
+@Table(name = "consumer_support_products")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberSupportProduct {
+public class ConsumerSupportProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -34,7 +34,7 @@ public class MemberSupportProduct {
     private String benefit;
 
     @Builder
-    public MemberSupportProduct(String bankName, String productName, String productDescription, String productLink, String productType, String benefit) {
+    public ConsumerSupportProduct(String bankName, String productName, String productDescription, String productLink, String productType, String benefit) {
         this.bankName = bankName;
         this.productName = productName;
         this.productDescription = productDescription;
