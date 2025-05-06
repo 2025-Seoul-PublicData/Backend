@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,7 +17,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(
         summary = "로그인 사용자 정보 조회",
-        description = "현재 로그인한 사용자의 이름과 프로필 컬러를 반환합니다.",
+        description = "현재 로그인한 사용자의 이름과 주소, 프로필 컬러를 반환합니다.",
         responses = {
                 @ApiResponse(responseCode = "200", description = "조회 성공",
                         content = @Content(schema = @Schema(implementation = AuthResponseDto.class),
@@ -26,7 +27,8 @@ import java.lang.annotation.Target;
                                                 [
                                                   {
                                                     "name": "test_user",
-                                                    "profileColor": "gray"
+                                                    "address": "서울특별시 마포구",
+                                                    "profileColor": "gray",
                                                   }
                                                 ]
                                                 """
@@ -38,14 +40,14 @@ import java.lang.annotation.Target;
                                 mediaType = "application/json",
                                 examples = @ExampleObject(
                                         value = """
-                                {
-                                  "status": 401,
-                                  "code": "INVALID_TOKEN",
-                                  "message": "유효하지 않은 토큰입니다.",
-                                  "errors": [],
-                                  "time": "2025-05-01T21:00:00"
-                                }
-                                """
+                                                {
+                                                  "status": 401,
+                                                  "code": "INVALID_TOKEN",
+                                                  "message": "유효하지 않은 토큰입니다.",
+                                                  "errors": [],
+                                                  "time": "2025-05-01T21:00:00"
+                                                }
+                                                """
                                 )
                         )
                 ),
@@ -74,14 +76,14 @@ import java.lang.annotation.Target;
                                 mediaType = "application/json",
                                 examples = @ExampleObject(
                                         value = """
-                                {
-                                  "status": 500,
-                                  "code": "INTERNAL_SERVER_ERROR",
-                                  "message": "서버에 오류가 발생했습니다.",
-                                  "errors": [],
-                                  "time": "2025-05-01T21:00:00"
-                                }
-                                """
+                                                {
+                                                  "status": 500,
+                                                  "code": "INTERNAL_SERVER_ERROR",
+                                                  "message": "서버에 오류가 발생했습니다.",
+                                                  "errors": [],
+                                                  "time": "2025-05-01T21:00:00"
+                                                }
+                                                """
                                 )
                         )
                 )
