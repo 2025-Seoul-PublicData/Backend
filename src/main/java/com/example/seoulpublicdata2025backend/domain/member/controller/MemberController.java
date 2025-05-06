@@ -12,10 +12,7 @@ import com.example.seoulpublicdata2025backend.domain.member.service.MemberServic
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
-import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.GetMeberConsumptionDetailDocs;
-import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.GetMemberConsumptionDocs;
-import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.LogoutDocs;
-import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.SignUpDocs;
+import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.*;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +54,7 @@ public class MemberController {
     }
 
     @GetMapping("/auth/me")
+    @GetAuthMeDocs
     public ResponseEntity<AuthResponseDto> getAuthMe() {
         AuthResponseDto memberAuth = memberService.getMemberAuth();
         return ResponseEntity.ok(memberAuth);

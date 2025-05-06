@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class StoryPreviewDto {
-
     private Long storyId;
     private String storyTitle;
 }
