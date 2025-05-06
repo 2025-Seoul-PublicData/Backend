@@ -33,4 +33,7 @@ public class SupportAnnouncementController {
         SupportAnnouncementDetailDto detail = supportAnnouncementService.getSupportAnnouncementDetail(id);
         return ResponseEntity.ok(detail);
     }
+
+    @GetMapping("/public/member/preview")
+    public ResponseEntity<>
 }
