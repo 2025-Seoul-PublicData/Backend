@@ -73,7 +73,10 @@ public class MemberStoryLikesServiceImpl implements MemberStoryLikesService {
         return likes.stream()
                 .map(like -> {
                     Story story = like.getStory();
-                    return new StoryPreviewDto(story.getStoryId(), story.getStoryTitle());
+                    return new StoryPreviewDto(
+                            story.getStoryId(),
+                            story.getStoryTitle(),
+                            story.getImageUrl());
                 })
                 .toList();
     }

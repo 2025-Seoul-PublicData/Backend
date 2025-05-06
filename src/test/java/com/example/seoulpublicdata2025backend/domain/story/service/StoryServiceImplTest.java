@@ -40,6 +40,7 @@ class StoryServiceImplTest {
                 .storyDetail("내용1")
                 .storyTime(LocalDate.of(2025, 4, 28))
                 .storyLikes(10L)
+                .imageUrl("https://example.com/image1.jpg")  // ✅ 추가
                 .build();
         entityManager.persist(story1);
 
@@ -49,6 +50,7 @@ class StoryServiceImplTest {
                 .storyDetail("내용2")
                 .storyTime(LocalDate.of(2025, 4, 27))
                 .storyLikes(20L)
+                .imageUrl("https://example.com/image2.jpg")  // ✅ 추가
                 .build();
         entityManager.persist(story2);
 
@@ -58,6 +60,7 @@ class StoryServiceImplTest {
                 .storyDetail("내용3")
                 .storyTime(LocalDate.of(2025, 4, 26))
                 .storyLikes(5L)
+                .imageUrl("https://example.com/image3.jpg")  // ✅ 추가
                 .build();
         entityManager.persist(story3);
 
@@ -67,16 +70,18 @@ class StoryServiceImplTest {
                 .storyDetail("내용4")
                 .storyTime(LocalDate.of(2025, 4, 26))
                 .storyLikes(1L)
+                .imageUrl("https://example.com/image4.jpg")  // ✅ 추가
                 .build();
         entityManager.persist(story4);
     }
 
     @Test
     void 전체_스토리_미리보기_조회() {
-        List<StoryPreviewDto> result = storyService.getAllStoryPreview();
+        List<StoryPreviewDto> result = storyService.getAllStoryPreview(null);
 
         assertEquals(4, result.size());
         assertEquals("제목1", result.get(0).getStoryTitle());
+        assertEquals("https://example.com/image1.jpg", result.get(0).getImageUrl());
     }
 
     @Test

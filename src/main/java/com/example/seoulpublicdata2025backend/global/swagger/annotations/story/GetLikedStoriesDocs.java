@@ -2,6 +2,7 @@ package com.example.seoulpublicdata2025backend.global.swagger.annotations.story;
 
 import com.example.seoulpublicdata2025backend.domain.story.dto.StoryPreviewDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,18 +23,20 @@ import java.lang.annotation.*;
                 description = "스토리 조회 성공",
                 content = @Content(
                         mediaType = "application/json",
-                        schema = @Schema(implementation = StoryPreviewDto.class),
+                        array = @ArraySchema(schema = @Schema(implementation = StoryPreviewDto.class)),
                         examples = @ExampleObject(
                                 name = "좋아요한 스토리 예시",
                                 value = """
                                 [
                                   {
                                     "storyId": 1,
-                                    "storyTitle": "지구를 위한 작은 실천"
+                                    "storyTitle": "지구를 위한 작은 실천",
+                                    "imageUrl": "https://example.com/image1.jpg"
                                   },
                                   {
                                     "storyId": 2,
-                                    "storyTitle": "사회적 기업 탐방기"
+                                    "storyTitle": "사회적 기업 탐방기",
+                                    "imageUrl": "https://example.com/image2.jpg"
                                   }
                                 ]
                                 """
