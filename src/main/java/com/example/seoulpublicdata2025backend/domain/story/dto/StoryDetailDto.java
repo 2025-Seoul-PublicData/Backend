@@ -14,6 +14,8 @@ public class StoryDetailDto {
     private LocalDate storyTime;
     private String storyDetail;
     private Long storyLikes;
+    private String imageUrl;
+    private String source;
 
     public static StoryDetailDto fromEntity(Story story) {
         StoryDetailDto dto = new StoryDetailDto();
@@ -22,6 +24,8 @@ public class StoryDetailDto {
         dto.storyTime = story.getStoryTime();
         dto.storyDetail = story.getStoryDetail();
         dto.storyLikes = story.getStoryLikes();
+        dto.imageUrl = story.getImageUrl();
+        dto.source = story.getSource();
 
         return dto;
     }
