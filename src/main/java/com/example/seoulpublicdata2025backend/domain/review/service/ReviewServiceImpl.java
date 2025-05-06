@@ -2,7 +2,9 @@ package com.example.seoulpublicdata2025backend.domain.review.service;
 
 import com.example.seoulpublicdata2025backend.domain.company.dao.CompanyRepository;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Company;
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.member.dao.MemberRepository;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.domain.review.dao.CompanyReviewRepository;
 import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewCreateRequestDto;
@@ -194,6 +196,14 @@ public class ReviewServiceImpl implements ReviewService {
         Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
 
         return companyReviewRepository.getCountByKakaoId(currentKakaoId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long getCountMemberReviewByType(MemberConsumptionRequestDto dto) {
+        CompanyType companyType = dto.getCompanyType();
+        Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
+        return companyReviewRepository.getCountByKakaoIdAndCompanyType(currentKakaoId, companyType);
     }
 
 }

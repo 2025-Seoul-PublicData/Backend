@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.member.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.service.MemberConsumptionService;
 import com.example.seoulpublicdata2025backend.domain.member.service.MemberService;
 import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
@@ -84,9 +86,9 @@ class MemberConsumptionControllerTest {
                 .totalPrice(5000L)
                 .build();
 
-        when(memberConsumptionService.findConsumptionByMemberAndCompanyType(CompanyType.MIXED)).thenReturn(dto);
+        when(memberConsumptionService.findConsumptionByMemberAndCompanyType(any(MemberConsumptionRequestDto.class))).thenReturn(dto);
         when(memberService.findMemberName()).thenReturn("test-user");
-        when(reviewService.getCountMemberReview()).thenReturn(5L);
+        when(reviewService.getCountMemberReviewByType(any(MemberConsumptionRequestDto.class))).thenReturn(5L);
 
         mockMvc.perform(get("/member/consumption/detail")
                         .param("companyType", "MIXED"))
