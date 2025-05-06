@@ -1,11 +1,13 @@
 package com.example.seoulpublicdata2025backend.domain.support.controller;
 
+import com.example.seoulpublicdata2025backend.domain.support.dto.ConsumerSupportProductResponseDetailDto;
 import com.example.seoulpublicdata2025backend.domain.support.dto.ConsumerSupportProductResponseDto;
 import com.example.seoulpublicdata2025backend.domain.support.dto.SupportAnnouncementDetailDto;
 import com.example.seoulpublicdata2025backend.domain.support.dto.SupportAnnouncementPreviewDto;
 import com.example.seoulpublicdata2025backend.domain.support.service.ConsumerSupportProductService;
 import com.example.seoulpublicdata2025backend.domain.support.service.SupportAnnouncementService;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.support.GetConsumerSupportProductsDocs;
+import com.example.seoulpublicdata2025backend.global.swagger.annotations.support.GetMemberSupportProductDetailDocs;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.support.SupportDetailDocs;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.support.SupportPreviewDocs;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,14 @@ public class SupportAnnouncementController {
     @GetConsumerSupportProductsDocs
     public ResponseEntity<List<ConsumerSupportProductResponseDto>> getMemberSupportProducts() {
         List<ConsumerSupportProductResponseDto> response = consumerSupportProductService.getMemberSupportProducts();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/public/consumer/detail/{productId}")
+    @GetMemberSupportProductDetailDocs
+    public ResponseEntity<ConsumerSupportProductResponseDetailDto> getMemberSupportProductDetail(@PathVariable Integer productId) {
+        ConsumerSupportProductResponseDetailDto response =
+                consumerSupportProductService.getMemberSupportProductDetail(productId);
         return ResponseEntity.ok(response);
     }
 }
