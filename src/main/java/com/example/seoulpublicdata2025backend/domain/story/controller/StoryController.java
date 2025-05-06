@@ -55,11 +55,13 @@ public class StoryController {
     }
 
     @GetMapping("/member-likes")
+    @GetLikedStoriesDocs
     public List<StoryPreviewDto> getLikedStories() {
         return memberStoryLikesService.getLikedStories();
     }
 
     @GetMapping("/count-member-likes")
+    @CountMemberLikesDocs
     public Long countMemberLikes() {
         return memberStoryLikesService.countLikesByMember();
     }

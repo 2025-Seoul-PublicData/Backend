@@ -26,8 +26,10 @@ import com.example.seoulpublicdata2025backend.global.exception.customException.D
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,17 +71,17 @@ class MemberControllerTests {
     @Test
     @DisplayName("회원가입 성공")
     void signUp_success() throws Exception {
-        SignupRequestDto request = new SignupRequestDto("name","location","CONSUMER","gray");
+        SignupRequestDto request = new SignupRequestDto("name", "location", "CONSUMER", "gray");
         SignupResponseDto response = SignupResponseDto.from(-1L, MemberStatus.PRE_MEMBER);
 
         when(memberService.updateMember(any(SignupRequestDto.class))).thenReturn(response);
         when(jwtProvider.createToken(response.getMemberId(), response.getMemberStatus())).thenReturn("valid-token");
 
         mockMvc.perform(post("/member/signup")
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding(StandardCharsets.UTF_8)
-                .accept(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.SET_COOKIE, containsString("access=valid-token")))
@@ -91,14 +93,14 @@ class MemberControllerTests {
     @DisplayName("회원가입 실패 - 이미 존재하는 유저")
     void signUp_fail_duplicate() throws Exception {
 
-        SignupRequestDto request = new SignupRequestDto("name","location","CONSUMER","gray");
+        SignupRequestDto request = new SignupRequestDto("name", "location", "CONSUMER", "gray");
 
         when(memberService.updateMember(any(SignupRequestDto.class)))
                 .thenThrow(new DuplicationMemberException(ErrorCode.DUPLICATE_MEMBER));
 
         mockMvc.perform(post("/member/signup")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("이미 가입된 사용자입니다."))
                 .andExpect(jsonPath("$.status").value(409))
@@ -112,7 +114,7 @@ class MemberControllerTests {
     @DisplayName("회원가입 실패 - 요청 값 중 null 있음")
     void signUp_fail_parameter_null() throws Exception {
 
-        SignupRequestDto request = new SignupRequestDto(null,"location","CONSUMER","gray");
+        SignupRequestDto request = new SignupRequestDto(null, "location", "CONSUMER", "gray");
 
         mockMvc.perform(post("/member/signup")
                         .contentType("application/json")
@@ -138,7 +140,7 @@ class MemberControllerTests {
     @DisplayName("getAuthMe 성공")
     void getAuthMe_success() throws Exception {
 
-        AuthResponseDto dto = AuthResponseDto.of("홍길동", "BLUE");
+        AuthResponseDto dto = AuthResponseDto.of("홍길동", "서울특별시 용산구", "BLUE");
 
         when(memberService.getMemberAuth()).thenReturn(dto);
 

@@ -12,7 +12,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByKakaoId(Long kakaoId);
 
-    @Query("SELECT new com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto(m.name, m.profileColor) " +
+    @Query("SELECT new com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto(" +
+            "m.name," +
+            "m.location," +
+            " m.profileColor) " +
             "FROM Member m WHERE m.kakaoId = :kakaoId")
     Optional<AuthResponseDto> findAuthResponseByKakaoId(Long kakaoId);
 

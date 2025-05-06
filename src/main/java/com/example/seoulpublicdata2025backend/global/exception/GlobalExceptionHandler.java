@@ -74,6 +74,24 @@ public class GlobalExceptionHandler {
                 .body(errorResponse);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e) {
+        log.error("IllegalStateException", e);
+        ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
+        return ResponseEntity
+                .status(ErrorCode.INVALID_INPUT_VALUE.getHttpStatus())
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("IllegalArgumentException", e);
+        ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
+        return ResponseEntity
+                .status(ErrorCode.INVALID_INPUT_VALUE.getHttpStatus())
+                .body(errorResponse);
+    }
+
     // 기타 예외
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
