@@ -19,7 +19,7 @@ import java.lang.annotation.*;
         description = "특정 기업 유형(CompanyType)에 해당하는 회원의 소비 내역을 조회합니다."
 )
 @Parameters({
-        @Parameter(name = "companyType", description = "기업 유형 (예: JOB_CREATION, SOCIAL_SERVICE 등)", required = true, example = "SOCIAL_SERVICE")
+        @Parameter(name = "companyType", description = "기업 유형 (예: JOB_PROVISION, SOCIAL_SERVICE 등)", required = true, example = "SOCIAL_SERVICE")
 })
 @ApiResponse(
         responseCode = "200",
