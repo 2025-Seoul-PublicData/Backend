@@ -38,5 +38,8 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Lo
 
     @Query("SELECT COUNT(*) FROM CompanyReview cr "
             + "WHERE cr.kakaoId = :kakaoId AND cr.company.companyType = :companyType")
-    Long getCountByKakaoIdAndCompanyType(Long kakaoId, CompanyType companyType);
+    Long getCountByKakaoIdAndCompanyType(
+            @Param("kakaoId") Long kakaoId,
+            @Param("companyType") CompanyType companyType
+    );
 }

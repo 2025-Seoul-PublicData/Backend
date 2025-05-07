@@ -205,5 +205,4 @@ public class ReviewServiceImpl implements ReviewService {
         Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
         return companyReviewRepository.getCountByKakaoIdAndCompanyType(currentKakaoId, companyType);
     }
-
 }

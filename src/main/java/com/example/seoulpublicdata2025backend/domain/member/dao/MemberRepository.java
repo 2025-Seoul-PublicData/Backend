@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByKakaoId(Long kakaoId);
@@ -17,8 +18,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "m.location," +
             " m.profileColor) " +
             "FROM Member m WHERE m.kakaoId = :kakaoId")
-    Optional<AuthResponseDto> findAuthResponseByKakaoId(Long kakaoId);
+    Optional<AuthResponseDto> findAuthResponseByKakaoId(@Param("kakaoId") Long kakaoId);
 
     @Query("SELECT m.name FROM Member m WHERE m.kakaoId = :kakaoId")
-    Optional<String> findMemberName(Long kakaoId);
+    Optional<String> findMemberName(@Param("kakaoId") Long kakaoId);
 }
