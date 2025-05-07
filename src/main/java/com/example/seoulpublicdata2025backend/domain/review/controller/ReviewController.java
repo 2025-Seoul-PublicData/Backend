@@ -56,7 +56,7 @@ public class ReviewController {
     @GetPagingCompanyReviewsDocs
     public Page<ReviewDto> getPagingCompanyReviews(@RequestParam Long companyId,
                                                    @Positive @RequestParam int size, @RequestParam(defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paymentInfoTime"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "reviewId"));
 
         return reviewService.getPagingCompanyReviews(companyId, pageable);
     }
