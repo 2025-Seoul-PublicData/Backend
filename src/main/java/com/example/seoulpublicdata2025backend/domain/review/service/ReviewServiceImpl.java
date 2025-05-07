@@ -127,7 +127,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional(readOnly = true)
     public List<ReviewDto> getAllCompanyReviews(Long companyId) {
-        List<CompanyReview> reviews = companyReviewRepository.findByCompanyId(companyId);
+        List<CompanyReview> reviews = companyReviewRepository.findByCompanyIdOrderByReviewIdDesc(companyId);
 
         return reviews.stream()
                 .map(cr -> new ReviewDto(
@@ -160,7 +160,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional(readOnly = true)
     public Double getTemperature(Long companyId) {
-        List<CompanyReview> reviews = companyReviewRepository.findByCompanyId(companyId);
+        List<CompanyReview> reviews = companyReviewRepository.findByCompanyIdOrderByReviewIdDesc(companyId);
 
         if (reviews.isEmpty()) {
             return 0.0;

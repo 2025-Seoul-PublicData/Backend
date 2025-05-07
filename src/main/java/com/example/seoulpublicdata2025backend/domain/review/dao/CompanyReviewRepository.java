@@ -13,12 +13,13 @@ import java.util.List;
 
 public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Long> {
 
-    List<CompanyReview> findByCompanyId(Long companyId);
+    List<CompanyReview> findByCompanyIdOrderByReviewIdDesc(Long companyId);
 
     @Query("SELECT new com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto(" +
             "cr.companyId, cr.kakaoId, cr.review, cr.temperature) " +
             "FROM CompanyReview cr " +
-            "WHERE cr.kakaoId = :kakaoId")
+            "WHERE cr.kakaoId = :kakaoId " +
+            "ORDER BY cr.reviewId DESC")
     List<MemberReviewDto> findReviewDtoByKakaoId(@Param("kakaoId")Long kakaoId);
 
     @Query("SELECT COUNT(*) " +
