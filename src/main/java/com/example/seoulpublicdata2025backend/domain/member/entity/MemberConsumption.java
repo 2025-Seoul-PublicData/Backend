@@ -1,7 +1,9 @@
 package com.example.seoulpublicdata2025backend.domain.member.entity;
 
 import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyTypeConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,7 +36,7 @@ public class MemberConsumption {
     @JoinColumn(name = "kakao_Id")
     private Member member;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = CompanyTypeConverter.class)
     private CompanyType companyType;
 
     @Column(name = "total_price", nullable = false)
