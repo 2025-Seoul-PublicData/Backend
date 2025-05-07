@@ -30,16 +30,22 @@ public class ConsumerSupportProduct {
     @Column(name = "product_type", length = 20)
     private String productType;
 
-    @Column(name = "benefit", length = 20)
     private String benefit;
 
+    private String method;
+
+    private String period;
+
     @Builder
-    public ConsumerSupportProduct(String bankName, String productName, String productDescription, String productLink, String productType, String benefit) {
+    public ConsumerSupportProduct(String bankName, String productName, String productDescription, String productLink,
+                                  String productType, String benefit, String method, String period) {
         this.bankName = bankName;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productLink = productLink;
         this.productType = productType;
         this.benefit = benefit;
+        this.method = method;
+        this.period = period;
     }
 }

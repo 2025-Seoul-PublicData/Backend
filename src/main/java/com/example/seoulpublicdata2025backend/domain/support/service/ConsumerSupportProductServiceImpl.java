@@ -46,6 +46,8 @@ public class ConsumerSupportProductServiceImpl implements ConsumerSupportProduct
                 .productType(support.getProductType())
                 .benefit(support.getBenefit())
                 .productLink(support.getProductLink())
+                .method(support.getMethod())
+                .period(support.getPeriod())
                 .build();
     }
 }

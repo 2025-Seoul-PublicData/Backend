@@ -12,4 +12,6 @@ public class ConsumerSupportProductResponseDetailDto {
     private String benefit;
     private String productLink;
     private String productDescription;
+    private String method;
+    private String period;
 }
