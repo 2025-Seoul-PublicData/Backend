@@ -18,18 +18,18 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Lo
     @Query("SELECT new com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto(" +
             "cr.companyId, cr.kakaoId, cr.review, cr.temperature) " +
             "FROM CompanyReview cr " +
-            "WHERE cr.kakaoId = :kakaoId " +
+            "WHERE cr.kakao.kakaoId = :kakaoId " +
             "ORDER BY cr.reviewId DESC")
     List<MemberReviewDto> findReviewDtoByKakaoId(@Param("kakaoId")Long kakaoId);
 
     @Query("SELECT COUNT(*) " +
             "FROM CompanyReview cr " +
-            "WHERE cr.companyId = :companyId")
+            "WHERE cr.company.companyId = :companyId")
     Long getCountByCompanyId(@Param("companyId") Long companyId);
 
     @Query("SELECT COUNT(*) " +
             "FROM CompanyReview cr " +
-            "WHERE cr.kakaoId = :kakaoId")
+            "WHERE cr.kakao.kakaoId = :kakaoId")
     Long getCountByKakaoId(@Param("kakaoId") Long kakaoId);
 
     Page<CompanyReview> findByCompanyId(Long companyId, Pageable pageable);
@@ -38,7 +38,7 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Lo
     Long findMaxPaymentInfoConfirmNum();
 
     @Query("SELECT COUNT(*) FROM CompanyReview cr "
-            + "WHERE cr.kakaoId = :kakaoId AND cr.company.companyType = :companyType")
+            + "WHERE cr.kakao.kakaoId = :kakaoId AND cr.company.companyType = :companyType")
     Long getCountByKakaoIdAndCompanyType(
             @Param("kakaoId") Long kakaoId,
             @Param("companyType") CompanyType companyType
