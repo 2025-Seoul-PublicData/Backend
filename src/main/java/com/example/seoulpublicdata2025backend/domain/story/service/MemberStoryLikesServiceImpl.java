@@ -76,7 +76,8 @@ public class MemberStoryLikesServiceImpl implements MemberStoryLikesService {
                     return new StoryPreviewDto(
                             story.getStoryId(),
                             story.getStoryTitle(),
-                            story.getImageUrl());
+                            story.getImageUrl(),
+                            story.getStoryLikes());
                 })
                 .toList();
     }
