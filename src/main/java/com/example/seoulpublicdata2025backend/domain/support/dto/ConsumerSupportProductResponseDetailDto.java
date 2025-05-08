@@ -14,4 +14,6 @@ public class ConsumerSupportProductResponseDetailDto {
     private String productDescription;
     private String method;
     private String period;
+    private String defaultCategory;
+    private String recommendedCategory;
 }
