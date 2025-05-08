@@ -37,7 +37,8 @@ public class StoryServiceImpl implements StoryService{
                 .map(story -> new StoryPreviewDto(
                         story.getStoryId(),
                         story.getStoryTitle(),
-                        story.getImageUrl()
+                        story.getImageUrl(),
+                        story.getStoryLikes()
                 ))
                 .toList();
     }

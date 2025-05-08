@@ -9,4 +9,5 @@ public class StoryPreviewDto {
     private Long storyId;
     private String storyTitle;
     private String imageUrl;
+    private Long storyLikes;
 }
