@@ -19,6 +19,7 @@ public class CompanyPreviewDto {
     private String business;
     private String companyTelNum;
     private CompanyType companyType;
+    private String companyUrl;
 
     // 변환 메서드
     public static CompanyPreviewDto fromEntity(Company company, Double temperature, Long reviewCount) {
@@ -32,6 +33,7 @@ public class CompanyPreviewDto {
         dto.business = company.getBusiness();
         dto.companyType = company.getCompanyType();
         dto.companyTelNum = company.getCompanyTelNum();
+        dto.companyUrl = company.getCompanyUrl();
         return dto;
     }
 

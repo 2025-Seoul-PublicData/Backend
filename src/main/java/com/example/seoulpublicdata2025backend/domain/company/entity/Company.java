@@ -42,4 +42,6 @@ public class Company {
     @Embedded
     private Location location;
 
+    @Column(name = "company_url")
+    private String companyUrl;
 }
