@@ -12,4 +12,6 @@ public class ConsumerSupportProductResponseDto {
     private String productType;
     private String benefit;
     private String productDescription;
+    private String defaultCategory;
+    private String recommendedCategory;
 }

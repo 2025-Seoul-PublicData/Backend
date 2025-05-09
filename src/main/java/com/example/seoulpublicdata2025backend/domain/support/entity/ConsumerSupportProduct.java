@@ -36,9 +36,17 @@ public class ConsumerSupportProduct {
 
     private String period;
 
+    @Column(name = "default_category", length = 50)
+    private String defaultCategory;
+
+    @Column(name = "recommended_category", length = 50)
+    private String recommendedCategory;
+
     @Builder
     public ConsumerSupportProduct(String bankName, String productName, String productDescription, String productLink,
-                                  String productType, String benefit, String method, String period) {
+                                  String productType, String benefit, String method, String period,
+                                  String defaultCategory,
+                                  String recommendedCategory) {
         this.bankName = bankName;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -47,5 +55,7 @@ public class ConsumerSupportProduct {
         this.benefit = benefit;
         this.method = method;
         this.period = period;
+        this.defaultCategory = defaultCategory;
+        this.recommendedCategory = recommendedCategory;
     }
 }

@@ -31,6 +31,8 @@ public class ConsumerSupportProductServiceImpl implements ConsumerSupportProduct
                         .productDescription(support.getProductDescription())
                         .productType(support.getProductType())
                         .benefit(support.getBenefit())
+                        .defaultCategory(support.getDefaultCategory())
+                        .recommendedCategory(support.getRecommendedCategory())
                         .build()
                 ).toList();
     }
@@ -48,6 +50,8 @@ public class ConsumerSupportProductServiceImpl implements ConsumerSupportProduct
                 .productLink(support.getProductLink())
                 .method(support.getMethod())
                 .period(support.getPeriod())
+                .defaultCategory(support.getDefaultCategory())
+                .recommendedCategory(support.getRecommendedCategory())
                 .build();
     }
 }
