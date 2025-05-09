@@ -74,7 +74,7 @@ class CompanyControllerTest {
                 new com.example.seoulpublicdata2025backend.domain.company.entity.Company(
                         1L, "Test Company", "Seoul",
                         "Restaurant", "010-1234-5678",
-                        CompanyType.PRE, CompanyCategory.RESTAURANT, null
+                        CompanyType.PRE, CompanyCategory.RESTAURANT, null, "http://test.com"
                 ),
                 36.5,
                 10L
