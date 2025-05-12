@@ -61,7 +61,8 @@ public class SecurityConfig {
                 "https://morak.site",
                 "https://www.morak.site",
                 "https://api.morak.site",
-                "http://localhost:5173"
+                "http://localhost:5173",
+                "http://172.16.20.136:4173"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));     // ← 특히 Content-Type, Authorization
