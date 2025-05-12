@@ -12,18 +12,19 @@
 
 # IA (Information Architecture)
 <p align="center">
-  <img src="src/main/resources/static/assets/ia.png" width="400px" />
+  <img src="src/main/resources/static/assets/ia.png" width="700px" />
 </p>
 
 # System Architecture
 
 <p align="center">
-  <img src="src/main/resources/static/assets/sa.png" width="400px" />
+  <img src="src/main/resources/static/assets/sa.png" width="800px" />
 </p>
+
 # ERD
 
 <p align="center">
-  <img src="src/main/resources/static/assets/erd.png" width="400px" />
+  <img src="src/main/resources/static/assets/erd.png" width="900px" />
 </p>
 
 # **⚙️ 기술 스택**
