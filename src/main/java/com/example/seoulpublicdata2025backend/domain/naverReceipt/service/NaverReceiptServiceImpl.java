@@ -42,7 +42,7 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
 
         memberConsumptionService.saveConsumption(companyDto, extractTotalPrice(ocrResponseDto));
 
-        return ReceiptInfoResponseDto.of(receiptInfoDto, companyDto.getLocation());
+        return ReceiptInfoResponseDto.of(receiptInfoDto, companyDto.getCompanyCategory(), companyDto.getLocation());
     }
 
     private boolean isNotSameCompany(CompanyLocationTypeDto companyDto, ReceiptInfoDto receiptInfoDto) {
