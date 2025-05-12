@@ -13,7 +13,7 @@ public class GeocodingController {
 
     private final GeocodingService geocodingService;
 
-    @PostMapping("/nmap")
+    @GetMapping("/nmap")
     public String nmapUrlScheme(@Valid @RequestBody MemberLocationDto dto, @RequestParam Long companyId) {
         return geocodingService.getNmapSchemeUrl(dto, companyId);
     }
