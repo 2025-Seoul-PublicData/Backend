@@ -42,7 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/reviews/public/**",
             "/company/public/**",
             "/story/public/**",
-            "/support/public/**"
+            "/support/public/**",
+            "/geocoding"
     );
 
     @Override
