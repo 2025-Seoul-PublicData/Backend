@@ -1,5 +1,6 @@
 package com.example.seoulpublicdata2025backend.domain.naverReceipt.dto;
 
+import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyCategory;
 import com.example.seoulpublicdata2025backend.domain.company.entity.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,14 +16,14 @@ public class ReceiptInfoResponseDto {
     private final String companyCategory;
     private final Location location;
 
-    public static ReceiptInfoResponseDto of(ReceiptInfoDto dto, Location location) {
+    public static ReceiptInfoResponseDto of(ReceiptInfoDto dto, CompanyCategory companyCategory, Location location) {
         return new ReceiptInfoResponseDto(
                 dto.getStoreName(),
                 dto.getStoreAddress(),
                 dto.getStoreTel(),
                 dto.getOrderDateTime(),
                 dto.getConfirmNumber(),
-                dto.getCompanyCategory(),
+                companyCategory.getKoreanName(),
                 location
         );
     }
