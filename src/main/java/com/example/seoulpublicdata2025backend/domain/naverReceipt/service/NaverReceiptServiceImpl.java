@@ -57,7 +57,11 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
         int maxLen = Math.max(normalizedCompanyLocation.length(), normalizedCompanyAddress.length());
 
         if (maxLen == 0) return false;
-        return 1.0 - ((double) distance / maxLen) < 0.8;
+        double similarity = 1.0 - ((double) distance / maxLen);
+
+        log.info("[Levenshtein 거리] distance={}, maxLen={}, similarity={}", distance, maxLen, similarity);
+        log.info("최종 판단 결과: isNotSameCompany = {}", similarity < 0.7);
+        return similarity < 0.7;
     }
 
     private static String normalize(String input) {
