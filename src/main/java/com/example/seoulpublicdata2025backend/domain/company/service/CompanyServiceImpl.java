@@ -43,6 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
             Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
             isSaved = memberCompanySaveRepository.existsByKakaoIdAndCompanyId(currentKakaoId, companyId);
         } catch (RuntimeException e) {
+            e.printStackTrace();
             // 로그인하지 않은 사용자일 경우 isSaved는 false 유지
         }
         return CompanyPreviewDto.fromEntity(company, temperatureAvg, reviewCount, isSaved);
