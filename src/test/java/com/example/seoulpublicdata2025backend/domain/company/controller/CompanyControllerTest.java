@@ -77,7 +77,8 @@ class CompanyControllerTest {
                         CompanyType.PRE, CompanyCategory.RESTAURANT, null, "http://test.com"
                 ),
                 36.5,
-                10L
+                10L,
+                true
         );
 
         when(MockConfig.companyService.companyPreview(anyLong()))
