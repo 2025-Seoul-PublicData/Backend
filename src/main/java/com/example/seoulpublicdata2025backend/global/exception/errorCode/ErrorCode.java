@@ -35,6 +35,7 @@ public enum ErrorCode {
     // 9000번대: 서버 오류
     INTERNAL_SERVER_ERROR("9000", "서버에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_IMAGE_URL("9001", "프로필 이미지 URL이 유효하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    DUPLICATE_THING("9002","이미 중복된 데이터가 있습니다", HttpStatus.CONFLICT),
 
     // 6000번대: OCR 영수증 파싱 관련
     RECEIPT_IMAGE_NOT_FOUND("6000", "영수증 이미지 정보가 없습니다.", HttpStatus.BAD_REQUEST),

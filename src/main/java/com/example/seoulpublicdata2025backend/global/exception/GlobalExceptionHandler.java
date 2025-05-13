@@ -3,6 +3,7 @@ package com.example.seoulpublicdata2025backend.global.exception;
 import com.example.seoulpublicdata2025backend.global.exception.customException.CustomException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -89,6 +90,15 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
         return ResponseEntity
                 .status(ErrorCode.INVALID_INPUT_VALUE.getHttpStatus())
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        log.error("DataIntegrityViolationException", e);
+        ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.DUPLICATE_THING);
+        return ResponseEntity
+                .status(ErrorCode.DUPLICATE_THING.getHttpStatus())
                 .body(errorResponse);
     }
 

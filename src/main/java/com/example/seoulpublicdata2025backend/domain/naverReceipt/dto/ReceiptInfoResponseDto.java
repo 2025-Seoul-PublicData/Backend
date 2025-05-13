@@ -13,7 +13,7 @@ public class ReceiptInfoResponseDto {
     private final String storeTel;
     private final String orderDateTime;
     private final String confirmNumber;
-    private final String companyCategory;
+    private final CompanyCategory companyCategory;
     private final Location location;
 
     public static ReceiptInfoResponseDto of(ReceiptInfoDto dto, CompanyCategory companyCategory, Location location) {
@@ -23,7 +23,7 @@ public class ReceiptInfoResponseDto {
                 dto.getStoreTel(),
                 dto.getOrderDateTime(),
                 dto.getConfirmNumber(),
-                companyCategory.getKoreanName(),
+                companyCategory,
                 location
         );
     }
