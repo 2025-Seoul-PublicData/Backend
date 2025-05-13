@@ -13,11 +13,13 @@ import com.example.seoulpublicdata2025backend.domain.review.dto.CompanyReviewUpd
 import com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.dto.ReviewDto;
 import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
+import com.example.seoulpublicdata2025backend.global.exception.customException.CustomException;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundCompanyException;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import com.example.seoulpublicdata2025backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -67,18 +69,22 @@ public class ReviewServiceImpl implements ReviewService {
                 .reviewCategories(dto.getReviewCategories())
                 .build();
 
-        CompanyReview saved = companyReviewRepository.save(entity);
+        try {
+            CompanyReview saved = companyReviewRepository.save(entity);
 
-        return new CompanyReviewResponseDto(
-                saved.getReviewId(),
-                saved.getPaymentInfoConfirmNum(),
-                saved.getPaymentInfoTime(),
-                saved.getCompanyId(),
-                saved.getKakaoId(),
-                saved.getReview(),
-                saved.getTemperature(),
-                saved.getReviewCategories()
-        );
+            return new CompanyReviewResponseDto(
+                    saved.getReviewId(),
+                    saved.getPaymentInfoConfirmNum(),
+                    saved.getPaymentInfoTime(),
+                    saved.getCompanyId(),
+                    saved.getKakaoId(),
+                    saved.getReview(),
+                    saved.getTemperature(),
+                    saved.getReviewCategories()
+            );
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(ErrorCode.DUPLICATE_COMPANY_REVIEW);
+        }
     }
 
     @Override

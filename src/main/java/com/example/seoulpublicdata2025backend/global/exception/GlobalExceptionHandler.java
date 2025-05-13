@@ -3,6 +3,7 @@ package com.example.seoulpublicdata2025backend.global.exception;
 import com.example.seoulpublicdata2025backend.global.exception.customException.CustomException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;

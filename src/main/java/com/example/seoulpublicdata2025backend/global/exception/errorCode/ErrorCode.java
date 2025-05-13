@@ -31,6 +31,7 @@ public enum ErrorCode {
     COMPANY_NOT_FOUND("5000", "기업을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DUPLICATE_COMPANY_SAVE("5001", "이미 찜한 기업입니다.", HttpStatus.CONFLICT),
     COMPANY_SAVE_RECORD_NOT_FOUND("5002", "찜한 기록이 없습니다.", HttpStatus.NOT_FOUND),
+    DUPLICATE_COMPANY_REVIEW("5003","이미 이 영수증으로 리뷰를 작성하셨습니다.", HttpStatus.CONFLICT),
 
     // 9000번대: 서버 오류
     INTERNAL_SERVER_ERROR("9000", "서버에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
