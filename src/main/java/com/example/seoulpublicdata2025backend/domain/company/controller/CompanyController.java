@@ -19,7 +19,7 @@ public class CompanyController {
     private final CompanyService companyService;
     private final MemberCompanySaveService memberCompanySaveService;
 
-    @GetMapping("/public/preview")
+    @GetMapping("/preview")
     @CompanyPreviewDocs
     public CompanyPreviewDto companyPreview(@RequestParam Long companyId) {
         return companyService.companyPreview(companyId);

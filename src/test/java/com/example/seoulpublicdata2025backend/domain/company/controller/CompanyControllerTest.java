@@ -85,7 +85,7 @@ class CompanyControllerTest {
                 .thenReturn(mockDto);
 
         // when & then
-        mockMvc.perform(get("/company/public/preview")
+        mockMvc.perform(get("/company/preview")
                         .param("companyId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyId").value(1))
