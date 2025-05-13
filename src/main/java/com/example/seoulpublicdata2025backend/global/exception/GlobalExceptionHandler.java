@@ -93,15 +93,6 @@ public class GlobalExceptionHandler {
                 .body(errorResponse);
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        log.error("DataIntegrityViolationException", e);
-        ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.DUPLICATE_THING);
-        return ResponseEntity
-                .status(ErrorCode.DUPLICATE_THING.getHttpStatus())
-                .body(errorResponse);
-    }
-
     // 기타 예외
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
