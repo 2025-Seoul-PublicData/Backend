@@ -25,6 +25,7 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
     private final MemberConsumptionService memberConsumptionService;
     private final NaverReceiptParser parser;
     private final NaverOcrClient ocrClient;
+    private static final double THRESHOLD = 0.5;
 
     @Override
     public ReceiptInfoResponseDto getCompanyInformation(ReceiptInfoRequestDto dto) {
@@ -60,8 +61,8 @@ public class NaverReceiptServiceImpl implements NaverReceiptService {
         double similarity = 1.0 - ((double) distance / maxLen);
 
         log.info("[Levenshtein 거리] distance={}, maxLen={}, similarity={}", distance, maxLen, similarity);
-        log.info("최종 판단 결과: isNotSameCompany = {}", similarity < 0.7);
-        return similarity < 0.7;
+        log.info("최종 판단 결과: isNotSameCompany = {}", similarity < THRESHOLD);
+        return similarity < THRESHOLD;
     }
 
     private static String normalize(String input) {
