@@ -21,10 +21,8 @@ public class CompanyPreviewDto {
     private CompanyType companyType;
     private String companyUrl;
 
-    private Boolean isSaved;
-
     // 변환 메서드
-    public static CompanyPreviewDto fromEntity(Company company, Double temperature, Long reviewCount, Boolean isSaved) {
+    public static CompanyPreviewDto fromEntity(Company company, Double temperature, Long reviewCount) {
         CompanyPreviewDto dto = new CompanyPreviewDto();
         dto.companyId = company.getCompanyId();
         dto.companyName = company.getCompanyName();
@@ -36,7 +34,6 @@ public class CompanyPreviewDto {
         dto.companyType = company.getCompanyType();
         dto.companyTelNum = company.getCompanyTelNum();
         dto.companyUrl = company.getCompanyUrl();
-        dto.isSaved = isSaved;
         return dto;
     }
 

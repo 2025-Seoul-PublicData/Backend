@@ -21,7 +21,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final CompanyReviewRepository companyReviewRepository;
-    private final MemberCompanySaveRepository memberCompanySaveRepository;
     private final ReviewService reviewService;
 
     @Override
@@ -37,15 +36,6 @@ public class CompanyServiceImpl implements CompanyService {
         Double temperatureAvg = reviewService.getTemperature(companyId);
         Long reviewCount = reviewService.getCountCompanyReview(companyId);
 
-        boolean isSaved = false;
-
-        try {
-            Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
-            isSaved = memberCompanySaveRepository.existsByKakaoIdAndCompanyId(currentKakaoId, companyId);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            // 로그인하지 않은 사용자일 경우 isSaved는 false 유지
-        }
-        return CompanyPreviewDto.fromEntity(company, temperatureAvg, reviewCount, isSaved);
+        return CompanyPreviewDto.fromEntity(company, temperatureAvg, reviewCount);
     }
 }
