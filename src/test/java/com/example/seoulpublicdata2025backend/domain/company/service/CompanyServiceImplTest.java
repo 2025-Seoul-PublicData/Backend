@@ -41,9 +41,8 @@ class CompanyServiceImplTest {
     void setUp() {
         reviewService = Mockito.mock(ReviewService.class);
         companyReviewRepository = null;
-        memberCompanySave = Mockito.mock(MemberCompanySaveRepository.class);
 
-        companyService = new CompanyServiceImpl(companyRepository, companyReviewRepository, memberCompanySave, reviewService);
+        companyService = new CompanyServiceImpl(companyRepository, companyReviewRepository, reviewService);
 
         testCompany = Company.builder()
                 .companyId(1L)
@@ -67,7 +66,7 @@ class CompanyServiceImplTest {
         assertEquals(testCompany.getCompanyName(), result.get(0).getCompanyName());
     }
 
-    /*
+
     @Test
     void 기업_미리보기_성공() {
         // given
@@ -82,7 +81,7 @@ class CompanyServiceImplTest {
         assertEquals(36.5, dto.getTemperature());
         assertEquals(3L, dto.getReviewCount());
     }
-    */
+
 
     @Test
     void 존재하지_않는_기업ID_조회시_예외() {
