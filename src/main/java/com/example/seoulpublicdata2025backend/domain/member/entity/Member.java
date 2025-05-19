@@ -1,6 +1,7 @@
 package com.example.seoulpublicdata2025backend.domain.member.entity;
 
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.UpdateMemberRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.type.MemberStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,12 +36,18 @@ public class Member {
         CONSUMER, CORPORATE
     }
 
-    public void update(SignupRequestDto dto) {
+    public void completeSignup(SignupRequestDto dto) {
         this.name = dto.getName();
         this.location = dto.getLocation();
         this.profileColor = dto.getProfileColor();
         this.role = Member.Role.valueOf(dto.getRole().toUpperCase());
         this.status = MemberStatus.MEMBER;
+    }
+
+    public void update(UpdateMemberRequestDto dto) {
+        this.name = dto.getName();
+        this.location = dto.getLocation();
+        this.profileColor = dto.getProfileColor();
     }
 
     public static Member init(Long kakaoId) {
