@@ -186,8 +186,17 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     public List<MemberReviewDto> getAllMyReviews() {
         Long currentKakaoId = SecurityUtil.getCurrentMemberKakaoId();
+        List<CompanyReview> reviews = companyReviewRepository.findByKakaoIdOrderByReviewIdDesc(currentKakaoId);
 
-        return companyReviewRepository.findReviewDtoByKakaoId(currentKakaoId);
+        return reviews.stream()
+                .map(cr -> new MemberReviewDto(
+                        cr.getCompanyId(),
+                        cr.getKakaoId(),
+                        cr.getReview(),
+                        cr.getTemperature(),
+                        cr.getReviewCategories()
+                ))
+                .toList();
     }
 
     @Override
