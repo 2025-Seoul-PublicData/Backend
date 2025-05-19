@@ -15,12 +15,14 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Lo
 
     List<CompanyReview> findByCompanyIdOrderByReviewIdDesc(Long companyId);
 
-    @Query("SELECT new com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto(" +
-            "cr.companyId, cr.kakaoId, cr.review, cr.temperature) " +
-            "FROM CompanyReview cr " +
-            "WHERE cr.kakao.kakaoId = :kakaoId " +
-            "ORDER BY cr.reviewId DESC")
-    List<MemberReviewDto> findReviewDtoByKakaoId(@Param("kakaoId")Long kakaoId);
+//    @Query("SELECT new com.example.seoulpublicdata2025backend.domain.review.dto.MemberReviewDto(" +
+//            "cr.companyId, cr.kakaoId, cr.review, cr.temperature) " +
+//            "FROM CompanyReview cr " +
+//            "WHERE cr.kakao.kakaoId = :kakaoId " +
+//            "ORDER BY cr.reviewId DESC")
+//    List<MemberReviewDto> findReviewDtoByKakaoId(@Param("kakaoId")Long kakaoId);
+
+    List<CompanyReview> findByKakaoIdOrderByReviewIdDesc(Long kakaoId);
 
     @Query("SELECT COUNT(*) " +
             "FROM CompanyReview cr " +
