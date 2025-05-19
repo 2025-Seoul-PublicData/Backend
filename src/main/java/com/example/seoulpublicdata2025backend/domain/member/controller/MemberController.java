@@ -1,20 +1,15 @@
 package com.example.seoulpublicdata2025backend.domain.member.controller;
 
-import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto;
-import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.UpdateMemberRequestDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.UpdateMemberResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.util.CookieFactory;
-import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
-import com.example.seoulpublicdata2025backend.domain.member.service.MemberConsumptionService;
 import com.example.seoulpublicdata2025backend.domain.member.service.MemberService;
-import com.example.seoulpublicdata2025backend.domain.review.entity.CompanyReview;
-import com.example.seoulpublicdata2025backend.domain.review.service.ReviewService;
 import com.example.seoulpublicdata2025backend.global.auth.jwt.JwtProvider;
 import com.example.seoulpublicdata2025backend.global.swagger.annotations.member.*;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -32,7 +27,7 @@ public class MemberController {
     @PostMapping("/signup")
     @SignUpDocs
     public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequestDto dto) {
-        SignupResponseDto signupResponseDto = memberService.updateMember(dto);
+        SignupResponseDto signupResponseDto = memberService.completeSignup(dto);
         String updatedToken = jwtProvider.createToken(signupResponseDto.getMemberId(),
                 signupResponseDto.getMemberStatus());
         // 쿠키 생성
@@ -58,5 +53,12 @@ public class MemberController {
     public ResponseEntity<AuthResponseDto> getAuthMe() {
         AuthResponseDto memberAuth = memberService.getMemberAuth();
         return ResponseEntity.ok(memberAuth);
+    }
+
+    @PostMapping("/update")
+    @UpdateMemberDocs
+    public ResponseEntity<UpdateMemberResponseDto> updateMember(@Valid @RequestBody UpdateMemberRequestDto dto) {
+        UpdateMemberResponseDto response = memberService.updateMember(dto);
+        return ResponseEntity.ok(response);
     }
 }

@@ -2,7 +2,6 @@ package com.example.seoulpublicdata2025backend.domain.member.controller;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,9 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.seoulpublicdata2025backend.domain.company.entity.CompanyType;
 import com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto;
-import com.example.seoulpublicdata2025backend.domain.member.dto.MemberConsumptionDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.service.MemberConsumptionService;
@@ -28,7 +25,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -74,7 +70,7 @@ class MemberControllerTests {
         SignupRequestDto request = new SignupRequestDto("name", "location", "CONSUMER", "gray");
         SignupResponseDto response = SignupResponseDto.from(-1L, MemberStatus.PRE_MEMBER);
 
-        when(memberService.updateMember(any(SignupRequestDto.class))).thenReturn(response);
+        when(memberService.completeSignup(any(SignupRequestDto.class))).thenReturn(response);
         when(jwtProvider.createToken(response.getMemberId(), response.getMemberStatus())).thenReturn("valid-token");
 
         mockMvc.perform(post("/member/signup")
@@ -95,7 +91,7 @@ class MemberControllerTests {
 
         SignupRequestDto request = new SignupRequestDto("name", "location", "CONSUMER", "gray");
 
-        when(memberService.updateMember(any(SignupRequestDto.class)))
+        when(memberService.completeSignup(any(SignupRequestDto.class)))
                 .thenThrow(new DuplicationMemberException(ErrorCode.DUPLICATE_MEMBER));
 
         mockMvc.perform(post("/member/signup")

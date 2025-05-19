@@ -5,6 +5,8 @@ import com.example.seoulpublicdata2025backend.domain.member.dto.AuthResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.KakaoIdStatusDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupRequestDto;
 import com.example.seoulpublicdata2025backend.domain.member.dto.SignupResponseDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.UpdateMemberRequestDto;
+import com.example.seoulpublicdata2025backend.domain.member.dto.UpdateMemberResponseDto;
 import com.example.seoulpublicdata2025backend.domain.member.entity.Member;
 import com.example.seoulpublicdata2025backend.global.exception.customException.NotFoundMemberException;
 import com.example.seoulpublicdata2025backend.global.exception.errorCode.ErrorCode;
@@ -38,11 +40,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public SignupResponseDto updateMember(SignupRequestDto dto) {
+    public SignupResponseDto completeSignup(SignupRequestDto dto) {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         Member findMember = memberRepository.findByKakaoId(kakaoId).orElseThrow(
                 () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
-        findMember.update(dto);
+        findMember.completeSignup(dto);
         return SignupResponseDto.from(kakaoId, findMember.getStatus());
     }
 
@@ -64,5 +66,18 @@ public class MemberServiceImpl implements MemberService {
         Long kakaoId = SecurityUtil.getCurrentMemberKakaoId();
         return memberRepository.findMemberName(kakaoId).orElseThrow(
                 () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    @Override
+    @Transactional
+    public UpdateMemberResponseDto updateMember(UpdateMemberRequestDto dto) {
+        Member findMember = memberRepository.findByKakaoId(SecurityUtil.getCurrentMemberKakaoId()).orElseThrow(
+                () -> new NotFoundMemberException(ErrorCode.MEMBER_NOT_FOUND));
+        findMember.update(dto);
+        return UpdateMemberResponseDto.builder()
+                .name(findMember.getName())
+                .location(findMember.getLocation())
+                .profileColor(findMember.getProfileColor())
+                .build();
     }
 }
