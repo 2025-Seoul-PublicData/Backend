@@ -12,7 +12,7 @@ public class CookieFactory {
                 .sameSite("None")
                 .secure(true)
                 .domain(".morak.site")
-                .maxAge(Duration.ofHours(2))
+                .maxAge(Duration.ofHours(24))
                 .build();
     }
 
